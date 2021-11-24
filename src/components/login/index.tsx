@@ -10,7 +10,7 @@ let firebaseTag = 'login'
 
 const Login = () => {
     const { accessToken } = useStore();
-    const router = useRouter()
+    const router = useRouter();
     const googleLogin = () => {
         let app;
 
