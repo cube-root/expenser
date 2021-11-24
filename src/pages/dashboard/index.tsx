@@ -1,7 +1,8 @@
 import { useStore } from '../../store'
 const Dashboard = () => {
-    const { userDetails } = useStore();
-    console.log(userDetails);
+    const { userDetails = {} } = useStore();
+
+    // const { email, displayName, photoURL } = userDetails
     return <div>
         Dashboard
         <pre>
