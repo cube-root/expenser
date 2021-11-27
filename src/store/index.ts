@@ -3,7 +3,8 @@ import { entity } from 'simpler-state';
 
 const initialState = entity({
     userDetails: undefined,
-    accessToken: undefined
+    accessToken: undefined,
+    firebaseProjectId: undefined,
 })
 
 
@@ -17,6 +18,9 @@ export default {
     },
     setUserDetails: (details: any) => {
         initialState.set(oldValue => ({ ...oldValue, userDetails: details }))
+    },
+    setFirebaseProjectId: (projectId: any) => {
+        initialState.set(oldValue => ({ ...oldValue, firebaseProjectId: projectId }))
     }
 }
 export {
