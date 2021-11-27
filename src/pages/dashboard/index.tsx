@@ -4,17 +4,18 @@ import { useStore } from '../../store';
 import Navigation from '../../components/navigation';
 import { ListFirebaseProjects } from '../../components';
 const Dashboard = () => {
-    const { userDetails = {}, accessToken } = useStore();
+    const { userDetails = {}, accessToken,firebaseProjectId } = useStore();
     const router = useRouter()
     const { email, displayName, photoURL } = userDetails
     useEffect(() => {
-        if (!accessToken) {
+        if (!firebaseProjectId || !accessToken) {
             router.push('/login')
         }
-    }, [accessToken])
+    }, [firebaseProjectId])
     return <div>
         <Navigation />
         <ListFirebaseProjects />
+        {firebaseProjectId}
         {/* <pre>
             {JSON.stringify(userDetails, null, 2)}
         </pre> */}

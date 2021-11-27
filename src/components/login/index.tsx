@@ -35,7 +35,7 @@ const Login = () => {
 
     useEffect(() => {
         if (accessToken) {
-            router.push('/dashboard')
+            router.push('/list')
         }
     }, [accessToken])
     return (
