@@ -7,8 +7,9 @@ const listProject = async (accessToken: String) => {
         const response = await axios.get(`${FIREBASE_URL}/projects`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`
-            }
+                Authorization: `Bearer ${accessToken}`,
+                redirect: "follow"
+            },
         })
         return response.data
     } catch (error) {

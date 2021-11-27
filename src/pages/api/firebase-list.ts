@@ -10,13 +10,12 @@ export default async function api(
   res: NextApiResponse<Data>
 ) {
   const { accessToken } = req.body;
-  console.log(accessToken);
   try {
     const response = await handler.firebase.listProject(accessToken)
-      res.status(200).send(response)
+    res.status(200).send(response)
   } catch (error) {
     console.log(error);
-    res.status(500).send({status:false})
+    res.status(500).send({ status: false })
   }
 
 }

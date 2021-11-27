@@ -24,11 +24,11 @@ const Login = () => {
         const auth = getAuth(app);
         provider.addScope('https://www.googleapis.com/auth/firebase');
         provider.addScope('https://www.googleapis.com/auth/cloudplatformprojects');
+        provider.addScope('https://www.googleapis.com/auth/cloud-platform');
         signInWithPopup(auth, provider)
             .then((result: any) => {
-                console.log({ result, user: result.user, accessToken: result.user.accessToken });
                 store.setUserDetails(result.user)
-                store.setAccessToken(result.user.accessToken)
+                store.setAccessToken(result._tokenResponse.oauthAccessToken)
             })
             .catch(console.error)
     }
@@ -42,7 +42,7 @@ const Login = () => {
         <div className={styles.main}>
             <button onClick={googleLogin}>
                 <div
-                className="h-10 w-10 self-center"
+                    className="h-10 w-10 self-center"
                 >
                     <svg
                         aria-hidden="true"

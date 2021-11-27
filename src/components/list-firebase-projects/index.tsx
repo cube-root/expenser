@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 const ListFirebaseProjects = () => {
 
-    const { accessToken } = useStore();
+    const { accessToken, userDetails = {} } = useStore();
     const fetchData = async () => {
         try {
             const response = await axios.post('/api/firebase-list', { accessToken }, {
@@ -19,7 +19,11 @@ const ListFirebaseProjects = () => {
     useEffect(() => {
         fetchData();
     }, [])
-    return <div>List projects</div>
+    return (
+        <div>
+            List projects
+            <pre>{JSON.stringify({  accessToken }, null, 2)}</pre>
+        </div>)
 }
 
 
