@@ -14,7 +14,7 @@ export default async function api(
     res: NextApiResponse<Data>
 ) {
     try {
-        const {accessToken,spreadSheetId} = req.body;
+        const { accessToken, spreadSheetId } = req.body;
         const response = await axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}`, {
             headers: {
                 "Content-Type": "application/json",
