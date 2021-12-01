@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import handler from '../../backend';
-import axios from 'axios';
+import handler from '../../../../backend';
 
 type Data = {
     status: Boolean
@@ -13,24 +12,17 @@ export default async function api(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
+    const { accessToken } = req.body;
     try {
-        const { accessToken, spreadSheetId } = req.body;
-        const response = await axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-                redirect: "follow"
-            }
-        })
+        const response = await handler.sheets.createSpreadSheet(accessToken, { spreadsheetId: 'expenser' })
         res
             .status(200)
             .send({
                 status: true,
-                data: response.data
+                data: response
             })
     } catch (error: any) {
-        console.log(error);
-        console.log(error.response.data);
+        console.error('sheet create api:', error);
         res
             .status(500)
             .send({
