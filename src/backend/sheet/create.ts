@@ -2,13 +2,17 @@ import axios from "axios";
 import { SHEET_URL } from './config';
 
 type Data = {
-    spreadsheetId: String
+    spreadsheetId?: String,
+    properties: {
+        title: String
+    }
 }
 const createSpreadSheet = async (accessToken: String, data: Data) => {
     try {
         const response = await axios.post(`${SHEET_URL}/spreadsheets`, data, {
             headers: {
                 "Content-Type": "application/json",
+                Accept: "application/json",
                 Authorization: `Bearer ${accessToken}`,
                 redirect: "follow"
             },

@@ -14,7 +14,12 @@ export default async function api(
 ) {
     const { accessToken } = req.body;
     try {
-        const response = await handler.sheets.createSpreadSheet(accessToken, { spreadsheetId: 'expenser' })
+        const properties ={
+            "properties": {
+                "title": "expenser"
+              }
+        }
+        const response = await handler.sheets.createSpreadSheet(accessToken, properties)
         res
             .status(200)
             .send({
@@ -22,7 +27,7 @@ export default async function api(
                 data: response
             })
     } catch (error: any) {
-        console.error('sheet create api:', error);
+        console.error('sheet create api:', error.response.data);
         res
             .status(500)
             .send({
