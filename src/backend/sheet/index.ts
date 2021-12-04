@@ -1,7 +1,8 @@
 import { createSpreadSheet } from './create';
-
-const sheet ={
-    createSpreadSheet
+import { getSpreadSheetValue } from './get';
+const sheet = {
+    createSpreadSheet,
+    getSpreadSheetValue
 }
 
 export default sheet;

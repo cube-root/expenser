@@ -9,6 +9,7 @@ const Dashboard = () => {
     const { email, displayName, photoURL } = userDetails
     useEffect(() => {
         console.log(sheetId)
+        router.push('/history')
         if (!accessToken)
             router.push('/login')
     }, [])
