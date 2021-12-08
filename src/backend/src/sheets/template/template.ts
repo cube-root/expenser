@@ -1,4 +1,4 @@
-const columnTemplate:Object= {
+const columnTemplate: Object = {
     'A': {
         id: 'id',
         name: 'Id',
@@ -46,6 +46,19 @@ const columnTemplate:Object= {
     }
 
 }
+const mapNumberToColumnLabel = (): any => {
+    const result: any = {
+        columnLength: 0,
+        value: {}
+    }
+    Object.keys(columnTemplate).map((item, index) => {
+        result['columnLength'] = index
+        result['value'][index] = item
+    });
+
+    return result
+}
 export {
-    columnTemplate
+    columnTemplate,
+    mapNumberToColumnLabel
 }

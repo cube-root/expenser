@@ -7,7 +7,7 @@ const getSpreadSheetValue = async (accessToken: String, spreadSheetId: String, r
         let tempRange;
         if (!range) {
             const defaultRange = sheets.templateHelper.getRange();
-            tempRange = `${defaultRange[0]}:${defaultRange[defaultRange.length - 1]}`
+            tempRange = `${defaultRange[0]}2:${defaultRange[defaultRange.length - 1]}`
         } else {
             tempRange = range;
         }
@@ -19,7 +19,10 @@ const getSpreadSheetValue = async (accessToken: String, spreadSheetId: String, r
                 redirect: "follow"
             },
         });
-        return response.data;
+        const { range: sheetRange, majorDimension, values = [] } = response.data;
+        const result = sheets.templateHelper.convertValue(values);
+        console.log(result);
+        return result
     } catch (error) {
         throw error;
     }

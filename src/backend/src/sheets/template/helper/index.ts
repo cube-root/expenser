@@ -1,8 +1,9 @@
 import { getRange } from './get-range';
-
+import { convertValue } from './convert-values';
 
 const helper = {
-    getRange
+    getRange,
+    convertValue
 }
 
 export default helper;
