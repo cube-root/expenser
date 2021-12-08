@@ -1,4 +1,4 @@
-const columnTemplate = {
+const columnTemplate:Object= {
     'A': {
         id: 'id',
         name: 'Id',
@@ -45,4 +45,7 @@ const columnTemplate = {
         type: 'string'
     }
 
+}
+export {
+    columnTemplate
 }
