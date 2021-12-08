@@ -1,136 +1,149 @@
-import type { NextPage } from 'next';
-import { Key, useEffect, useReducer } from 'react';
-import Head from 'next/head';
-import store,{ useStore } from '../../store';
-import styles from '../../styles/Home.module.css'
+import { NextPage } from "next";
+import setStore, { useStore } from '../../store';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { useEffect, useReducer } from 'react';
+import axios from "axios";
+import styles from '../../styles/Home.module.css'
+import helper from '../../helper';
 
-type FirebaseList = {
-    projectId: String,
-    displayName: String,
-    name: String,
-    state: String
+type InitialState = {
+    isLoading: Boolean,
+    isCreatingNewSheet: Boolean,
+    sheetLink: String | undefined,
+    sheetId: String | undefined
 }
-
-const initialState = {
-    isLoading: true,
-    firebaseProjectList: []
+type ReducerAction = {
+    type: String,
+    value: any
 }
-
-const reducer = (
-    state: {
-        isLoading: Boolean,
-        firebaseProjectList: Array<FirebaseList>
-    },
-    action: { type: String, value: any }
-) => {
+const initialState: InitialState = {
+    isLoading: false,
+    isCreatingNewSheet: false,
+    sheetLink: undefined,
+    sheetId: undefined
+}
+const reducer = (state: InitialState, action: ReducerAction) => {
     switch (action.type) {
         case 'set_loading': {
-            return { ...state, isLoading: action.value }
+            return {
+                ...state,
+                isLoading: action.value
+            }
         }
-        case 'set_data': {
-            return { ...state, firebaseProjectList: action.value }
+        case 'set_loader_creating': {
+            return {
+                ...state,
+                isCreatingNewSheet: action.value
+            }
         }
-        default:
+        case 'set_sheet_url': {
+            return {
+                ...state,
+                sheetLink: action.value
+            }
+        }
+        case 'set_sheet_id': {
+            return {
+                ...state,
+                sheetId: action.value
+            }
+        }
+        default: {
             return state;
+        }
     }
 }
-
-const ListProject = (
-    {
-        projectList,
-        onClick = () => { }
-    }: { projectList: Array<FirebaseList>, onClick: Function }
-): Array<JSX.Element> => {
-    return projectList.map((list: FirebaseList, index: Key) => {
-        return (
-            <button
-                className={styles.card}
-                key={index}
-                onClick={() => {
-                    onClick(list.projectId)
-                }}
-            >
-                <h2> {list.displayName} &rarr;</h2>
-                <p className={styles.code}>{list.projectId}</p>
-                <span className="text-sm">{list.state}</span>
-            </button>
-        )
-    })
-}
-
 const ListPage: NextPage = () => {
     const { userDetails = {}, accessToken } = useStore();
+    const router = useRouter();
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { isLoading, firebaseProjectList } = state;
-
-    const setLoading = (value: Boolean) => {
-        dispatch({ type: 'set_loading', value })
+    // to set loader for creating new sheet
+    const setCreateLoader = (value: Boolean) => {
+        dispatch({ type: 'set_loader_creating', value })
     }
-    const setData = (value: Array<any>) => {
-        dispatch({ type: 'set_data', value });
+    // to set sheet url to state
+    const setSheetUrl = (value: String) => {
+        dispatch({ type: 'set_sheet_url', value })
     }
-    const router = useRouter();
-    const fetchData = async () => {
-        setLoading(true);
+    // to set sheet id
+    const setSheetId = (value: String) => {
+        dispatch({ type: 'set_sheet_id', value })
+    }
+    // create sheet api call
+    // TODO sheet create
+    const createSheet = async () => {
         try {
-            const response = await axios.post('/api/firebase-list', { accessToken }, {
+            setCreateLoader(true);
+            const response = await axios.post('/api/sheets/create', {
+                accessToken
+            }, {
                 headers: {
                     "Content-Type": "application/json",
                 }
-            })
-            if (response.data && response.data.status && response.data.data) {
-                setData(response.data.data);
-            }
+            });
+            console.log(response.data);
         } catch (error) {
-            console.error(error);
+            console.log(error)
         }
         finally {
-            setLoading(false);
+            setCreateLoader(false);
         }
     }
-    const onClickProject =(projectId:String)=>{
-        store.setFirebaseProjectId(projectId);
-        router.push('/dashboard')
+    // for existing sheet
+    const continueWithSheet = () => {
+        try {
+            if(!state.sheetLink){
+                throw new Error('Fill the sheet link')
+            }
+            const sheetId = helper.extractSheet(state.sheetLink);
+            setStore.setSheetId(sheetId);
+            router.push('/dashboard')
+        } catch (error) {
+            // TODO invalid sheet id
+        }
     }
     useEffect(() => {
         if (!accessToken) {
             router.push('/login')
-        } else {
-            fetchData();
         }
     }, [accessToken])
-    return (
-        <div className={styles.container}>
-            <Head>
-                <title>Choose Firebase Project</title>
-                <meta name="description" content="Generated by create next app" />
-                {/* <link rel="icon" href="/favicon.ico" /> */}
-            </Head>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Welcome to Expenser
-                </h1>
+    return <div>
+        <main className={styles.main}>
+            <h1 className={styles.title}>
+                Welcome to Expenser
+            </h1>
+            <button
+                className={styles.card}
+            >
+                <h2>Create new Google sheet &rarr;</h2>
+                <p>
 
-                <p className={styles.description}>
-                    <code className={styles.code}>Choose your firebase project</code>
                 </p>
-                {isLoading && (
-                    <div>
-                        Loading...
-                    </div>)}
+            </button> <button
+                className={styles.card}
+            >
+                <h2>Add existing Google sheet &rarr;</h2>
+                <p className={styles.card}>
+                    {/* TODO styling input */}
+                    <input
+                        type="text"
+                        className="p-4 mr-8"
+                        placeholder="Google sheet sharable link"
+                        onChange={(event) => setSheetUrl(event.target.value)}
+                    />
+                    <button
+                        className={styles.card}
+                        onClick={continueWithSheet}
+                    >
+                        Continue
+                    </button>
 
-                {!isLoading && firebaseProjectList && (
-                    <div className={styles.grid}>
-                        <ListProject projectList={firebaseProjectList} onClick={onClickProject}/>
-                    </div>
-                )}
-            </main>
-        </div>
-    )
+                </p>
+            </button>
+        </main>
+    </div>
 }
 
-export default ListPage
+export default ListPage;

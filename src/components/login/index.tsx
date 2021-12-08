@@ -22,9 +22,15 @@ const Login = () => {
         }
         const provider = new GoogleAuthProvider();
         const auth = getAuth(app);
-        provider.addScope('https://www.googleapis.com/auth/firebase');
-        provider.addScope('https://www.googleapis.com/auth/cloudplatformprojects');
-        provider.addScope('https://www.googleapis.com/auth/cloud-platform');
+        // provider.addScope('https://www.googleapis.com/auth/firebase');
+        // provider.addScope('https://www.googleapis.com/auth/cloudplatformprojects');
+        // provider.addScope('https://www.googleapis.com/auth/cloud-platform');
+        
+        provider.addScope('https://www.googleapis.com/auth/drive');
+        provider.addScope('https://www.googleapis.com/auth/drive.readonly');
+        provider.addScope('https://www.googleapis.com/auth/drive.file')
+        provider.addScope('https://www.googleapis.com/auth/spreadsheets');
+        provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
         signInWithPopup(auth, provider)
             .then((result: any) => {
                 store.setUserDetails(result.user)

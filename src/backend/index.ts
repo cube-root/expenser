@@ -1,7 +1,9 @@
-import firebase from './firebase';
+import firebase from './api/firebase';
+import sheets from './api/sheet';
 
 const backendFunction = {
-    firebase
+    firebase,
+    sheets
 }
 
 export default backendFunction;

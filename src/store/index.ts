@@ -1,10 +1,15 @@
 
-import { entity } from 'simpler-state';
+import { Entity, entity } from 'simpler-state';
 
+type InitialState = {
+    userDetails: Object | undefined,
+    accessToken: String | undefined
+    sheetId?: String | undefined
+}
 const initialState = entity({
     userDetails: undefined,
     accessToken: undefined,
-    firebaseProjectId: undefined,
+    sheetId: undefined
 })
 
 
@@ -19,8 +24,8 @@ export default {
     setUserDetails: (details: any) => {
         initialState.set(oldValue => ({ ...oldValue, userDetails: details }))
     },
-    setFirebaseProjectId: (projectId: any) => {
-        initialState.set(oldValue => ({ ...oldValue, firebaseProjectId: projectId }))
+    setSheetId: (sheetId: any) => {
+        initialState.set(oldValue => ({ ...oldValue, sheetId: sheetId }))
     }
 }
 export {
