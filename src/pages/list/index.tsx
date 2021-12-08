@@ -98,7 +98,7 @@ const ListPage: NextPage = () => {
             }
             const sheetId = helper.extractSheet(state.sheetLink);
             setStore.setSheetId(sheetId);
-            router.push('/dashboard')
+            router.push('/history')
         } catch (error) {
             // TODO invalid sheet id
         }
