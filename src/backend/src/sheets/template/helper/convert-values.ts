@@ -12,7 +12,8 @@ const convertValue = (values: Array<any>) => {
             if (columnLabel) {
                 mapResult[columnTemplate[columnLabel].id] = {
                     value: element,
-                    dataType: columnTemplate[columnLabel].type
+                    dataType: columnTemplate[columnLabel].type,
+                    name: columnTemplate[columnLabel].name
                 }
             }
         });
