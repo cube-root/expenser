@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import {useRef} from 'react';
+import { useRef } from 'react';
 const AddExpense: NextPage = () => {
     const amount = useRef<any>(0);
     const remark = useRef<string>('');
@@ -25,11 +25,12 @@ const AddExpense: NextPage = () => {
                             Amount
                         </label>
                         <input
+                            required
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="grid-first-name" type="number"
                             name="amount"
                             step="any"
-                            onChange={(event) => {amount.current = event.target.value}}
+                            onChange={(event) => { amount.current = event.target.value }}
                             placeholder="Amount" />
                     </div>
 
@@ -46,7 +47,7 @@ const AddExpense: NextPage = () => {
                             type="text"
                             name="remark"
                             placeholder="Remark"
-                            onChange={(event) => {remark.current = event.target.value}}
+                            onChange={(event) => { remark.current = event.target.value }}
                         />
                     </div>
 
@@ -58,10 +59,11 @@ const AddExpense: NextPage = () => {
                             Type
                         </label>
                         <div className="relative">
-                            <select 
-                            name='type'
-                            onChange={(event) => {type.current = event.target.value}}
-                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            <select
+                                required
+                                name='type'
+                                onChange={(event) => { type.current = event.target.value }}
+                                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option selected value="food">Food</option>
                                 <option value="travel">Travel</option>
                                 <option value="other">Other</option>
@@ -78,10 +80,11 @@ const AddExpense: NextPage = () => {
                             Currency
                         </label>
                         <div className="relative">
-                            <select 
-                            name='currency'
-                            onChange={(event) => {currency.current = event.target.value}}
-                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            <select
+                                required
+                                name='currency'
+                                onChange={(event) => { currency.current = event.target.value }}
+                                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option value="₹">₹</option>
                                 <option selected value="$">$</option>
                             </select>

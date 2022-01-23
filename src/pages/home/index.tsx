@@ -12,16 +12,18 @@ const HomePage: NextPage = () => {
             setSpreadSheetLink(spreadSheetLinkLocal)
         }
     },[spreadSheetLink])
-    console.log(spreadSheetLink);
     return (
         <div className="flex flex-col h-screen">
             <Header />
-            {spreadSheetLink === null || !spreadSheetLink && (
+            {(spreadSheetLink === null || !spreadSheetLink )&& (
                 <div className="flex-1 overflow-y-auto pt-8 items-center align-middle">
+                    {console.log('in')}
                     <SetSpreadSheetId setSpreadSheetLinkCallBack={setSpreadSheetLink} />
                 </div>
             )}
-            <AddExpense />
+            {spreadSheetLink && (
+                <AddExpense />
+            )}
         </div>
     )
 }
