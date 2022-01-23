@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 const AddExpense: NextPage = () => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const AddExpense: NextPage = () => {
     const type = useRef<string>('food');
     const currency = useRef<string>('$');
     const fetchData = async (
-        { accessToken, sheetId,inputData }
+        { accessToken, sheetId, inputData }
             : { accessToken: any, sheetId: string, inputData: any }
     ) => {
         setLoading(true)
@@ -33,13 +33,13 @@ const AddExpense: NextPage = () => {
                 toast.success(("Expense added successfully"))
             } else {
                 // TODO error
-               
+
             }
         } catch (error) {
             console.log(error);
-             toast.error(("Failed to add expense"))
-             if(error.message)
-             toast.info(error.message)
+            toast.error(("Failed to add expense"))
+            if (error.message)
+                toast.info(error.message)
         }
         setLoading(false)
     }
@@ -142,8 +142,9 @@ const AddExpense: NextPage = () => {
                                 name='currency'
                                 onChange={(event) => { currency.current = event.target.value }}
                                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                <option value="₹">₹</option>
                                 <option selected value="$">$</option>
+                                <option value="₹">₹</option>
+
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
