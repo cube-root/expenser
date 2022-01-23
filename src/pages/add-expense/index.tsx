@@ -1,19 +1,70 @@
-import { NextPage } from 'next';
-import { useRef } from 'react';
+import { NextPage, } from 'next';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useRef, useEffect } from 'react';
+import axios from 'axios';
 const AddExpense: NextPage = () => {
+    const router = useRouter();
+    const [isLoading, setLoading] = useState(false);
+
     const amount = useRef<any>(0);
     const remark = useRef<string>('');
     const type = useRef<string>('food');
     const currency = useRef<string>('$');
-    const formSubmit = (event: any) => {
-        console.log('inn')
+    const fetchData = async (
+        { accessToken, sheetId,inputData }
+            : { accessToken: any, sheetId: string, inputData: any }
+    ) => {
+        setLoading(true)
+        try {
+            const response = await axios.post('/api/sheets/append', {
+                accessToken: accessToken
+                , sheetId: sheetId,
+                data: inputData
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            if (response.data.status) {
+                // setData(response.data.data)
+                console.log(response.data.data)
+            } else {
+                // TODO error
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
+    }
+    const formSubmit = async (event: any) => {
         event.preventDefault();
-        console.log({
-            amount: amount.current,
-            remark: remark.current,
-            type: type.current,
-            currency: currency.current
-        });
+        if (global) {
+            setLoading(true)
+            const sheetId = global.window.localStorage.getItem('spreadSheetId');
+            const accessToken = global.window.sessionStorage.getItem('accessToken');
+
+            if (sheetId === null || !sheetId) {
+                router.push('/home');
+                return false;
+            }
+            console.log({
+                amount: amount.current,
+                remark: remark.current,
+                type: type.current,
+                symbol: currency.current
+            });
+            await fetchData({
+                accessToken, sheetId, inputData: {
+                    amount: amount.current,
+                    remark: remark.current,
+                    type: type.current,
+                    symbol: currency.current
+                }
+            })
+            setLoading(false);
+        }
+
     }
 
     return (
@@ -96,10 +147,11 @@ const AddExpense: NextPage = () => {
                 </div>
                 <div className="flex flex-col justify-center items-center">
                     <button
+                        disabled={isLoading}
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                     >
-                        Add Expense
+                        {isLoading ? 'Loading...' : 'Add Expense'}
                     </button>
                 </div>
             </form>

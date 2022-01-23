@@ -8,7 +8,7 @@ import store, { useStore } from '../../store';
 import styles from '../../styles/Home.module.css'
 let firebaseTag = 'login'
 
-const Login = () => {
+const Login = ({callBackAfterLogin=()=>{}}) => {
     const { accessToken } = useStore();
     const router = useRouter();
     const googleLogin = () => {
@@ -33,15 +33,23 @@ const Login = () => {
         provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
         signInWithPopup(auth, provider)
             .then((result: any) => {
+                console.log(JSON.stringify(result))
                 store.setUserDetails(result.user)
                 store.setAccessToken(result._tokenResponse.oauthAccessToken)
+                if(global){
+                    global.sessionStorage.setItem('accessToken', result._tokenResponse.oauthAccessToken)
+                    global.sessionStorage.setItem('sign-in',JSON.stringify(result))
+                }
             })
             .catch(console.error)
     }
 
     useEffect(() => {
-        if (accessToken) {
-            router.push('/list')
+        // if (accessToken) {
+        //     router.push('/list')
+        // }
+        if(accessToken && callBackAfterLogin){
+            return callBackAfterLogin()
         }
     }, [accessToken])
     

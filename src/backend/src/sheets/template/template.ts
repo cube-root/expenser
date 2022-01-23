@@ -1,5 +1,5 @@
 import helper from './helper';
-const columnTemplate: Object = {
+const columnTemplate: Object | any = {
     'A': {
         id: 'id',
         name: 'Id',
@@ -71,9 +71,9 @@ const columnTemplate: Object = {
         name: 'Remark',
         isNullable: true,
         type: 'string',
-        inputMeta:{
-            field:'text-area',
-            isNullable:true
+        inputMeta: {
+            field: 'text-area',
+            isNullable: true
         }
     }
 
