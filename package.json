@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "create-config-file": "touch src/config/firebase-config.json",
-    "build": "npm run create-config-file && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "predeploy": "npm run build",
