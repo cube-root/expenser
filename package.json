@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "PUBLIC_URL=https://cube-root.github.io/expenser/ next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "CI=false npm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
