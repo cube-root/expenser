@@ -11,6 +11,7 @@ const getSpreadSheetValue = async (accessToken: String, spreadSheetId: String, r
         } else {
             tempRange = range;
         }
+        console.log(`${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`)
         const response = await axios.get(`${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`, {
             headers: {
                 "Content-Type": "application/json",

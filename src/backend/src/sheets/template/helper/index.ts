@@ -1,10 +1,11 @@
 import { getRange } from './get-range';
-import { convertValue } from './convert-values';
+import { convertValue ,appendValuesConvertData} from './convert-values';
 import { currencySymbol } from './currency-symbol';
 const helper = {
     getRange,
     convertValue,
-    currencySymbol
+    currencySymbol,
+    appendValuesConvertData
 }
 
 export default helper;

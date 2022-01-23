@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
-
+import helper from '../../helper';
 type Props = {
-    setSpreadSheetLinkCallBack: Function
+    setSpreadSheetLinkCallBack?: Function
 }
 const SetSpreadSheetId = ({setSpreadSheetLinkCallBack=()=>{}}:Props) => {
     const spreadSheetLink = useRef('');
@@ -12,13 +12,14 @@ const SetSpreadSheetId = ({setSpreadSheetLinkCallBack=()=>{}}:Props) => {
     const setSpreadSheetLink = () => {
         if (window && spreadSheetLink.current.length !== 0) {
             window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
-            setSpreadSheetLinkCallBack();
+            window.localStorage.setItem('spreadSheetId', helper.extractSheet(spreadSheetLink.current));
+            setSpreadSheetLinkCallBack( helper.extractSheet(spreadSheetLink.current));
         }
     }
 
 
     return (
-        <div className="flex flex-col items-center  align-middle gap-4">
+        <div className="flex flex-col items-center  align-middle gap-4 pt-10">
             <div className="border rounded-lg border-solid border-black">
                 <button className="p-8">Create new spread sheet</button>
             </div>

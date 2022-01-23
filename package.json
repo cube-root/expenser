@@ -8,7 +8,6 @@
     "lint": "next lint",
     "predeploy": "CI=false npm run build",
     "deploy": "gh-pages -d build"
-
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
