@@ -14,12 +14,20 @@ const Login = ({callBackAfterLogin=()=>{}}) => {
     const router = useRouter();
     const googleLogin = () => {
         let app;
-
+        let config = firebaseConfig as any;
+        const firebaseConfigureJson = {
+            apiKey: process.env.FIREBASE_API_KEY || config.apiKey,
+            authDomain: process.env.FIREBASE_AUTH_DOMAIN ||  config.authDomain,
+            projectId: process.env.PROJECT_ID ||  config.projectId,
+            storageBucket: process.env.STORAGE_BUCKET ||  config.storageBucket,
+            messagingSenderId: process.env.MESSAGING_SENDER_ID ||  config.messagingSenderId,
+            appId: process.env.APP_ID || config.appId,
+        }
         try {
             const firebaseApps = firebase.getApp(firebaseTag);
             app = firebaseApps
         } catch (error) {
-            app = firebase.initializeApp(firebaseConfig, firebaseTag)
+            app = firebase.initializeApp(firebaseConfigureJson, firebaseTag)
         }
         const provider = new GoogleAuthProvider();
         const auth = getAuth(app);
