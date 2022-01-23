@@ -44,6 +44,7 @@ const Login = () => {
             router.push('/list')
         }
     }, [accessToken])
+    
     return (
         <div className={styles.main}>
             <button onClick={googleLogin}>

@@ -3,9 +3,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "PUBLIC_URL=https://cube-root.github.io/expenser/ next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "CI=false npm run build",
+    "deploy": "gh-pages -d build"
+
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",

@@ -1,23 +1,40 @@
+import helper from './helper';
 const columnTemplate: Object = {
     'A': {
         id: 'id',
         name: 'Id',
-        type: 'int'
+        type: 'int',
+        inputMeta: {
+            field: 'number'
+        }
     },
     'B': {
         id: 'date',
         name: 'Date',
-        type: 'datetime'
+        type: 'datetime',
+        inputMeta: {
+            field: 'date'
+        }
     },
     'C': {
         id: 'amount',
         name: 'Amount',
-        type: 'float'
+        type: 'float',
+        inputMeta: {
+            field: 'number'
+        }
     },
     'D': {
         id: 'symbol',
         name: 'Symbol',
-        type: 'string'
+        type: 'string',
+        inputMeta: {
+            field: 'select',
+            getOptions: async () => {
+                // {Label:Value}
+                return helper.currencySymbol
+            }
+        }
     },
     'E': {
         id: 'type',
@@ -36,16 +53,32 @@ const columnTemplate: Object = {
                 value: 'others',
                 label: 'Others'
             }
-        ]
+        ],
+        inputMeta: {
+            field: 'select',
+            getOptions: async () => {
+                // {Label:Value}
+                return {
+                    Food: 'food',
+                    Travel: 'travel',
+                    Others: 'others'
+                }
+            }
+        }
     },
     'F': {
         id: 'remark',
         name: 'Remark',
         isNullable: true,
-        type: 'string'
+        type: 'string',
+        inputMeta:{
+            field:'text-area',
+            isNullable:true
+        }
     }
 
 }
+// to map the numbers to the column label
 const mapNumberToColumnLabel = (): any => {
     const result: any = {
         columnLength: 0,
