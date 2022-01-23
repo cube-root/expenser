@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import * as firebase from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import firebaseConfig from '../../config/firebase-config.json';
-import store, { useStore } from '../../store';
 import styles from '../../styles/Home.module.css'
+import { useState } from 'react';
 let firebaseTag = 'login'
 
 const Login = ({callBackAfterLogin=()=>{}}) => {
-    const { accessToken } = useStore();
+    // const { accessToken } = useStore();
+    const [accessToken,setAccessToken] = useState<any>(undefined);
     const router = useRouter();
     const googleLogin = () => {
         let app;
@@ -34,11 +35,12 @@ const Login = ({callBackAfterLogin=()=>{}}) => {
         signInWithPopup(auth, provider)
             .then((result: any) => {
                 console.log(JSON.stringify(result))
-                store.setUserDetails(result.user)
-                store.setAccessToken(result._tokenResponse.oauthAccessToken)
+                // store.setUserDetails(result.user)
+                // store.setAccessToken(result._tokenResponse.oauthAccessToken)
                 if(global){
                     global.sessionStorage.setItem('accessToken', result._tokenResponse.oauthAccessToken)
                     global.sessionStorage.setItem('sign-in',JSON.stringify(result))
+                    setAccessToken(result._tokenResponse.oauthAccessToken)
                 }
             })
             .catch(console.error)
