@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "create-config-file": "touch src/config/firebase-config.json",
+    "build": "npm run create-config-file && next build",
     "start": "next start",
     "lint": "next lint",
     "predeploy": "npm run build",
