@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
+import {toast } from 'react-toastify';
 const AddExpense: NextPage = () => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
@@ -29,11 +30,16 @@ const AddExpense: NextPage = () => {
             if (response.data.status) {
                 // setData(response.data.data)
                 console.log(response.data.data)
+                toast.success(("Expense added successfully"))
             } else {
                 // TODO error
+               
             }
         } catch (error) {
             console.log(error);
+             toast.error(("Failed to add expense"))
+             if(error.message)
+             toast.info(error.message)
         }
         setLoading(false)
     }

@@ -35,7 +35,8 @@ const appendValuesConvertData = (inputValue: inputValue|any) => {
         if (id === 'id') {
             return `${new Date().getTime()}`;
         } else if (id === 'date') {
-            return `${new Date()}`
+            // MM/DD/YYYY
+            return `${new Date().toLocaleDateString()}`;
         } else {
             return inputValue[id] ? inputValue[id] : null;
         }

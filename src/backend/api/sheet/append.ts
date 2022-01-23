@@ -17,8 +17,7 @@ const appendSpreadSheetValue = async (accessToken: String,
         }
         const url = `${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}:append?includeValuesInResponse=true&insertDataOption=INSERT_ROWS&valueInputOption=USER_ENTERED`;
         const convertedData = sheets.templateHelper.appendValuesConvertData(data);
-        const apiData = { values: [convertedData] }
-        console.log(apiData)
+        const apiData = { values: [convertedData] };
         const response = await axios.post(url,apiData,
             {
                 headers: {
