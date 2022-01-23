@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as firebase from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import firebaseConfig from '../../config/firebase-config.json';
+// import firebaseConfig from '../../config/firebase-config.json';
 import styles from '../../styles/Home.module.css'
 import { useState } from 'react';
 let firebaseTag = 'login'
@@ -14,7 +14,7 @@ const Login = ({callBackAfterLogin=()=>{}}) => {
     const router = useRouter();
     const googleLogin = () => {
         let app;
-        let config = firebaseConfig as any;
+        let config = {};
         const firebaseConfigureJson = {
             apiKey: process.env.FIREBASE_API_KEY || config.apiKey,
             authDomain: process.env.FIREBASE_AUTH_DOMAIN ||  config.authDomain,
