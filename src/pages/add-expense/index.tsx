@@ -29,7 +29,6 @@ const AddExpense: NextPage = () => {
             })
             if (response.data.status) {
                 // setData(response.data.data)
-                console.log(response.data.data)
                 toast.success(("Expense added successfully"))
             } else {
                 // TODO error
@@ -54,12 +53,6 @@ const AddExpense: NextPage = () => {
                 router.push('/home');
                 return false;
             }
-            console.log({
-                amount: amount.current,
-                remark: remark.current,
-                type: type.current,
-                symbol: currency.current
-            });
             await fetchData({
                 accessToken, sheetId, inputData: {
                     amount: amount.current,

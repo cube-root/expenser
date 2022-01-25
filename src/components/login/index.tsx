@@ -54,7 +54,6 @@ const Login: NextPage | any = ({ callBackAfterLogin = () => { }, firebaseConfig:
         provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
         signInWithPopup(auth, provider)
             .then((result: any) => {
-                console.log(JSON.stringify(result))
                 // store.setUserDetails(result.user)
                 // store.setAccessToken(result._tokenResponse.oauthAccessToken)
                 if (global) {

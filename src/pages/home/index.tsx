@@ -17,7 +17,6 @@ const HomePage: NextPage = () => {
 
     useEffect(()=>{
         if(global){
-            console.log(global.sessionStorage.getItem('accessToken'))
             if(global.sessionStorage.getItem('accessToken') === null){
                 router.push('/login')
                 
