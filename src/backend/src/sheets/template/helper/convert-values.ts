@@ -3,9 +3,13 @@ import { columnTemplate } from '../template';
 
 const convertValue = (values: Array<any>) => {
     const { columnLength, value: mapColumnValue } = helper.mapNumberToColumnLabel();
+
     const columnTemplate: any = helper.columnTemplate;
-    const result = values.map((item) => {
+    const result = values.map((item, mainIndex) => {
         const mapResult: any = {
+
+        }
+        let meta: any = {
 
         }
         item.forEach((element: any, index: any) => {
@@ -18,7 +22,9 @@ const convertValue = (values: Array<any>) => {
                 }
             }
         });
-        return mapResult;
+        meta['range'] = `${mapColumnValue[0]}${mainIndex + 1 }:${mapColumnValue[columnLength]}`;
+        meta['rowId'] = mainIndex+1;
+        return { mapResult, meta };
     })
     return result;
 }
@@ -29,7 +35,7 @@ type inputValue = {
     type: String,
     symbol: String
 }
-const appendValuesConvertData = (inputValue: inputValue|any) => {
+const appendValuesConvertData = (inputValue: inputValue | any) => {
     const result = Object.keys(columnTemplate).map((columnName, index) => {
         const id = columnTemplate[columnName].id;
         if (id === 'id') {

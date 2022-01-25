@@ -6,64 +6,7 @@ import { useEffect } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
 import Header from '../../components/header';
-const exampleData = {
-    "status": true,
-    "data": [{
-        "id": {
-            "value": "1",
-            "dataType": "int",
-            "name": "Id"
-        },
-        "date": {
-            "value": "2021-11-08T02:04:10.484Z",
-            "dataType": "datetime",
-            "name": "Date"
-        },
-        "amount": {
-            "value": "100",
-            "dataType": "float",
-            "name": "Amount"
-        },
-        "symbol": {
-            "value": "$",
-            "dataType": "string",
-            "name": "Symbol"
-        },
-        "type": {
-            "value": "food",
-            "dataType": "string",
-            "name": "Type"
-        }
-    },
-    {
-        "id": {
-            "value": "2",
-            "dataType": "int",
-            "name": "Id"
-        },
-        "date": {
-            "value": "2021-11-08T02:04:10.484Z",
-            "dataType": "datetime",
-            "name": "Date"
-        },
-        "amount": {
-            "value": "152",
-            "dataType": "float",
-            "name": "Amount"
-        },
-        "symbol": {
-            "value": "$",
-            "dataType": "string",
-            "name": "Symbol"
-        },
-        "type": {
-            "value": "travel",
-            "dataType": "string",
-            "name": "Type"
-        }
-    }
-    ]
-}
+
 const GetExpense = () => {
     const accessToken = useRef<any>(null);
     const [isLoading, setLoading] = useState(false);
@@ -108,34 +51,38 @@ const GetExpense = () => {
     }, [])
 
     return (
-       <div >
-           <Header />
+        <div >
+            <Header />
             <div className='flex flex-col my-10'>
-            
-            {isLoading && (<div>Loading.....</div>)}
 
-            {!isLoading && data && (
-            <div className='grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mx-3 pt-6'>
-                {data.map((item:any, index) => {
+                {isLoading && (<div>Loading.....</div>)}
 
-                    return (
-                        <Cards
-                         key={index} 
-                         heading={item.type && item.type.value? 
-                            item.type.value.toUpperCase()
-                            : ' '
-                        }
-                        currency={item.symbol && item.symbol.value ? item.symbol.value : ' '}
-                         amount={item.amount ? item.amount.value : ' ' }
-                         date={item.date ? moment(item.date.value).format('LL') : ' '}
-                         description={item.remark ? item.remark.value : ' '}
-                        />
-                    )
-                })}
+                {(!isLoading && data) && (
+                    <div className='grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mx-3 pt-6'>
+                        {data.map((item: any, index) => {
+                            const {
+                                mapResult,
+                                meta
+                            } = item;
+                            return (
+                                <Cards
+                                    meta={meta}
+                                    key={index}
+                                    heading={mapResult.type && mapResult.type.value ?
+                                        mapResult.type.value.toUpperCase()
+                                        : ' '
+                                    }
+                                    currency={mapResult.symbol && mapResult.symbol.value ? mapResult.symbol.value : ' '}
+                                    amount={mapResult.amount ? mapResult.amount.value : ' '}
+                                    date={mapResult.date ? moment(mapResult.date.value).format('LL') : ' '}
+                                    description={mapResult.remark ? mapResult.remark.value : ' '}
+                                />
+                            )
+                        })}
+                    </div>
+                )}
             </div>
-            )}
-        </div>
-       </div>)
+        </div>)
 }
 
 
