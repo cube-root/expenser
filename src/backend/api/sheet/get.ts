@@ -7,7 +7,7 @@ const getSpreadSheetValue = async (accessToken: String, spreadSheetId: String, r
         let tempRange;
         if (!range) {
             const defaultRange = sheets.templateHelper.getRange();
-            tempRange = `${defaultRange[0]}2:${defaultRange[defaultRange.length - 1]}`
+            tempRange = `${defaultRange[0]}1:${defaultRange[defaultRange.length - 1]}`
         } else {
             tempRange = range;
         }

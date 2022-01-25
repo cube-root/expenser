@@ -1,11 +1,11 @@
 import { NextPage } from "next";
-import {useRouter} from "next/router";
-import { useEffect,useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Header from '../../components/header/index';
 import SetSpreadSheetId from "../../components/spreadsheet-id";
 import AddExpense from "../add-expense";
 const HomePage: NextPage = () => {
-    const [spreadSheetLink,setSpreadSheetLink] = useState<any>(null);
+    const [spreadSheetLink, setSpreadSheetLink] = useState<any>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -13,20 +13,19 @@ const HomePage: NextPage = () => {
             const spreadSheetLinkLocal = global.window.localStorage.getItem('spreadSheetLink');
             setSpreadSheetLink(spreadSheetLinkLocal)
         }
-    },[spreadSheetLink])
+    }, [spreadSheetLink])
 
-    useEffect(()=>{
-        if(global){
-            if(global.sessionStorage.getItem('accessToken') === null){
+    useEffect(() => {
+        if (global) {
+            if (global.sessionStorage.getItem('accessToken') === null) {
                 router.push('/login')
-                
+
             }
         }
-    },[])
+    }, [])
     return (
         <div className="flex flex-col h-screen">
-            <Header />
-            {(spreadSheetLink === null || !spreadSheetLink )&& (
+            {(spreadSheetLink === null || !spreadSheetLink) && (
                 <div className="flex-1 overflow-y-auto pt-8 items-center align-middle pt-10">
                     <SetSpreadSheetId setSpreadSheetLinkCallBack={setSpreadSheetLink} />
                 </div>
