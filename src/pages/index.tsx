@@ -70,9 +70,10 @@ import styles from '../styles/Home.module.css'
 //   )
 // }
 
-const Home = ()=>{
-  console.log(process.env.FIREBASE_API_KEY)
-  return <div>Hom</div>
+const Home = () => {
+
+  return null
+
 }
 
 export default Home
