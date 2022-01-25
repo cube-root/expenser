@@ -1,8 +1,14 @@
 module.exports = {
-  purge: [],
+  purge: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    // Add more here
+  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}",
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    screen:{
+    screen: {
       'sm': '200px',
       // => @media (min-width: 576px) { ... }
 
