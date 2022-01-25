@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
+import Header from '../../components/header';
 const exampleData = {
     "status": true,
     "data": [{
@@ -107,7 +108,10 @@ const GetExpense = () => {
     }, [])
 
     return (
-        <div className='flex flex-col my-10'>
+       <div >
+           <Header />
+            <div className='flex flex-col my-10'>
+            
             {isLoading && (<div>Loading.....</div>)}
 
             {!isLoading && data && (
@@ -130,7 +134,8 @@ const GetExpense = () => {
                 })}
             </div>
             )}
-        </div>)
+        </div>
+       </div>)
 }
 
 

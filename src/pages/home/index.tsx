@@ -28,7 +28,7 @@ const HomePage: NextPage = () => {
         <div className="flex flex-col h-screen">
             <Header />
             {(spreadSheetLink === null || !spreadSheetLink )&& (
-                <div className="flex-1 overflow-y-auto pt-8 items-center align-middle">
+                <div className="flex-1 overflow-y-auto pt-8 items-center align-middle pt-10">
                     <SetSpreadSheetId setSpreadSheetLinkCallBack={setSpreadSheetLink} />
                 </div>
             )}

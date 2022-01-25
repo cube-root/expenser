@@ -1,4 +1,5 @@
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import Header from '../../components/header';
 import ChangeSpreadSheet from '../../components/spreadsheet-id';
 
 
@@ -6,15 +7,18 @@ const ChangeSpreadSheetId = () => {
     const router = useRouter();
 
     const callBack = (spreadSheetId: String) => {
-        if(spreadSheetId){
+        if (spreadSheetId) {
             router.push('/home');
-        }    
+        }
     }
     return (
         <div>
-            <ChangeSpreadSheet
-                setSpreadSheetLinkCallBack={(id: String) => { callBack(id) }}
-            />
+            <Header />
+            <div className='pt-10'>
+                <ChangeSpreadSheet
+                    setSpreadSheetLinkCallBack={(id: String) => { callBack(id) }}
+                />
+            </div>
         </div>
     )
 }

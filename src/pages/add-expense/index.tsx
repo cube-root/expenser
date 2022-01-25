@@ -74,7 +74,7 @@ const AddExpense: NextPage = () => {
     }
 
     return (
-        <div className="grid place-items-center mt-10 ">
+        <div className="grid place-items-center mt-10 pt-10 ">
             <form className="w-full max-w-lg " onSubmit={formSubmit}>
                 <div className="flex flex-wrap -mx-3 mb-3 justify-center items-center">
                     <div className="md:w-1/2 px-3 mb-3 md:mb-0">
