@@ -1,4 +1,5 @@
 import helper from './helper';
+import typeOfExpense from '../../../../config/type-expense.json'
 const columnTemplate: Object | any = {
     'A': {
         id: 'id',
@@ -40,20 +41,7 @@ const columnTemplate: Object | any = {
         id: 'type',
         name: 'Type',
         type: 'string',
-        options: [
-            {
-                value: 'food',
-                label: 'Food'
-            },
-            {
-                value: 'travel',
-                label: 'Travel'
-            },
-            {
-                value: 'others',
-                label: 'Others'
-            }
-        ],
+        options: typeOfExpense,
         inputMeta: {
             field: 'select',
             getOptions: async () => {
