@@ -59,21 +59,40 @@ const Cards = ({
                     <p>{amountRef.current} {currencyRef.current}</p>
                 )}
                 {isEditing && (
-                    <Forms.AmountFormField
-                        className='w-full'
-                        type='number'
-                        defaultValue={amountRef.current}
-                        onChange={(event: any) => { amountRef.current = event.target.value }}
-                    />
+                    <div className='flex flex-row'>
+                        <Forms.AmountFormField
+                            className='w-full'
+                            type='number'
+                            defaultValue={amountRef.current}
+                            onChange={(event: any) => { amountRef.current = event.target.value }}
+                        />
+                        <Forms.CurrencyFormField
+                            className='w-full'
+                            onChange={(event: any) => {
+                                currencyRef.current = event.target.value
+                            }}
+                        />
+                    </div>
                 )}
             </div>
             <div className="text-sm p-1">
                 <p>Date: {dateRef.current}</p>
             </div>
             <div className="text-sm p-1">
-                <p>
-                    {descriptionRef.current}
-                </p>
+                {isEditing && (
+                    <Forms.RemarkFormField
+                        placeholder='Remark'
+                        defaultValue={descriptionRef.current}
+                        onChange={(event: any) => {
+                            descriptionRef.current = event.target.value
+                        }}
+                    />
+                )}
+                {!isEditing && (
+                    <p>
+                        {descriptionRef.current}
+                    </p>
+                )}
             </div>
             <div className=" flex flex-row p-2">
                 <button

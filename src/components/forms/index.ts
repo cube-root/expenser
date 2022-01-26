@@ -1,9 +1,13 @@
-import AmountFormField from "./amount";
+import AmountFormField from "./AmountFormField";
 import TypeFormField from "./Type";
+import CurrencyFormField from "./Currency";
+import RemarkFormField from "./Remark";
 
-const FormFields =  {
+const FormFields = {
     AmountFormField,
-    TypeFormField
+    TypeFormField,
+    CurrencyFormField,
+    RemarkFormField
 }
 
 export default FormFields
