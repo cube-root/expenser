@@ -1,0 +1,15 @@
+[
+    {
+        "value": "$",
+        "label": "$",
+        "defaultValue": true
+    },
+    {
+        "value": "₹",
+        "label": "₹"
+    },
+    {
+        "value": "€",
+        "label": "€"
+    }
+]

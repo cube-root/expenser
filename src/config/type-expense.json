@@ -1,0 +1,15 @@
+[
+    {
+        "value": "food",
+        "label": "Food",
+        "defaultValue": true
+    },
+    {
+        "value": "travel",
+        "label": "Travel"
+    },
+    {
+        "value": "others",
+        "label": "Others"
+    }
+]
