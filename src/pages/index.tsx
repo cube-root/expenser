@@ -1,7 +1,7 @@
-import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 
 const Home = () => {
-
+  const router = useRouter();
   return (
     <div className='bg-black h-screen w-screen'>
       <div className='flex flex-row top-0  justify-between mx-10 pt-10  '>
@@ -18,7 +18,9 @@ const Home = () => {
           <p className='text-sm p-2'>Manage you personal bills using Google Sheets</p>
         </div>
         <div className='border border-white p-2 mt-10  hover:bg-white hover:text-black'>
-          <button className='p-2'>Getting started</button>
+          <button className='p-2' onClick={() => {
+            router.push('/login')
+          }}>Getting started</button>
         </div>
       </div>
 
