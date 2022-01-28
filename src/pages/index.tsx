@@ -18,9 +18,12 @@ const Home = () => {
           <p className='text-sm p-2'>Manage you personal bills using Google Sheets</p>
         </div>
         <div className='border border-white p-2 mt-10  hover:bg-white hover:text-black'>
-          <button className='p-2' onClick={() => {
-            router.push('/login')
-          }}>Getting started</button>
+          <button className='p-2'
+            onClick={() => {
+              router.push('/login')
+            }}>
+            Getting started
+          </button>
         </div>
       </div>
 

@@ -17,11 +17,11 @@ const LoginPage = (props: { firebaseConfig: FirebaseConfigType }) => {
         router.push('/home');
     }
     return (
-        <div className={styles.container}>
+        <div className="bg-black h-screen w-screen">
             <Login callBackAfterLogin={loginCallBack} {...props} />
-            <footer className={styles.footer}>
+            {/* <footer className={styles.footer}>
                 <span>Expenser</span>
-            </footer>
+            </footer> */}
         </div>
     )
 }
