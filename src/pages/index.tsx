@@ -10,7 +10,7 @@ const Home = () => {
           <img src="https://img.icons8.com/color-glass/48/000000/github.png" />
         </a>
       </div>
-      <div className='flex flex-col font-mono text-white h-100 place-items-center justify-center items-center '>
+      <div className='font-mono text-white place-items-center grid grid-cols-1 gap-1 content-center pt-56'>
         <div className='p-2'>
           <p className='text-xl p-2'>Say Hello to privacy ....</p>
         </div>
