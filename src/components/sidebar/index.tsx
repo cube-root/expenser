@@ -36,7 +36,7 @@ const SideBar = () => {
     const changeRoute = (link: any) => {
         router.push(link);
     }
-    const onLogout = ()=>{
+    const onLogout = () => {
         window.sessionStorage.clear();
         router.push('/login')
     }
@@ -125,6 +125,11 @@ const SideBar = () => {
                                     <p className='font-mono pl-4'>Hai, <span>{userData.displayName}</span></p>
 
                                 </div>
+                                <div className='p-2 border border-black rounded-full mb-4 hover:bg-black text-black hover:text-white'>
+                                    <button onClick={() => { onLogout() }} className='font-mono'>
+                                        Logout
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </Transition.Child>
@@ -161,12 +166,12 @@ const SideBar = () => {
                                 alt='profile'
                             />
                             <p className='font-mono pl-4'>Hai, <span>{userData.displayName}</span></p>
-                            
+
                         </div>
                         <div className='p-2 border border-black rounded-full mb-4 hover:bg-black text-black hover:text-white'>
-                            <button onClick={()=>{onLogout()}} className='font-mono'>
+                            <button onClick={() => { onLogout() }} className='font-mono'>
                                 Logout
-                                </button>
+                            </button>
                         </div>
                     </div>
 
@@ -174,12 +179,12 @@ const SideBar = () => {
 
             </div>
             <div className='md:pl-64 flex flex-col flex-1'>
-                <div className='sticky top-0 md:hidden bg-gray-100 pl-3 pt-3 sm:pl-3 sm:pt-3'>
+                <div className='sticky top-0 md:hidden bg-black pl-3 pt-3 sm:pl-3 sm:pt-3'>
                     <button className='h-12 w-12' onClick={() => {
                         setSidebarOpen(true);
                     }}>
                         <span className="sr-only">Open sidebar</span>
-                        <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                        <MenuIcon className="h-6 w-6" color='white' aria-hidden="true" />
                     </button>
                 </div>
             </div>
