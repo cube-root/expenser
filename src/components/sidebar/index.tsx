@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react'
+import {useRouter} from 'next/router'
 import { Dialog, Transition } from '@headlessui/react';
 import {
     HomeIcon,
@@ -8,24 +9,35 @@ import {
     CogIcon,
     ClipboardListIcon
 } from '@heroicons/react/outline'
+import { useEffect } from 'react';
 
 const classNames = (...classes: any) => {
     return classes.filter(Boolean).join(' ')
 }
 
 const navigation = [
-    { name: 'Home', href: '#', icon: HomeIcon, current: true },
-    { name: 'Add Expense', href: '#', icon: DocumentAddIcon, current: false },
-    { name: 'View', href: '#', icon: ClipboardListIcon, current: false },
-    { name: 'settings', href: '#', icon: CogIcon, current: false }
+    { name: 'Home', href: '/home', icon: HomeIcon, current: true },
+    { name: 'Add Expense', href: '/add-expense', icon: DocumentAddIcon, current: false },
+    { name: 'View', href: '/get-expense', icon: ClipboardListIcon, current: false },
+    { name: 'settings', href: '/change-spread-sheet', icon: CogIcon, current: false }
     // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
 
 
 const SideBar = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [current,setCurrent] = useState('/home');
+    const router = useRouter();
 
+    const changeRoute = (link:any)=>{
+        router.push(link);
+    }
+   useEffect(()=>{
+         if(router.pathname){
+              setCurrent(router.pathname);
+         }
+   },[router.pathname])
     return (
         <>
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -113,13 +125,13 @@ const SideBar = () => {
                     <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                         {navigation.map((item, index) => {
                             return (
-                                <div key={index} className={classNames(item.current
+                                <button onClick={()=>changeRoute(item.href)} key={index} className={classNames(item.current
                                     ? 'p-4 flex flex-row items-center justify-left border border-cyan rounded-3xl bg-white'
                                     : 'pt-2 pb-2 flex flex-row items-center justify-left '
                                 )}>
                                     <item.icon className='h-10 pr-3' color={item.current ? 'black' : 'white'} />
                                     <p className={classNames(item.current ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
-                                </div>
+                                </button>
                             )
                         })}
                     </div>

@@ -22,7 +22,6 @@ const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => 
 
     return (
         <>
-            <Header />
             <div className="flex flex-col items-center  align-middle gap-4 pt-10">
                 <div className="border rounded-lg border-solid border-black">
                     <button className="p-8">Create new spread sheet</button>

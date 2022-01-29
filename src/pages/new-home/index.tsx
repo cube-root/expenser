@@ -1,26 +1,40 @@
-import SideBar from "../../components/sidebar";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Header from '../../components/header/index';
+import SetSpreadSheetId from "../../components/spreadsheet-id";
+import AddExpense from "../add-expense";
+const HomePage: NextPage = () => {
+    const [spreadSheetLink, setSpreadSheetLink] = useState<any>(null);
+    const router = useRouter();
 
+    useEffect(() => {
+        if (global && global.window) {
+            const spreadSheetLinkLocal = global.window.localStorage.getItem('spreadSheetLink');
+            setSpreadSheetLink(spreadSheetLinkLocal)
+        }
+    }, [spreadSheetLink])
 
-const Home = () => {
+    useEffect(() => {
+        if (global) {
+            if (global.sessionStorage.getItem('accessToken') === null) {
+                router.push('/login')
+
+            }
+        }
+    }, [])
     return (
-        <div>
-            <SideBar />
-            <div className="md:pl-72 flex flex-col flex-1  h-screen overflow-y-auto">
-                <div className="py-6">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                    </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                        
-                        <div className="py-4">
-                            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-                        </div>
-                        
-                    </div>
+        <div className="flex flex-col h-screen">
+            {(spreadSheetLink === null || !spreadSheetLink) && (
+                <div className="flex-1 overflow-y-auto pt-8 items-center align-middle pt-10">
+                    <SetSpreadSheetId setSpreadSheetLinkCallBack={setSpreadSheetLink} />
                 </div>
-            </div>
+            )}
+            {spreadSheetLink && (
+                <AddExpense />
+            )}
         </div>
     )
 }
 
-export default Home;
+export default HomePage
