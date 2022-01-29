@@ -138,7 +138,7 @@ const SideBar = () => {
                 </div>
 
             </div>
-            <div className='md:pl-64 flex flex-col flex-1 bg-green-100'>
+            <div className='md:pl-64 flex flex-col flex-1'>
                 <div className='sticky top-0 md:hidden bg-gray-100 pl-3 pt-3 sm:pl-3 sm:pt-3'>
                     <button className='h-12 w-12' onClick={() => {
                         setSidebarOpen(true);
