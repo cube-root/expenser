@@ -43,7 +43,7 @@ const Cards = ({
     }
     return (
         <div
-            className="border border-black  rounded flex flex-col items-center justify-center p-2"
+            className="border border-white  rounded flex flex-col items-center justify-center p-2"
         >
             <div className="text-xl">
                 {!isEditing && (<p>{headingRef.current}</p>)}
@@ -54,20 +54,20 @@ const Cards = ({
                     />
                 )}
             </div>
-            <div className="text-2xl p-2 font-bold">
+            <div className="text-2xl text-white p-2 font-mono">
                 {!isEditing && (
                     <p>{amountRef.current} {currencyRef.current}</p>
                 )}
                 {isEditing && (
                     <div className='flex flex-row'>
                         <Forms.AmountFormField
-                            className='w-full'
+                            className='w-full text-white font-mono'
                             type='number'
                             defaultValue={amountRef.current}
                             onChange={(event: any) => { amountRef.current = event.target.value }}
                         />
                         <Forms.CurrencyFormField
-                            className='w-full'
+                            className='w-full text-white font-mono'
                             onChange={(event: any) => {
                                 currencyRef.current = event.target.value
                             }}
@@ -75,13 +75,14 @@ const Cards = ({
                     </div>
                 )}
             </div>
-            <div className="text-sm p-1">
+            <div className="text-sm text-white font-mono p-1">
                 <p>Date: {dateRef.current}</p>
             </div>
             <div className="text-sm p-1">
                 {isEditing && (
                     <Forms.RemarkFormField
                         placeholder='Remark'
+                        className="text-white font-mono"
                         defaultValue={descriptionRef.current}
                         onChange={(event: any) => {
                             descriptionRef.current = event.target.value
@@ -89,24 +90,24 @@ const Cards = ({
                     />
                 )}
                 {!isEditing && (
-                    <p>
+                    <p className='text-white font-mono'>
                         {descriptionRef.current}
                     </p>
                 )}
             </div>
             <div className=" flex flex-row p-2">
-                <button
-                    className="border rounded hover:bg-black hover:text-white p-2"
+                {/* <button
+                    className="border rounded font-mono bg-white hover:bg-black hover:text-white p-2"
                     onClick={onClickEdit}
                 >
                     {!isEditing ? 'Edit' : 'Save'}
-                </button>
+                </button> */}
                 {isEditing && (
                     <button
                         onClick={onCancel}
-                        className="border rounded hover:bg-black hover:text-white p-2"
+                        className="border rounded font-mono  hover:bg-black hover:text-white p-2"
                     >
-                        Cancel
+                        
                     </button>
                 )}
             </div>
