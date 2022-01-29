@@ -8,7 +8,6 @@ type inputProp = {
     list: Array<listArray> | []
 }
 const ErrorCard = (props: inputProp) => {
-    console.log(props.list)
     return (
         <div className="rounded-md bg-red-50 p-4">
             <div className="flex">
