@@ -53,7 +53,7 @@ const SideBar = () => {
                         leaveFrom="translate-x-0"
                         leaveTo="-translate-x-full"
                     >
-                        <div className="relative flex-1 flex flex-col max-w-xs w-full bg-gray-800">
+                        <div className="relative flex-1 flex flex-col justify-between max-w-xs w-full bg-black">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-in-out duration-300"
@@ -74,59 +74,38 @@ const SideBar = () => {
                                     </button>
                                 </div>
                             </Transition.Child>
-                            <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                                <div className="flex-shrink-0 flex items-center px-4">
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                                        alt="Workflow"
-                                    />
+                            <div className='flex flex-col overflow-y-auto pt-5'>
+                                <div className='flex flex-col pt-5 h-16 w-full hover:bg-black hover:text-white  text-black  bg-white items-center'>
+                                    <p className='text-xl font-mono'>Expenser</p>
                                 </div>
-                                <nav className="mt-5 px-2 space-y-1">
-                                    {navigation.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                                            )}
-                                        >
-                                            <item.icon
-                                                className={classNames(
-                                                    item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                                                    'mr-4 flex-shrink-0 h-6 w-6'
-                                                )}
-                                                aria-hidden="true"
-                                            />
-                                            {item.name}
-                                        </a>
-                                    ))}
-                                </nav>
+                                <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
+                                    {navigation.map((item, index) => {
+                                        return (
+                                            <div key={index} className='pt-5 flex flex-row items-center justify-left '>
+                                                <item.icon className='h-10 pr-3' color='white' />
+                                                <p className='text-mono text-white hover:text-green-300'>{item.name}</p>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
-                            <div className="flex-shrink-0 flex bg-gray-700 p-4">
-                                <a href="#" className="flex-shrink-0 group block">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img
-                                                className="inline-block h-10 w-10 rounded-full"
-                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div className="ml-3">
-                                            <p className="text-base font-medium text-white">Tom Cook</p>
-                                            <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
-                                        </div>
-                                    </div>
-                                </a>
+                            <div className='flex flex-shrink-0 flex-col bg-white'>
+                                <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
+                                    <img
+                                        className="inline-block h-10 w-10 rounded-full"
+                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                        alt=""
+                                    />
+                                    <p className='text-mono pl-4'>Hai Abhijith</p>
+                                    
+                                </div>
                             </div>
                         </div>
                     </Transition.Child>
                     <div className="flex-shrink-0 w-14">{/* Force sidebar to shrink to fit close icon */}</div>
                 </Dialog>
             </Transition.Root>
-            <div className='flex flex-col w-64 fixed top-0 bottom-0 bg-black min-h-0 '>
+            <div className='hidden md:flex md:flex-col md:w-64 md:fixed md:top-0 md:bottom-0 md:bg-black md:min-h-0 md:overflow-y-auto'>
                 <div className='flex flex-col flex-1 pt-8 items-center flex-shrink-0 px-1'>
                     <div className='flex flex-col pt-5 h-16 w-full hover:bg-black hover:text-white  text-black  bg-white items-center'>
                         <p className='text-xl font-mono'>Expenser</p>
@@ -134,10 +113,10 @@ const SideBar = () => {
                     <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                         {navigation.map((item, index) => {
                             return (
-                            <div key={index} className='pt-5 flex flex-row items-center justify-left '>
-                                <item.icon className='h-10 pr-3' color='white'/>
-                                <p className='text-mono text-white hover:text-green-300'>{item.name}</p>
-                            </div>
+                                <div key={index} className='pt-5 flex flex-row items-center justify-left '>
+                                    <item.icon className='h-10 pr-3' color='white' />
+                                    <p className='text-mono text-white hover:text-green-300'>{item.name}</p>
+                                </div>
                             )
                         })}
                     </div>
@@ -145,8 +124,18 @@ const SideBar = () => {
                 </div>
 
             </div>
+            <div className='md:pl-64 flex flex-col flex-1 bg-green-100'>
+                <div className='sticky top-0 md:hidden bg-gray-100 pl-3 pt-3 sm:pl-3 sm:pt-3'>
+                    <button className='h-12 w-12' onClick={() => {
+                        setSidebarOpen(true);
+                    }}>
+                        <span className="sr-only">Open sidebar</span>
+                        <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
         </>
     )
 }
 
-export default SideBar
+export default SideBar  
