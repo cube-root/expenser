@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import { Dialog, Transition } from '@headlessui/react';
 import {
     HomeIcon,
@@ -27,17 +27,18 @@ const navigation = [
 
 const SideBar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [current,setCurrent] = useState('/home');
+    const [current, setCurrent] = useState('/home');
     const router = useRouter();
 
-    const changeRoute = (link:any)=>{
+    const changeRoute = (link: any) => {
         router.push(link);
     }
-   useEffect(()=>{
-         if(router.pathname){
-              setCurrent(router.pathname);
-         }
-   },[router.pathname])
+    useEffect(() => {
+        if (router.pathname) {
+            setCurrent(router.pathname);
+        }
+    }, [router.pathname])
+
     return (
         <>
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -90,13 +91,13 @@ const SideBar = () => {
                                 <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                                     {navigation.map((item, index) => {
                                         return (
-                                            <div key={index} className={classNames(item.current
+                                            <button onClick={() => changeRoute(item.href)} key={index} className={classNames(current === item.href
                                                 ? 'p-4 flex flex-row items-center justify-left border border-cyan rounded-3xl bg-white'
                                                 : 'pt-2 pb-2 flex flex-row items-center justify-left '
                                             )}>
-                                                <item.icon className='h-10 pr-3' color={item.current ? 'black' : 'white'} />
-                                                <p className={classNames(item.current ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
-                                            </div>
+                                                <item.icon className='h-10 pr-3' color={current === item.href ? 'black' : 'white'} />
+                                                <p className={classNames(current === item.href ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
+                                            </button>
                                         )
                                     })}
                                 </div>
@@ -125,12 +126,12 @@ const SideBar = () => {
                     <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                         {navigation.map((item, index) => {
                             return (
-                                <button onClick={()=>changeRoute(item.href)} key={index} className={classNames(item.current
+                                <button onClick={() => changeRoute(item.href)} key={index} className={classNames(current === item.href
                                     ? 'p-4 flex flex-row items-center justify-left border border-cyan rounded-3xl bg-white'
                                     : 'pt-2 pb-2 flex flex-row items-center justify-left '
                                 )}>
-                                    <item.icon className='h-10 pr-3' color={item.current ? 'black' : 'white'} />
-                                    <p className={classNames(item.current ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
+                                    <item.icon className='h-10 pr-3' color={current === item.href ? 'black' : 'white'} />
+                                    <p className={classNames(current === item.href ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
                                 </button>
                             )
                         })}
