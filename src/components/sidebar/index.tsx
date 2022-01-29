@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Dialog, Transition } from '@headlessui/react';
+import Image from 'next/image'
 import {
     HomeIcon,
     MenuIcon,
@@ -10,7 +12,7 @@ import {
     ClipboardListIcon
 } from '@heroicons/react/outline'
 import { useEffect } from 'react';
-
+import hooks from '../../hooks';
 const classNames = (...classes: any) => {
     return classes.filter(Boolean).join(' ')
 }
@@ -27,9 +29,10 @@ const navigation = [
 
 const SideBar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [userData, setUserData] = useState<any>({});
     const [current, setCurrent] = useState('/home');
     const router = useRouter();
-
+    const data = hooks.GetStorageData();
     const changeRoute = (link: any) => {
         router.push(link);
     }
@@ -38,7 +41,9 @@ const SideBar = () => {
             setCurrent(router.pathname);
         }
     }, [router.pathname])
-
+    useEffect(() => {
+        setUserData(data);
+    }, [data])
     return (
         <>
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -105,11 +110,15 @@ const SideBar = () => {
                             <div className='flex flex-shrink-0 flex-col bg-white mb-5 rounded-3xl mx-3'>
                                 <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
                                     <img
-                                        className="inline-block h-10 w-10 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt=""
+                                        className='inline-block h-10 w-10 rounded-full'
+                                        src={
+                                            userData.photoUrl ?
+                                                userData.photoUrl :
+                                                "https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png"
+                                        }
+                                        alt='profile'
                                     />
-                                    <p className='text-mono pl-4'>Hai Abhijith</p>
+                                    <p className='font-mono pl-4'>Hai, <span>{userData.displayName}</span></p>
 
                                 </div>
                             </div>
@@ -139,12 +148,15 @@ const SideBar = () => {
                     <div className='flex flex-shrink-0 flex-col bg-white mb-10 rounded-3xl'>
                         <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
                             <img
-                                className="inline-block h-10 w-10 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt=""
+                                className='inline-block h-10 w-10 rounded-full'
+                                src={
+                                    userData.photoUrl ?
+                                        userData.photoUrl :
+                                        "https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png"
+                                }
+                                alt='profile'
                             />
-                            <p className='text-mono pl-4'>Hai Abhijith</p>
-
+                            <p className='font-mono pl-4'>Hai, <span>{userData.displayName}</span></p>
                         </div>
                     </div>
 

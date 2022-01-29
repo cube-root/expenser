@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
 import helper from '../../helper';
-import Header from "../header";
+import hooks from '../../hooks'
 
 type Props = {
     setSpreadSheetLinkCallBack?: Function
@@ -10,11 +10,16 @@ type Props = {
 const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => {
     const spreadSheetLink = useRef('');
     const router = useRouter();
+    const [storageData,setStorageData] = hooks.SheetStorage();
 
     const setSpreadSheetLink = () => {
         if (window && spreadSheetLink.current.length !== 0) {
-            window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
-            window.localStorage.setItem('spreadSheetId', helper.extractSheet(spreadSheetLink.current));
+            // window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
+            // window.localStorage.setItem('spreadSheetId', helper.extractSheet(spreadSheetLink.current));
+            setStorageData({
+                spreadSheetLink: spreadSheetLink.current,
+                spreadSheetId: helper.extractSheet(spreadSheetLink.current)
+            })
             setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
         }
     }

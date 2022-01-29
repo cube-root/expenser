@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import SideBar from "../../components/sidebar";
-
+import hooks from "../../hooks";
 
 // const Home = () => {
 //     return (
@@ -24,7 +24,7 @@ import SideBar from "../../components/sidebar";
 //     )
 // }
 const Home = ()=>{
-
+    const storage = hooks.GetStorageData()
     return (
         <SideBar />
     )

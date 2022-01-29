@@ -29,7 +29,6 @@ const Cards = ({
 
 
     const onClickEdit = () => {
-        console.log('clicked', meta)
         setEditing(true);
     }
     const onCancel = () => {
