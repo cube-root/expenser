@@ -1,17 +1,19 @@
-import { NextPage } from "next";
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import helper from '../../helper';
 import hooks from '../../hooks'
+import { toast } from 'react-toastify';
 
 type Props = {
     setSpreadSheetLinkCallBack?: Function
 }
 const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => {
     const spreadSheetLink = useRef('');
+    const [isCreating, setCreating] = useState(false);
     const router = useRouter();
-    const [storageData,setStorageData] = hooks.SheetStorage();
-
+    const [storageData, setStorageData] = hooks.SheetStorage();
+    const data = hooks.GetStorageData();
     const setSpreadSheetLink = () => {
         if (window && spreadSheetLink.current.length !== 0) {
             // window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
@@ -23,12 +25,45 @@ const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => 
             setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
         }
     }
+    const createNewSheet = async () => {
+        setCreating(true);
+        const accessToken = data.accessToken;
+        try {
+            const response = await axios.post('/api/sheets/create', {
+                accessToken,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            if (response && response.data && response.data.status && response.data.data) {
+                setStorageData({
+                    spreadSheetLink: response.data.data.spreadsheetUrl,
+                    spreadSheetId: response.data.data.spreadsheetId
+                })
+                toast.success('Sheet created successfully');
+                router.push('/home');
+            } else {
+                toast.error('Something went wrong');
+            }
+        } catch (error: any) {
+            toast.error(error.message || 'Something went wrong');
+        }
+        finally {
+            setCreating(false);
+        }
 
+    }
 
     return (
         <div className="flex flex-col items-center justify-center  pt-10 w-auto">
-            <div className="border rounded-lg border-solid border-white">
-                <button className="p-8 font-mono text-white">Create new sheet</button>
+            <div className="border rounded-lg border-solid border-white text-white  hover:bg-white hover:text-black">
+                <button
+                    disabled={isCreating}
+                    onClick={() => { createNewSheet() }}
+                    className="p-8 font-mono">
+                    {isCreating ? 'Creating...' : 'Create New Sheet'}
+                </button>
             </div>
             <div className=" flex flex-col  border rounded-lg border-solid border-white mt-10 items-center ">
                 <label className="text-white font-mono text-lg pt-10">Paste sheet link here</label>
@@ -44,6 +79,7 @@ const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => 
                 </div>
                 <div className="m-5 p-5">
                     <button
+                        disabled={isCreating}
                         className="p-4 border rounded-3xl border-white text-white hover:text-black hover:bg-white font-mono"
                         onClick={() => { setSpreadSheetLink() }}
                     >
