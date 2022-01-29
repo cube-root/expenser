@@ -11,7 +11,7 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@headlessui/react": "^1.4.2",
+    "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
     "axios": "^0.24.0",
     "firebase": "^9.5.0",
