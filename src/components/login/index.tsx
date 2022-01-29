@@ -7,6 +7,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import styles from '../../styles/Home.module.css'
 import { useState } from 'react';
 import { NextPage } from 'next';
+import hooks from '../../hooks';
+
 let firebaseTag = 'login'
 
 type Props = {
@@ -24,7 +26,7 @@ const Login: NextPage | any = ({ callBackAfterLogin = () => { }, firebaseConfig:
     // const { accessToken } = useStore();
     const [accessToken, setAccessToken] = useState<any>(undefined);
     const router = useRouter();
-
+    const [data,setData] = hooks.UserStorage();
     const googleLogin = () => {
         let app;
         const firebaseConfigureJson = {
@@ -57,16 +59,20 @@ const Login: NextPage | any = ({ callBackAfterLogin = () => { }, firebaseConfig:
                 // store.setUserDetails(result.user)
                 // store.setAccessToken(result._tokenResponse.oauthAccessToken)
                 if (global) {
-                    global.sessionStorage.setItem('accessToken', result._tokenResponse.oauthAccessToken)
-                    global.sessionStorage.setItem('sign-in', JSON.stringify(result))
+                    // global.sessionStorage.setItem('accessToken', result._tokenResponse.oauthAccessToken)
+                    // global.sessionStorage.setItem('sign-in', JSON.stringify(result))
+                    // global.sessionStorage.setItem('uid', result.user.uid)
+                    // global.sessionStorage.setItem('photoUrl', result.user.photoURL)
                     setAccessToken(result._tokenResponse.oauthAccessToken)
+                    setData({result,global});
+
                 }
             })
             .catch(console.error)
     }
 
     useEffect(() => {
-       
+
         if (accessToken && callBackAfterLogin) {
             return callBackAfterLogin()
         }

@@ -1,7 +1,6 @@
 import currency from '../../config/currency.json';
 
 const CurrencyFormField = (props: any) => {
-    console.log(props);
     return (
         <select
             {...props}

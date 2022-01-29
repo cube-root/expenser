@@ -5,12 +5,13 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
-import Header from '../../components/header';
 import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid'
+import hooks from '../../hooks';
 const GetExpense = () => {
     const accessToken = useRef<any>(null);
     const [isLoading, setLoading] = useState(false);
+    const storage = hooks.GetStorageData()
     const [data, setData] = useState([]);
     const sheetId = useRef<any>(null);
     const router = useRouter();
@@ -36,16 +37,16 @@ const GetExpense = () => {
         }
     }
     useEffect(() => {
-        const token = global.sessionStorage.getItem('accessToken')
-        const sheetIdLocal = global.localStorage.getItem('spreadSheetId')
-        if (global && token && sheetId) {
+        const token = storage.accessToken;
+        const sheetIdLocal = storage.spreadSheetId;
+        if (token && sheetId) {
             accessToken.current = token
             sheetId.current = sheetIdLocal
             fetchData();
         } else {
-            router.push('/login');
+            // router.push('/login');
         }
-    }, [])
+    }, [storage])
 
     return (
         <div >

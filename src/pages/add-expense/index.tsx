@@ -7,12 +7,12 @@ import { toast } from 'react-toastify';
 import Header from '../../components/header';
 import Forms from '../../components/forms';
 import SideBar from '../../components/sidebar';
+import hooks from '../../hooks';
 
-
-const AddExpense: NextPage = () => {
+const AddExpense = () => {
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
-
+    const storage = hooks.GetStorageData()
     const amount = useRef<any>(0);
     const remark = useRef<string>('');
     const type = useRef<string>('food');
@@ -51,9 +51,8 @@ const AddExpense: NextPage = () => {
         event.preventDefault();
         if (global) {
             setLoading(true)
-            const sheetId = global.window.localStorage.getItem('spreadSheetId');
-            const accessToken = global.window.sessionStorage.getItem('accessToken');
-
+            const sheetId = storage.spreadSheetId;
+            const accessToken = storage.accessToken;
             if (sheetId === null || !sheetId) {
                 router.push('/home');
                 return false;

@@ -22,7 +22,6 @@ const getSpreadSheetValue = async (accessToken: String, spreadSheetId: String, r
         });
         const { range: sheetRange, majorDimension, values = [] } = response.data;
         const result = sheets.templateHelper.convertValue(values);
-        console.log(result);
         return result
     } catch (error) {
         throw error;
