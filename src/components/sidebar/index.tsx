@@ -1,14 +1,12 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react';
 import {
-    CalendarIcon,
-    ChartBarIcon,
-    FolderIcon,
     HomeIcon,
-    InboxIcon,
     MenuIcon,
-    UsersIcon,
+    DocumentAddIcon,
     XIcon,
+    CogIcon,
+    ClipboardListIcon
 } from '@heroicons/react/outline'
 
 const classNames = (...classes: any) => {
@@ -16,12 +14,11 @@ const classNames = (...classes: any) => {
 }
 
 const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-    { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-    { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+    { name: 'Home', href: '#', icon: HomeIcon, current: true },
+    { name: 'Add Expense', href: '#', icon: DocumentAddIcon, current: false },
+    { name: 'View', href: '#', icon: ClipboardListIcon, current: false },
+    { name: 'settings', href: '#', icon: CogIcon, current: false }
+    // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
 
@@ -81,15 +78,18 @@ const SideBar = () => {
                                 <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                                     {navigation.map((item, index) => {
                                         return (
-                                            <div key={index} className='pt-5 flex flex-row items-center justify-left '>
-                                                <item.icon className='h-10 pr-3' color='white' />
-                                                <p className='text-mono text-white hover:text-green-300'>{item.name}</p>
+                                            <div key={index} className={classNames(item.current
+                                                ? 'p-4 flex flex-row items-center justify-left border border-cyan rounded-3xl bg-white'
+                                                : 'pt-2 pb-2 flex flex-row items-center justify-left '
+                                            )}>
+                                                <item.icon className='h-10 pr-3' color={item.current ? 'black' : 'white'} />
+                                                <p className={classNames(item.current ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
                                             </div>
                                         )
                                     })}
                                 </div>
                             </div>
-                            <div className='flex flex-shrink-0 flex-col bg-white'>
+                            <div className='flex flex-shrink-0 flex-col bg-white mb-5 rounded-3xl mx-3'>
                                 <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
                                     <img
                                         className="inline-block h-10 w-10 rounded-full"
@@ -97,7 +97,7 @@ const SideBar = () => {
                                         alt=""
                                     />
                                     <p className='text-mono pl-4'>Hai Abhijith</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -113,12 +113,26 @@ const SideBar = () => {
                     <div className='flex flex-1 flex-col items-left  w-full px-10 pt-10'>
                         {navigation.map((item, index) => {
                             return (
-                                <div key={index} className='pt-5 flex flex-row items-center justify-left '>
-                                    <item.icon className='h-10 pr-3' color='white' />
-                                    <p className='text-mono text-white hover:text-green-300'>{item.name}</p>
+                                <div key={index} className={classNames(item.current
+                                    ? 'p-4 flex flex-row items-center justify-left border border-cyan rounded-3xl bg-white'
+                                    : 'pt-2 pb-2 flex flex-row items-center justify-left '
+                                )}>
+                                    <item.icon className='h-10 pr-3' color={item.current ? 'black' : 'white'} />
+                                    <p className={classNames(item.current ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
                                 </div>
                             )
                         })}
+                    </div>
+                    <div className='flex flex-shrink-0 flex-col bg-white mb-10 rounded-3xl'>
+                        <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
+                            <img
+                                className="inline-block h-10 w-10 rounded-full"
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                alt=""
+                            />
+                            <p className='text-mono pl-4'>Hai Abhijith</p>
+
+                        </div>
                     </div>
 
                 </div>
