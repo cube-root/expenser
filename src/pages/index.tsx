@@ -12,7 +12,7 @@ const Home = () => {
       </div>
       <div className='font-mono text-white place-items-center grid grid-cols-1 gap-1 content-center pt-56'>
         <div className='p-2'>
-          <p className='text-xl p-2'>Say Hello to privacy ....</p>
+          <p className='text-xl p-2'>Your data belongs to You <span className='animate-ping'> !</span></p>
         </div>
         <div className='p-2'>
           <p className='text-sm p-2'>Manage you personal bills using Google Sheets</p>

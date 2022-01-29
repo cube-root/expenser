@@ -36,6 +36,10 @@ const SideBar = () => {
     const changeRoute = (link: any) => {
         router.push(link);
     }
+    const onLogout = ()=>{
+        window.sessionStorage.clear();
+        router.push('/login')
+    }
     useEffect(() => {
         if (router.pathname) {
             setCurrent(router.pathname);
@@ -145,8 +149,8 @@ const SideBar = () => {
                             )
                         })}
                     </div>
-                    <div className='flex flex-shrink-0 flex-col bg-white mb-10 rounded-3xl'>
-                        <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center'>
+                    <div className='flex flex-shrink-0 flex-col bg-white mb-10 rounded-3xl items-center'>
+                        <div className='p-2 mr-4 pl-4 flex flex-row w-full items-center '>
                             <img
                                 className='inline-block h-10 w-10 rounded-full'
                                 src={
@@ -157,6 +161,12 @@ const SideBar = () => {
                                 alt='profile'
                             />
                             <p className='font-mono pl-4'>Hai, <span>{userData.displayName}</span></p>
+                            
+                        </div>
+                        <div className='p-2 border border-black rounded-full mb-4 hover:bg-black text-black hover:text-white'>
+                            <button onClick={()=>{onLogout()}} className='font-mono'>
+                                Logout
+                                </button>
                         </div>
                     </div>
 
