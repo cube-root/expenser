@@ -39,7 +39,7 @@ const AddExpense = () => {
                 // TODO error
 
             }
-        } catch (error) {
+        } catch (error:any) {
             console.log(error);
             toast.error(("Failed to add expense"))
             if (error.message)

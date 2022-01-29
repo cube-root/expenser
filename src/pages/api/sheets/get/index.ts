@@ -5,6 +5,8 @@ type Data = {
     status: Boolean,
     data?: any,
     message?: String,
+    serverError?: String,
+    actualErrorCode ?: Number
 }
 
 export default async function api(req: NextApiRequest,
@@ -19,12 +21,15 @@ export default async function api(req: NextApiRequest,
                 data: response
             })
     } catch (error: any) {
-        console.error('sheet get api:', error.response.data,'\n\n',JSON.stringify(error.response.data));
+        const errorValue = error?.response?.data?.error?.message;
+        const actualErrorCode = error?.response?.data?.error?.code;
         res
             .status(500)
             .send({
                 status: false,
-                message: error.message || 'Something went wrong !!'
+                message: error.message || 'Something went wrong !!',
+                serverError: errorValue ,
+                actualErrorCode
             })
     }
 }

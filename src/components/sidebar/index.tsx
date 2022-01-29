@@ -101,7 +101,7 @@ const SideBar = () => {
                                                 : 'pt-2 pb-2 flex flex-row items-center justify-left '
                                             )}>
                                                 <item.icon className='h-10 pr-3' color={current === item.href ? 'black' : 'white'} />
-                                                <p className={classNames(current === item.href ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
+                                                <p className={classNames(current === item.href ? 'font-mono text-black hover:text-green-300' : 'font-mono text-white hover:text-green-300')}>{item.name}</p>
                                             </button>
                                         )
                                     })}
@@ -140,7 +140,7 @@ const SideBar = () => {
                                     : 'pt-2 pb-2 flex flex-row items-center justify-left '
                                 )}>
                                     <item.icon className='h-10 pr-3' color={current === item.href ? 'black' : 'white'} />
-                                    <p className={classNames(current === item.href ? 'text-mono text-black hover:text-green-300' : 'text-mono text-white hover:text-green-300')}>{item.name}</p>
+                                    <p className={classNames(current === item.href ? 'font-mono text-black hover:text-green-300' : 'font-mono text-white hover:text-green-300')}>{item.name}</p>
                                 </button>
                             )
                         })}

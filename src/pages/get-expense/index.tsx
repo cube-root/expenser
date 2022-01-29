@@ -8,6 +8,8 @@ import moment from 'moment';
 import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid'
 import hooks from '../../hooks';
+import { toast } from 'react-toastify';
+
 const GetExpense = () => {
     const accessToken = useRef<any>(null);
     const [isLoading, setLoading] = useState(false);
@@ -29,8 +31,14 @@ const GetExpense = () => {
                 setData(response.data.data);
             }
 
-        } catch (error) {
-
+        } catch (error:any) {
+            toast.error('Something went wrong. Please try again later.')
+            if(error.response && error.response.data && error.response.data.serverError){
+                toast.error(error.response.data.serverError|| error.message || '') 
+                if(error.response.data.actualErrorCode === 401){
+                    toast.info('Please login again.')
+                }
+            }
         }
         finally {
             setLoading(false);
@@ -54,7 +62,7 @@ const GetExpense = () => {
             <div className="md:pl-72 flex flex-col flex-1  h-screen overflow-y-auto bg-gray-900 no-scrollbar">
                 <div className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-2xl  text-white font-mono">Sheet Settings</h1>
+                        <h1 className="text-2xl  text-white font-mono">Expense History</h1>
                     </div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 
@@ -112,8 +120,6 @@ const GetExpense = () => {
                 </div>
 
             </div>
-
-
         </div>)
 }
 
