@@ -19,7 +19,7 @@ const navigation = [
     { name: 'Home', href: '/home', icon: HomeIcon, current: true },
     { name: 'Add Expense', href: '/add-expense', icon: DocumentAddIcon, current: false },
     { name: 'View', href: '/get-expense', icon: ClipboardListIcon, current: false },
-    { name: 'settings', href: '/change-spread-sheet', icon: CogIcon, current: false }
+    { name: 'Sheets', href: '/change-spread-sheet', icon: CogIcon, current: false }
     // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 

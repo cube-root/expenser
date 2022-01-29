@@ -21,33 +21,32 @@ const SetSpreadSheetId = ({ setSpreadSheetLinkCallBack = () => { } }: Props) => 
 
 
     return (
-        <>
-            <div className="flex flex-col items-center  align-middle gap-4 pt-10">
-                <div className="border rounded-lg border-solid border-black">
-                    <button className="p-8">Create new spread sheet</button>
+        <div className="flex flex-col items-center justify-center  pt-10 w-auto">
+            <div className="border rounded-lg border-solid border-white">
+                <button className="p-8 font-mono text-white">Create new sheet</button>
+            </div>
+            <div className=" flex flex-col  border rounded-lg border-solid border-white mt-10 items-center ">
+                <label className="text-white font-mono text-lg pt-10">Paste sheet link here</label>
+                <div className=" p-5 m-5  ">
+                    <input
+                        className="p-8 border rounded border-white font-mono "
+                        type="text"
+                        placeholder="Paste Spread Sheet Link here"
+                        onChange={(event) => {
+                            spreadSheetLink.current = event.target.value
+                        }}
+                    />
                 </div>
-                <div className=" flex flex-col  border rounded-lg border-solid border-black mt-10 items-center">
-                    <div className=" m-5 p-4 ">
-                        <input
-                            className="p-8 border rounded border-black"
-                            type="text"
-                            placeholder="Paste Spread Sheet Link here"
-                            onChange={(event) => {
-                                spreadSheetLink.current = event.target.value
-                            }}
-                        />
-                    </div>
-                    <div className="m-5 p-5">
-                        <button
-                            className="p-8 border rounded border-black hover:bg-black hover:text-white"
-                            onClick={() => { setSpreadSheetLink() }}
-                        >
-                            Save
-                        </button>
-                    </div>
+                <div className="m-5 p-5">
+                    <button
+                        className="p-4 border rounded-3xl border-white text-white hover:text-black hover:bg-white font-mono"
+                        onClick={() => { setSpreadSheetLink() }}
+                    >
+                        Save
+                    </button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
