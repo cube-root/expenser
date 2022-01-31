@@ -3,12 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "create-config-file": "touch src/config/firebase-config.json",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",
