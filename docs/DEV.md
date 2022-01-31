@@ -1,10 +1,9 @@
 # Running on local
 
 
-
 1. Configure google login. ([configuration doc](https://github.com/cube-root/expenser/blob/main/docs/CONFIGURE.md))
 
-2. Install the dependency 
+2. Clone the [Repo](https://github.com/cube-root/expenser) and Install the dependency 
 ```
 npm i
 ```

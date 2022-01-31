@@ -30,4 +30,3 @@ Live Demo: [https://expenser-one.vercel.app/](https://expenser-one.vercel.app/)
 3. [Running on local](https://github.com/cube-root/expenser/blob/main/docs/DEV.md)
 
 4. [Overview of project](https://github.com/cube-root/expenser/blob/main/docs/OVERVIEW.md)
-
