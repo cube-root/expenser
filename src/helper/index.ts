@@ -1,8 +1,7 @@
 import { extractSheet } from './extract-sheet-id';
 
-
 const helper = {
-    extractSheet
-}
+  extractSheet,
+};
 
 export default helper;

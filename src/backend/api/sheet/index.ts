@@ -3,9 +3,9 @@ import { getSpreadSheetValue } from './get';
 import { appendSpreadSheetValue } from './append';
 
 const sheet = {
-    createSpreadSheet,
-    getSpreadSheetValue,
-    appendSpreadSheetValue
-}
+  createSpreadSheet,
+  getSpreadSheetValue,
+  appendSpreadSheetValue,
+};
 
 export default sheet;

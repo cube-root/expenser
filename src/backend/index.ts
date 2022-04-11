@@ -3,9 +3,9 @@ import sheets from './api/sheet';
 import general from './api/general';
 
 const backendFunction = {
-    firebase,
-    sheets,
-    general
-}
+  firebase,
+  sheets,
+  general,
+};
 
 export default backendFunction;

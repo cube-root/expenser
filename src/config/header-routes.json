@@ -1,19 +1,18 @@
 [
-    {
-       "name": "Home",
-       "route": "/home" 
-    },
-    {
-        "route":"/add-expense",
-        "name": "Add Expense"
-    },
-    {
-        "route":"/get-expense",
-        "name": "View Expense"
-    },
-    {
-        "route":"/change-spread-sheet",
-        "name": "Change Spread Sheet"
-    }
-    
+  {
+    "name": "Home",
+    "route": "/home"
+  },
+  {
+    "route": "/add-expense",
+    "name": "Add Expense"
+  },
+  {
+    "route": "/get-expense",
+    "name": "View Expense"
+  },
+  {
+    "route": "/change-spread-sheet",
+    "name": "Change Spread Sheet"
+  }
 ]

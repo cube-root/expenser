@@ -1,13 +1,10 @@
 <h1 align="center">Expenser</h1>
 
-
 Manage your personal bills using google spread sheet.
 
 <br/>
 
 Live Demo: [https://expenser-one.vercel.app/](https://expenser-one.vercel.app/)
-
-
 
 ## Built with
 
@@ -16,7 +13,6 @@ Live Demo: [https://expenser-one.vercel.app/](https://expenser-one.vercel.app/)
 3. HTML
 4. CSS, Tailwindcss
 5. Javascript
-
 
 <br/>
 <br/>
