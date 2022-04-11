@@ -5,9 +5,10 @@ You can see the doc's for hosting on the [https://nextjs.org/docs/deployment](ht
 <br/>
 <br/>
 
-Docker file is added in the root of the directory. 
+Docker file is added in the root of the directory.
 
 First build the docker image using docker build command
+
 ```
 docker build -t expenser .
 ```
@@ -20,14 +21,14 @@ docker run -p 3000:3000 expense
 
 NOTE:
 
-You can pass the env file through the docker run command 
+You can pass the env file through the docker run command
+
 ```
 --env-file
 ```
 
-or you can pass the environment variable through 
-```
--e 
-```
+or you can pass the environment variable through
 
-
+```
+-e
+```

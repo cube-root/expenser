@@ -1,4 +1,2 @@
-import Login from "./login";
-export {
-    Login,
-}
+import Login from './login';
+export { Login };

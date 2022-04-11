@@ -1,7 +1,7 @@
 import { listProject } from './list';
 
 const firebase = {
-    listProject
-}
+  listProject,
+};
 
 export default firebase;

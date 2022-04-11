@@ -1,9 +1,9 @@
-import template from "./template";
+import template from './template';
 import templateHelper from './template/helper';
 
 const sheets = {
-    template,
-    templateHelper
-}
+  template,
+  templateHelper,
+};
 
 export default sheets;

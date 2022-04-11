@@ -1,11 +1,10 @@
 <h1> Configure Google Login</h1>
 
-
 ## Introduction
+
 In-order to access the google sheet, you need to get the google access token from user. So its a mandatory thing to configure the google login.
 
 <br/><br/><br/><br/>
-
 
 ## Configuring Google Login
 
@@ -14,6 +13,7 @@ First login to [https://console.firebase.google.com](https://console.firebase.go
 <br/><br/>
 
 ### Steps :-
+
 1. Go to project overview in the firebase page. And click on the "Add app" on the screenshot as below.
 
 <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/add-webapp-1.png?raw=true">
@@ -30,19 +30,15 @@ First login to [https://console.firebase.google.com](https://console.firebase.go
 
 <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/create-webapp.png?raw=true">
 
-
 <br/><br/>
 
 4. You can see the configs on the next page or you can again go to project overview. Now there will be an option to view your newly created webapp. Click the settings icon from the option.
 
 <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/config-step-1.png?raw=true">
 
-
 <br/><br/>
 
-
 5. Scroll down to the bottom. You can able to see the config file.
-
 
 <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/config.png?raw=true">
 
@@ -62,8 +58,7 @@ APP_ID=asuy:12873bjasd
 <br/><br/>
 
 7. Now we need to add google login in authentication. For that go to authentication tab.
-<img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/enable-auth-1.png?raw=true">
-
+   <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/enable-auth-1.png?raw=true">
 
 <br/><br/>
 
@@ -75,7 +70,6 @@ APP_ID=asuy:12873bjasd
 
 9. Setup complete for google login.
 
-
 <br/><br/><br/><br/>
 
 ## Enabling Google Sheet API
@@ -83,17 +77,18 @@ APP_ID=asuy:12873bjasd
 Now we need to enable google sheet api from the cloud console. Go to [https://console.cloud.google.com](https://console.cloud.google.com) and follow the steps.
 
 <br/><br/>
+
 ### Steps :-
+
 <br/><br/>
 
 1. Select the project from the console.
-<br/><br/>
+   <br/><br/>
 2. search for the google sheet api on the top of the dashboard.
-<img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-1.png?raw=true">
-<br/><br/>
+   <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-1.png?raw=true">
+   <br/><br/>
 
 3. On the next page enable the sheet api.
-<img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-2.png?raw=true">
+   <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-2.png?raw=true">
 
-<br/><br/>
-4. Now you enabled google sheet api.
+<br/><br/> 4. Now you enabled google sheet api.

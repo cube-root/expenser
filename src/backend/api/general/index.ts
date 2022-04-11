@@ -1,6 +1,6 @@
 import { addExpenseFields } from './add-expense-fields';
 const general = {
-    addExpenseFields
-}
+  addExpenseFields,
+};
 
-export default general
+export default general;
