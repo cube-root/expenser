@@ -60,6 +60,9 @@ const SideBar = () => {
   useEffect(() => {
     setUserData(data);
   }, [data]);
+  const photoUrl = userData && userData.photoUrl
+    ? userData.photoUrl
+    : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -147,11 +150,7 @@ const SideBar = () => {
                 <div className="p-2 mr-4 pl-4 flex flex-row w-full items-center">
                   <img
                     className="inline-block h-10 w-10 rounded-full"
-                    src={
-                      userData.photoUrl
-                        ? userData.photoUrl
-                        : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
-                    }
+                    src={photoUrl}
                     alt="profile"
                   />
                   <p className="font-mono pl-4">
@@ -214,11 +213,7 @@ const SideBar = () => {
             <div className="p-2 mr-4 pl-4 flex flex-row w-full items-center ">
               <img
                 className="inline-block h-10 w-10 rounded-full"
-                src={
-                  userData.photoUrl
-                    ? userData.photoUrl
-                    : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
-                }
+                src={photoUrl}
                 alt="profile"
               />
               <p className="font-mono pl-4">
