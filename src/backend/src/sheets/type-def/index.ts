@@ -1,13 +1,14 @@
 type Options = {
-    value: any,
-    label: String
-}
+  value: any;
+  label: string;
+};
 
 type Template = {
-    id: String,
-    name: String,
-    type: String,
-    isNullable?: Boolean,
-    options?: Array<Options>
-}
+  id: string;
+  name: string;
+  type: string;
+  isNullable?: boolean;
+  options?: Array<Options>;
+};
 
+export { Options, Template };

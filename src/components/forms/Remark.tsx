@@ -1,10 +1,5 @@
+const RemarkFormField = (props: any) => {
+  return <input {...props} />;
+};
 
-const RemarkFormField = (props:any)=>{
-    return (
-        <input 
-        {...props}
-        />
-    )
-}
-
-export default RemarkFormField
+export default RemarkFormField;

@@ -1,15 +1,15 @@
 [
-    {
-        "value": "$",
-        "label": "$",
-        "defaultValue": true
-    },
-    {
-        "value": "₹",
-        "label": "₹"
-    },
-    {
-        "value": "€",
-        "label": "€"
-    }
+  {
+    "value": "$",
+    "label": "$",
+    "defaultValue": true
+  },
+  {
+    "value": "₹",
+    "label": "₹"
+  },
+  {
+    "value": "€",
+    "label": "€"
+  }
 ]

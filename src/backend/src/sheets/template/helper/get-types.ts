@@ -1,3 +1,0 @@
-const getType = (data:any)=>{
-    
-}
