@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
@@ -16,7 +15,6 @@ const GetExpense = () => {
   const storage = hooks.GetStorageData();
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
-  const router = useRouter();
   const fetchData = async () => {
     try {
       setLoading(true);

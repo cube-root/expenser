@@ -77,14 +77,17 @@ const Login: NextPage | any = ({
     if (accessToken && callBackAfterLogin) {
       return callBackAfterLogin();
     }
-  }, [accessToken]);
+  }, [accessToken]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="grid grid-cols-1 gap-1 place-items-center content-center pt-96">
       <button
         onClick={googleLogin}
         className="hover:bg-white hover:text-black flex flex-col items-center text-white font-mono border border-white p-4 w-48   text-xl rounded-3xl"
       >
-        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" />
+        <img
+          src="https://img.icons8.com/fluency/48/000000/google-logo.png"
+          alt="google-logo"
+        />
         Login
       </button>
     </div>

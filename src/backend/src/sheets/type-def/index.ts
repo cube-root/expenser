@@ -3,6 +3,7 @@ type Options = {
   label: string;
 };
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 type Template = {
   id: string;
   name: string;
@@ -11,4 +12,4 @@ type Template = {
   options?: Array<Options>;
 };
 
-export { Options, Template };
+export {};

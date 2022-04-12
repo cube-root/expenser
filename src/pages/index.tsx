@@ -11,7 +11,10 @@ const Home = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <img src="https://img.icons8.com/color-glass/48/000000/github.png" />
+          <img
+            src="https://img.icons8.com/color-glass/48/000000/github.png"
+            alt="github logo"
+          />
         </a>
       </div>
       <div className="font-mono text-white place-items-center grid grid-cols-1 gap-1 content-center pt-56">
