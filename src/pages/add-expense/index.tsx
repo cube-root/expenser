@@ -1,10 +1,8 @@
-import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Header from '../../components/header';
 import Forms from '../../components/forms';
 import SideBar from '../../components/sidebar';
 import hooks from '../../hooks';

@@ -1,5 +1,4 @@
 import { Login } from '../../components';
-import styles from '../../styles/Home.module.css';
 import { useRouter } from 'next/router';
 
 type FirebaseConfigType = {

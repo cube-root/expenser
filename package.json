@@ -5,7 +5,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint:next": "next lint",
+    "lint:eslint": "eslint \"**/*.{ts,tsx}\" --max-warnings=0",
+    "lint:tsc": "tsc --noemit",
+    "lint": "run-p lint:*",
     "predeploy": "npm run build"
   },
   "dependencies": {
@@ -30,6 +33,7 @@
     "eslint": "^7.32.0",
     "eslint-config-next": "12.0.4",
     "lint-staged": "^12.3.7",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.3.11",
     "prettier": "^2.6.2",
     "tailwindcss": "^2.2.19",
@@ -43,9 +47,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix",
+      "eslint --fix --max-warnings=0",
       "git add"
     ],
+    "**/*.ts": "tsc-files --noEmit",
     "*.{html,css,less,ejs}": [
       "prettier --write",
       "git add"

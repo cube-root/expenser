@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Header from '../../components/header/index';
 import SetSpreadSheetId from '../../components/spreadsheet-id';
 import AddExpense from '../add-expense';
+
 const HomePage: NextPage = () => {
   const [spreadSheetLink, setSpreadSheetLink] = useState<any>(null);
   const router = useRouter();
@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
         router.push('/login');
       }
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="flex flex-col h-screen">
       {(spreadSheetLink === null || !spreadSheetLink) && (
