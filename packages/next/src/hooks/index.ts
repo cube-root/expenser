@@ -1,6 +1,7 @@
-import SheetStorage from './sheet-storage';
+import sheetStorage from './sheet-storage';
+
 const hooks = {
-  SheetStorage,
+  sheetStorage,
 };
 
 export default hooks;
