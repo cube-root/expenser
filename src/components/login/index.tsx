@@ -52,11 +52,10 @@ const Login: NextPage | any = ({
     provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
-        console.log(result);
         const updateRef = firestore.doc(db, firestoreUserCollectionTag, result.user.uid);
         await firestore.setDoc(updateRef, { name: result.user.displayName, email: result.user.email, photoUrl: result.user.photoURL });
-        setSessionToken(result._tokenResponse.oauthAccessToken);
-        setAccessToken({ token: result._tokenResponse.oauthAccessToken, global: global });
+        setSessionToken({ token: result._tokenResponse.oauthAccessToken, uid: result.user.uid });
+        setAccessToken(result._tokenResponse.oauthAccessToken);
       })
       .catch(console.error);
   };

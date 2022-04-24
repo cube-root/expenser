@@ -8,10 +8,12 @@ import { toast } from 'react-toastify';
 type CallBackFunction = (val: string) => any;
 type Props = {
   setSpreadSheetLinkCallBack?: CallBackFunction;
+  firebaseConfig: any;
 };
 
 const SetSpreadSheetId = ({
   setSpreadSheetLinkCallBack = () => undefined,
+  firebaseConfig
 }: Props) => {
   const spreadSheetLink = useRef('');
   const [isCreating, setCreating] = useState(false);
@@ -21,11 +23,10 @@ const SetSpreadSheetId = ({
   const data = hooks.GetStorageData();
   const setSpreadSheetLink = () => {
     if (window && spreadSheetLink.current.length !== 0) {
-      // window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
-      // window.localStorage.setItem('spreadSheetId', helper.extractSheet(spreadSheetLink.current));
       setStorageData({
         spreadSheetLink: spreadSheetLink.current,
         spreadSheetId: helper.extractSheet(spreadSheetLink.current),
+        firebaseConfig
       });
       setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
     }
