@@ -29,31 +29,14 @@
     "@types/react": "17.0.36",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
-    "autoprefixer": "^10.4.0",
+    "autoprefixer": "^10.4.5",
     "eslint": "^7.32.0",
     "eslint-config-next": "12.0.4",
     "lint-staged": "^12.3.7",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.3.11",
+    "postcss": "^8.4.12",
     "prettier": "^2.6.2",
-    "tailwindcss": "^2.2.19",
+    "tailwindcss": "^3.0.24",
     "typescript": "^4.5.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix --max-warnings=0",
-      "git add"
-    ],
-    "**/*.ts": "tsc-files --noEmit",
-    "*.{html,css,less,ejs}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }
