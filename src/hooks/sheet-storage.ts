@@ -10,6 +10,7 @@ const SheetStorage = () => {
    const updateData = async (data:any) => {
     const { spreadSheetId, spreadSheetLink, firebaseConfig } = data;
     let app;
+    console.log(firebaseConfig);
     try {
       const firebaseApps = firebase.getApp(firebaseTag);
       app = firebaseApps;
@@ -17,6 +18,7 @@ const SheetStorage = () => {
       app = firebase.initializeApp(firebaseConfig, firebaseTag);
     }
     const db = firestore.getFirestore(app);
+    const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
     const currentUser = window.sessionStorage.getItem('uid');
     if (currentUser && spreadSheetId) {
       const updateRef = firestore.doc(db, firestoreSheetCollectionTag, currentUser);

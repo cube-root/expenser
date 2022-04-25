@@ -53,7 +53,13 @@ const Login: NextPage | any = ({
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
         const updateRef = firestore.doc(db, firestoreUserCollectionTag, result.user.uid);
-        await firestore.setDoc(updateRef, { name: result.user.displayName, email: result.user.email, photoUrl: result.user.photoURL });
+        await firestore.setDoc(updateRef,
+          {
+            name: result.user.displayName,
+            email: result.user.email,
+            photoUrl: result.user.photoURL,
+            displayName: result.user.displayName
+          });
         setSessionToken({ token: result._tokenResponse.oauthAccessToken, uid: result.user.uid });
         setAccessToken(result._tokenResponse.oauthAccessToken);
       })
