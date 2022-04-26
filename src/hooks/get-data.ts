@@ -29,16 +29,38 @@ const GetStorageData = (firebaseConfig:any) => {
       const userId = window.sessionStorage.getItem('uid') || '';
       storageData['accessToken'] = window.sessionStorage.getItem('accessToken');
       storageData['uid'] = userId;
-      const sheetDockRef = firestore.doc(db, firestoreSheetCollectionTag, userId);
-      const userDocRef = firestore.doc(db, firestoreUserCollectionTag, userId);
-
-      const sheetDocSnapShot = await firestore.getDoc(sheetDockRef);
-      const userDocSnapShot = await firestore.getDoc(userDocRef);
-      if (sheetDocSnapShot.exists()) {
-        storageData['sheet'] = sheetDocSnapShot.data();
+      if (!window.sessionStorage.getItem("sheetId")) {
+        const sheetDockRef = firestore.doc(db, firestoreSheetCollectionTag, userId);
+        const sheetDocSnapShot = await firestore.getDoc(sheetDockRef);
+        if (sheetDocSnapShot.exists()) {
+          storageData['sheet'] = sheetDocSnapShot.data();
+          storageData['sheetId'] = sheetDocSnapShot.data().spreadSheetId;
+          storageData['sheetLink'] = sheetDocSnapShot.data().spreadSheetLink;
+          window.sessionStorage.setItem('sheetId', sheetDocSnapShot.data().spreadSheetId);
+          window.sessionStorage.setItem('sheetLink', sheetDocSnapShot.data().spreadSheetLink);
+        }
+      } else {
+        storageData['sheetId'] = window.sessionStorage.getItem("sheetId");
+        storageData['sheetLink'] = window.sessionStorage.getItem("sheetLink");
+        storageData['sheet'] = {
+          spreadSheetId: window.sessionStorage.getItem("sheetId"),
+          spreadSheetLink: window.sessionStorage.getItem("sheetLink"),
+        }
       }
-      if (userDocSnapShot.exists()) {
-        storageData['user'] = userDocSnapShot.data();
+      if (window.sessionStorage.getItem("isUserSet") !== 'true') {
+        const userDocRef = firestore.doc(db, firestoreUserCollectionTag, userId);
+        const userDocSnapShot = await firestore.getDoc(userDocRef);
+        if (userDocSnapShot.exists()) {
+          storageData['user'] = userDocSnapShot.data();
+          storageData['photoUrl'] = userDocSnapShot.data().photoUrl;
+          storageData['displayName'] = userDocSnapShot.data().displayName;
+          window.sessionStorage.setItem('photoUrl', userDocSnapShot.data().photoUrl);
+          window.sessionStorage.setItem('displayName', userDocSnapShot.data().displayName);
+          window.sessionStorage.setItem('isUserSet', 'true');
+        }
+      } else {
+        storageData['photoUrl'] = window.sessionStorage.getItem("photoUrl");
+        storageData['displayName'] = window.sessionStorage.getItem("displayName");
       }
       setData(storageData);
       setLoading(false);

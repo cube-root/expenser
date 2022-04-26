@@ -68,7 +68,7 @@ const Home = () => {
     }
     setData(newData);
 
-  }, [isLoading]);
+  }, [storageData]);
 
   return (
     <>

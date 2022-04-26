@@ -3,7 +3,8 @@ type localStorageData = {
     uid: string,
     photoUrl: string,
     displayName: string,
-    sheetId?: string
+    sheetId?: string,
+    sheetLink?: string,
 }
 const UseLocalStorage = (): any => {
 
@@ -12,11 +13,22 @@ const UseLocalStorage = (): any => {
         window.sessionStorage.setItem('uid', data.uid);
         window.sessionStorage.setItem('photoUrl', data.photoUrl);
         window.sessionStorage.setItem('displayName', data.displayName);
+        window.sessionStorage.setItem('isUserSet', 'true');
         if (data.sheetId)
             window.sessionStorage.setItem('sheetId', data.sheetId);
+        if (data.sheetLink)
+            window.sessionStorage.setItem('sheetLink', data.sheetLink);
     }
     const get = () => {
-        console.log(process.env)
+        const data: localStorageData = {
+            accessToken: window.sessionStorage.getItem('accessToken') || '',
+            uid: window.sessionStorage.getItem('uid') || '',
+            photoUrl: window.sessionStorage.getItem('photoUrl') || '',
+            displayName: window.sessionStorage.getItem('displayName') || '',
+            sheetId: window.sessionStorage.getItem('sheetId') || undefined,
+            sheetLink: window.sessionStorage.getItem('sheetLink') || undefined,
+        }
+        return data;
     }
 
     return [get, set];
