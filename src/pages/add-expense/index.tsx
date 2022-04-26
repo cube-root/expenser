@@ -13,8 +13,8 @@ import helper from '../../helper';
 const AddExpense = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
-  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(helper.getFirebaseConfig());
-  const [setToken, getAccessToken] = UseAccessToken();
+  const {data:storage} = GetStorageData(helper.getFirebaseConfig());
+  const [, getAccessToken] = UseAccessToken();
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');

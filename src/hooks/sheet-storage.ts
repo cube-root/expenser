@@ -18,7 +18,7 @@ const SheetStorage = () => {
         app = firebase.initializeApp({ ...firebaseConfig, projectId: process.env.PROJECT_ID }, firebaseTag);
       }
       const db = firestore.getFirestore(app);
-      const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
+      // const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
       const currentUser = window.sessionStorage.getItem('uid');
       if (currentUser && spreadSheetId) {
         const updateRef = firestore.doc(db, firestoreSheetCollectionTag, currentUser);

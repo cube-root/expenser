@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';

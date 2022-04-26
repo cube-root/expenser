@@ -25,7 +25,7 @@ const Login: NextPage | any = ({
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
-  const [getLocal,setLocal] = UseLocal();
+  const [,setLocal] = UseLocal();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {

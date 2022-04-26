@@ -19,8 +19,8 @@ const SetSpreadSheetId = ({
   const spreadSheetLink = useRef('');
   const [isCreating, setCreating] = useState(false);
   const router = useRouter();
-  const [storageData,setStorageData] = SheetStorage();
-  const [setToken,getAccessToken] = UseAccessToken();
+  const [,setStorageData] = SheetStorage();
+  const [,getAccessToken] = UseAccessToken();
 
   const setSpreadSheetLink = () => {
     if (window && spreadSheetLink.current.length !== 0) {
