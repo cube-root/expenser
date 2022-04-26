@@ -4,14 +4,7 @@ import GetStorageData from '../../hooks/get-data';
 import ErrorCard from '../../components/error-card';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-type FirebaseConfigType = {
-  FIREBASE_API_KEY: string | any;
-  FIREBASE_AUTH_DOMAIN: string | any;
-  PROJECT_ID: string | any;
-  STORAGE_BUCKET: string | any;
-  MESSAGING_SENDER_ID: string | any;
-  APP_ID: string | any;
-};
+import helper from '../../helper';
 
 function CompleteCard() {
   const router = useRouter();
@@ -61,9 +54,9 @@ function CompleteCard() {
   );
 }
 
-const Home = (props: { firebaseConfig: FirebaseConfigType }) => {
+const Home = () => {
   const [data, setData] = useState<any>([]);
-  const storage = GetStorageData(props.firebaseConfig);
+  const storage = GetStorageData(helper.getFirebaseConfig());
   const { isLoading, data: storageData } = storage;
   useEffect(() => {
     const newData: any = [];
@@ -107,19 +100,5 @@ const Home = (props: { firebaseConfig: FirebaseConfigType }) => {
     </>
   );
 };
-export async function getServerSideProps() {
-  return {
-    props: {
-      firebaseConfig: {
-        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-        FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
-        PROJECT_ID: process.env.PROJECT_ID,
-        STORAGE_BUCKET: process.env.STORAGE_BUCKET,
-        MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
-        APP_ID: process.env.APP_ID,
-      },
-    }, // will be passed to the page component as props
-  };
-}
 
 export default Home;

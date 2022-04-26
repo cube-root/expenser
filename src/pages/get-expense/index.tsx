@@ -8,21 +8,12 @@ import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid';
 import GetStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
+import helper from '../../helper'; 
 
-type FirebaseConfigType = {
-  FIREBASE_API_KEY: string | any;
-  FIREBASE_AUTH_DOMAIN: string | any;
-  PROJECT_ID: string | any;
-  STORAGE_BUCKET: string | any;
-  MESSAGING_SENDER_ID: string | any;
-  APP_ID: string | any;
-};
-
-
-const GetExpense = (props: { firebaseConfig: FirebaseConfigType }) => {
+const GetExpense = () => {
   const accessToken = useRef<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(props.firebaseConfig);
+  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(helper.getFirebaseConfig());
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
   const fetchData = async () => {
@@ -142,20 +133,4 @@ const GetExpense = (props: { firebaseConfig: FirebaseConfigType }) => {
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      firebaseConfig: {
-        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-        FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
-        PROJECT_ID: process.env.PROJECT_ID,
-        STORAGE_BUCKET: process.env.STORAGE_BUCKET,
-        MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
-        APP_ID: process.env.APP_ID,
-      },
-    }, // will be passed to the page component as props
-  };
-}
-
 export default GetExpense;
