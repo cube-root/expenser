@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { NextPage } from 'next';
 import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
-
+import UseLocal  from '../../hooks/local-storage';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -25,6 +25,7 @@ const Login: NextPage | any = ({
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
+  const [getLocal,setLocal] = UseLocal();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {
@@ -58,10 +59,18 @@ const Login: NextPage | any = ({
             name: result.user.displayName,
             email: result.user.email,
             photoUrl: result.user.photoURL,
-            displayName: result.user.displayName
+            displayName: result.user.displayName,
+            token: result._tokenResponse.oauthAccessToken,
+            uid: result.user.uid 
           });
         setSessionToken({ token: result._tokenResponse.oauthAccessToken, uid: result.user.uid });
         setAccessToken(result._tokenResponse.oauthAccessToken);
+        setLocal({
+            photoUrl: result.user.photoURL,
+            displayName: result.user.displayName,
+            accessToken: result._tokenResponse.oauthAccessToken,
+            uid: result.user.uid 
+        })
       })
       .catch(console.error);
   };

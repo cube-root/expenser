@@ -83,7 +83,7 @@ const GetExpense = (props: { firebaseConfig: FirebaseConfigType }) => {
             <div className="py-4 ">
               <div className="md:border-4 bg-black md:border-dashed md:border-gray-200 rounded-lg h-auto pb-10">
                 <div className="flex flex-col my-10 items-center">
-                  {isLoading && (
+                  {(isLoading || isLoadingStorageData) && (
                     <div className="flex flex-col items-center justify-center ">
                       <div className="p-4">
                         <RefreshIcon
