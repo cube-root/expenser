@@ -6,13 +6,23 @@ import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid';
-import hooks from '../../hooks';
+import GetStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
 
-const GetExpense = () => {
+type FirebaseConfigType = {
+  FIREBASE_API_KEY: string | any;
+  FIREBASE_AUTH_DOMAIN: string | any;
+  PROJECT_ID: string | any;
+  STORAGE_BUCKET: string | any;
+  MESSAGING_SENDER_ID: string | any;
+  APP_ID: string | any;
+};
+
+
+const GetExpense = (props: { firebaseConfig: FirebaseConfigType }) => {
   const accessToken = useRef<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const storage = hooks.GetStorageData();
+  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(props.firebaseConfig);
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
   const fetchData = async () => {
@@ -51,7 +61,7 @@ const GetExpense = () => {
   };
   useEffect(() => {
     const token = storage.accessToken;
-    const sheetIdLocal = storage.spreadSheetId;
+    const sheetIdLocal = storage && storage.sheet ? storage.sheet.spreadSheetId : undefined;
     if (token && sheetId) {
       accessToken.current = token;
       sheetId.current = sheetIdLocal;
@@ -132,5 +142,20 @@ const GetExpense = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      firebaseConfig: {
+        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+        FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+        PROJECT_ID: process.env.PROJECT_ID,
+        STORAGE_BUCKET: process.env.STORAGE_BUCKET,
+        MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
+        APP_ID: process.env.APP_ID,
+      },
+    }, // will be passed to the page component as props
+  };
+}
 
 export default GetExpense;

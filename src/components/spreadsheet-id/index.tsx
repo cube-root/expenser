@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import helper from '../../helper';
-import hooks from '../../hooks';
+import SheetStorage from '../../hooks/sheet-storage';
+import UseAccessToken from '../../hooks/access-token';
 import { toast } from 'react-toastify';
 
 type CallBackFunction = (val: string) => any;
@@ -19,8 +20,10 @@ const SetSpreadSheetId = ({
   const [isCreating, setCreating] = useState(false);
   const router = useRouter();
   // const [storageData, setStorageData] = hooks.SheetStorage();
-  const setStorageData = hooks.SheetStorage()[1]; // NOTE: Check for mistakes.
-  const data = hooks.GetStorageData();
+  const [storageData,setStorageData] = SheetStorage(); // NOTE: Check for mistakes.
+  // const data = hooks.GetStorageData();
+  const [setToken,getAccessToken] = UseAccessToken();
+
   const setSpreadSheetLink = () => {
     if (window && spreadSheetLink.current.length !== 0) {
       setStorageData({
@@ -33,7 +36,7 @@ const SetSpreadSheetId = ({
   };
   const createNewSheet = async () => {
     setCreating(true);
-    const accessToken = data.accessToken;
+    const accessToken = getAccessToken();
     try {
       const response = await axios.post(
         '/api/sheets/create',
@@ -55,6 +58,7 @@ const SetSpreadSheetId = ({
         setStorageData({
           spreadSheetLink: response.data.data.spreadsheetUrl,
           spreadSheetId: response.data.data.spreadsheetId,
+          firebaseConfig
         });
         toast.success('Sheet created successfully');
         router.push('/home');

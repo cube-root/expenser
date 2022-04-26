@@ -43,14 +43,6 @@ const GetStorageData = (firebaseConfig:any) => {
       setData(storageData);
       setLoading(false);
     })()
-
-    // storageData['photoUrl'] = window.sessionStorage.getItem('photoUrl');
-    // storageData['displayName'] = window.sessionStorage.getItem('displayName');
-    // const sheetData = JSON.parse(
-    //   window.localStorage.getItem('spreadSheetData') || '{}',
-    // );
-    // storageData = { ...storageData, ...sheetData[userId] };
-    // setData(storageData);
   }, []);
   return { isLoading, data };
 };

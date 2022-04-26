@@ -64,20 +64,18 @@ function CompleteCard() {
 const Home = (props: { firebaseConfig: FirebaseConfigType }) => {
   const [data, setData] = useState<any>([]);
   const storage = GetStorageData(props.firebaseConfig);
-  const { isLoading } = storage;
+  const { isLoading, data: storageData } = storage;
   useEffect(() => {
-    console.log('storage', storage);
-    // if (Object.keys(storage).length > 0) {
-    //   const data = [];
-    //   if (!storage.accessToken || !storage.uid) {
-    //     data.push('Problem with Access token. Please login again.');
-    //   }
-    //   if (!storage.spreadSheetId) {
-    //     data.push('Problem with Spreadsheet ID. Please configure sheet !!!.');
-    //   }
-    //   setData(data);
-    // }
-  }, [storage]);
+    const newData: any = [];
+    if (!storageData.accessToken) {
+      newData.push('Problem with Access token. Please login again.');
+    }
+    if (storageData && (!storageData.sheet || !storageData.sheet.spreadSheetId)) {
+      newData.push('Problem with Spreadsheet ID. Please configure sheet !!!.');
+    }
+    setData(newData);
+
+  }, [isLoading]);
 
   return (
     <>
