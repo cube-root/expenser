@@ -1,7 +1,15 @@
 import { extractSheet } from './extract-sheet-id';
 
+type FirebaseConfigType = {
+  FIREBASE_API_KEY: string | any;
+  FIREBASE_AUTH_DOMAIN: string | any;
+  PROJECT_ID: string | any;
+  STORAGE_BUCKET: string | any;
+  MESSAGING_SENDER_ID: string | any;
+  APP_ID: string | any;
+};
 
-const getFirebaseConfig = (): any => {
+const getFirebaseConfig = (): FirebaseConfigType => {
   return {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,

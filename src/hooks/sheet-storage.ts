@@ -7,29 +7,29 @@ const SheetStorage = () => {
   const [data, setData] = useState<any>({});
 
   useEffect(() => {
-   const updateData = async (data:any) => {
-    const { spreadSheetId, spreadSheetLink, firebaseConfig } = data;
-    let app;
-    console.log(firebaseConfig);
-    try {
-      const firebaseApps = firebase.getApp(firebaseTag);
-      app = firebaseApps;
-    } catch (error) {
-      app = firebase.initializeApp(firebaseConfig, firebaseTag);
+    const updateData = async (data: any) => {
+      const { spreadSheetId, spreadSheetLink, firebaseConfig } = data;
+      let app;
+      console.log(firebaseConfig);
+      try {
+        const firebaseApps = firebase.getApp(firebaseTag);
+        app = firebaseApps;
+      } catch (error) {
+        app = firebase.initializeApp({ ...firebaseConfig, projectId: process.env.PROJECT_ID }, firebaseTag);
+      }
+      const db = firestore.getFirestore(app);
+      const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
+      const currentUser = window.sessionStorage.getItem('uid');
+      if (currentUser && spreadSheetId) {
+        const updateRef = firestore.doc(db, firestoreSheetCollectionTag, currentUser);
+        await firestore.setDoc(updateRef, {
+          spreadSheetId,
+          spreadSheetLink,
+        });
+      }
     }
-    const db = firestore.getFirestore(app);
-    const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
-    const currentUser = window.sessionStorage.getItem('uid');
-    if (currentUser && spreadSheetId) {
-      const updateRef = firestore.doc(db, firestoreSheetCollectionTag, currentUser);
-      await firestore.setDoc(updateRef, {
-        spreadSheetId,
-        spreadSheetLink,
-      });
-    }
-   }
-   updateData(data)
-    
+    updateData(data)
+
   }, [data]);
   return [data, setData];
 };

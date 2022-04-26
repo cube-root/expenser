@@ -13,7 +13,7 @@ const GetStorageData = (firebaseConfig:any) => {
     const firebaseApps = firebase.getApp(firebaseTag);
     app = firebaseApps;
   } catch (error) {
-    app = firebase.initializeApp(firebaseConfig, firebaseTag);
+    app = firebase.initializeApp({...firebaseConfig,projectId: process.env.PROJECT_ID}, firebaseTag);
   }
   const db = firestore.getFirestore(app);
   // const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
