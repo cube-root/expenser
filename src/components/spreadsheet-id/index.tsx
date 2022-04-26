@@ -19,9 +19,7 @@ const SetSpreadSheetId = ({
   const spreadSheetLink = useRef('');
   const [isCreating, setCreating] = useState(false);
   const router = useRouter();
-  // const [storageData, setStorageData] = hooks.SheetStorage();
-  const [storageData,setStorageData] = SheetStorage(); // NOTE: Check for mistakes.
-  // const data = hooks.GetStorageData();
+  const [storageData,setStorageData] = SheetStorage();
   const [setToken,getAccessToken] = UseAccessToken();
 
   const setSpreadSheetLink = () => {
