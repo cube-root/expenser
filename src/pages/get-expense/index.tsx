@@ -6,13 +6,14 @@ import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid';
-import hooks from '../../hooks';
+import GetStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
+import helper from '../../helper'; 
 
 const GetExpense = () => {
   const accessToken = useRef<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const storage = hooks.GetStorageData();
+  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(helper.getFirebaseConfig());
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
   const fetchData = async () => {
@@ -51,7 +52,7 @@ const GetExpense = () => {
   };
   useEffect(() => {
     const token = storage.accessToken;
-    const sheetIdLocal = storage.spreadSheetId;
+    const sheetIdLocal = storage && storage.sheet ? storage.sheet.spreadSheetId : undefined;
     if (token && sheetId) {
       accessToken.current = token;
       sheetId.current = sheetIdLocal;
@@ -73,7 +74,7 @@ const GetExpense = () => {
             <div className="py-4 ">
               <div className="md:border-4 bg-black md:border-dashed md:border-gray-200 rounded-lg h-auto pb-10">
                 <div className="flex flex-col my-10 items-center">
-                  {isLoading && (
+                  {(isLoading || isLoadingStorageData) && (
                     <div className="flex flex-col items-center justify-center ">
                       <div className="p-4">
                         <RefreshIcon
@@ -132,5 +133,4 @@ const GetExpense = () => {
     </div>
   );
 };
-
 export default GetExpense;

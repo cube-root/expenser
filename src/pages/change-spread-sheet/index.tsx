@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import ChangeSpreadSheet from '../../components/spreadsheet-id';
 import SideBar from '../../components/sidebar';
+import helper from '../../helper';
 
 const ChangeSpreadSheetId = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const ChangeSpreadSheetId = () => {
                   setSpreadSheetLinkCallBack={(id: string) => {
                     callBack(id);
                   }}
+                  firebaseConfig={helper.getFirebaseConfig()}
                 />
               </div>
             </div>
@@ -34,5 +36,4 @@ const ChangeSpreadSheetId = () => {
     </div>
   );
 };
-
 export default ChangeSpreadSheetId;

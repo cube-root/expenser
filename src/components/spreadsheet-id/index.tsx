@@ -2,37 +2,39 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import helper from '../../helper';
-import hooks from '../../hooks';
+import SheetStorage from '../../hooks/sheet-storage';
+import UseAccessToken from '../../hooks/access-token';
 import { toast } from 'react-toastify';
 
 type CallBackFunction = (val: string) => any;
 type Props = {
   setSpreadSheetLinkCallBack?: CallBackFunction;
+  firebaseConfig: any;
 };
 
 const SetSpreadSheetId = ({
   setSpreadSheetLinkCallBack = () => undefined,
+  firebaseConfig
 }: Props) => {
   const spreadSheetLink = useRef('');
   const [isCreating, setCreating] = useState(false);
   const router = useRouter();
-  // const [storageData, setStorageData] = hooks.SheetStorage();
-  const setStorageData = hooks.SheetStorage()[1]; // NOTE: Check for mistakes.
-  const data = hooks.GetStorageData();
+  const [,setStorageData] = SheetStorage();
+  const [,getAccessToken] = UseAccessToken();
+
   const setSpreadSheetLink = () => {
     if (window && spreadSheetLink.current.length !== 0) {
-      // window.localStorage.setItem('spreadSheetLink', spreadSheetLink.current);
-      // window.localStorage.setItem('spreadSheetId', helper.extractSheet(spreadSheetLink.current));
       setStorageData({
         spreadSheetLink: spreadSheetLink.current,
         spreadSheetId: helper.extractSheet(spreadSheetLink.current),
+        firebaseConfig
       });
       setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
     }
   };
   const createNewSheet = async () => {
     setCreating(true);
-    const accessToken = data.accessToken;
+    const accessToken = getAccessToken();
     try {
       const response = await axios.post(
         '/api/sheets/create',
@@ -54,6 +56,7 @@ const SetSpreadSheetId = ({
         setStorageData({
           spreadSheetLink: response.data.data.spreadsheetUrl,
           spreadSheetId: response.data.data.spreadsheetId,
+          firebaseConfig
         });
         toast.success('Sheet created successfully');
         router.push('/home');

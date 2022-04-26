@@ -1,15 +1,12 @@
 import { useEffect } from 'react';
-// import { useRouter } from 'next/router';
 import * as firebase from 'firebase/app';
+import * as firestore from "firebase/firestore/lite";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-// import firebaseConfig from '../../config/firebase-config.json';
-// import styles from '../../styles/Home.module.css';
 import { useState } from 'react';
 import { NextPage } from 'next';
-import hooks from '../../hooks';
-
-const firebaseTag = 'login';
-
+import UseAccessToken from '../../hooks/access-token';
+import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
+import UseLocal  from '../../hooks/local-storage';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -26,10 +23,9 @@ const Login: NextPage | any = ({
   callBackAfterLogin = () => undefined, // NOTE: Check for mistakes.
   firebaseConfig: config,
 }: Props) => {
-  // const { accessToken } = useStore();
   const [accessToken, setAccessToken] = useState<any>(undefined);
-  // const router = useRouter();
-  const setData = hooks.UserStorage()[1]; // NOTE: Check for mistakes.
+  const [setSessionToken] = UseAccessToken();
+  const [,setLocal] = UseLocal();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {
@@ -48,27 +44,33 @@ const Login: NextPage | any = ({
     }
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
-    // provider.addScope('https://www.googleapis.com/auth/firebase');
-    // provider.addScope('https://www.googleapis.com/auth/cloudplatformprojects');
-    // provider.addScope('https://www.googleapis.com/auth/cloud-platform');
-
+    const db = firestore.getFirestore(app);
+    // const collection: any = firestore.collection(db, firestoreUserCollectionTag);
     provider.addScope('https://www.googleapis.com/auth/drive');
     provider.addScope('https://www.googleapis.com/auth/drive.readonly');
     provider.addScope('https://www.googleapis.com/auth/drive.file');
     provider.addScope('https://www.googleapis.com/auth/spreadsheets');
     provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
-      .then((result: any) => {
-        // store.setUserDetails(result.user)
-        // store.setAccessToken(result._tokenResponse.oauthAccessToken)
-        if (global) {
-          // global.sessionStorage.setItem('accessToken', result._tokenResponse.oauthAccessToken)
-          // global.sessionStorage.setItem('sign-in', JSON.stringify(result))
-          // global.sessionStorage.setItem('uid', result.user.uid)
-          // global.sessionStorage.setItem('photoUrl', result.user.photoURL)
-          setAccessToken(result._tokenResponse.oauthAccessToken);
-          setData({ result, global });
-        }
+      .then(async (result: any) => {
+        const updateRef = firestore.doc(db, firestoreUserCollectionTag, result.user.uid);
+        await firestore.setDoc(updateRef,
+          {
+            name: result.user.displayName,
+            email: result.user.email,
+            photoUrl: result.user.photoURL,
+            displayName: result.user.displayName,
+            token: result._tokenResponse.oauthAccessToken,
+            uid: result.user.uid 
+          });
+        setSessionToken({ token: result._tokenResponse.oauthAccessToken, uid: result.user.uid });
+        setAccessToken(result._tokenResponse.oauthAccessToken);
+        setLocal({
+            photoUrl: result.user.photoURL,
+            displayName: result.user.displayName,
+            accessToken: result._tokenResponse.oauthAccessToken,
+            uid: result.user.uid 
+        })
       })
       .catch(console.error);
   };

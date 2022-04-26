@@ -25,8 +25,9 @@
     "simpler-state": "^1.0.3"
   },
   "devDependencies": {
+    "@firebase/firestore-types": "^2.5.0",
     "@types/node": "16.11.9",
-    "@types/react": "17.0.36",
+    "@types/react": "^17.0.36",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "autoprefixer": "^10.4.0",
@@ -38,22 +39,5 @@
     "prettier": "^2.6.2",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.5.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix --max-warnings=0",
-      "git add"
-    ],
-    "**/*.ts": "tsc-files --noEmit",
-    "*.{html,css,less,ejs}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }
