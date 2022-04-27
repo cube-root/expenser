@@ -8,32 +8,26 @@ import SideBar from '../../components/sidebar';
 import { RefreshIcon } from '@heroicons/react/solid';
 import GetStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
-import helper from '../../helper'; 
+import helper from '../../helper';
 
 const GetExpense = () => {
   const accessToken = useRef<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const {isLoading: isLoadingStorageData,data:storage} = GetStorageData(helper.getFirebaseConfig());
+  const { isLoading: isLoadingStorageData, data: storage } = GetStorageData(helper.getFirebaseConfig());
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        '/api/v1/sheets/get',
-        {
-          accessToken: accessToken.current,
-          sheetId: sheetId.current,
-        },
+      const response = await axios.get(
+        `/api/v2/sheets/get?sheetId=${sheetId.current}`,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         },
       );
-      if (response.status && response.data) {
-        setData(response.data.data);
-      }
+      setData(response.data);
     } catch (error: any) {
       toast.error('Something went wrong. Please try again later.');
       if (
@@ -93,7 +87,7 @@ const GetExpense = () => {
                   {!isLoading && data && (
                     <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mx-3 pt-6">
                       {data.map((item: any, index) => {
-                        const { mapResult, meta } = item;
+                        const { data:mapResult, meta } = item;
                         return (
                           <Cards
                             meta={meta}
