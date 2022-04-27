@@ -10,7 +10,6 @@ const SheetStorage = () => {
     const updateData = async (data: any) => {
       const { spreadSheetId, spreadSheetLink, firebaseConfig } = data;
       let app;
-      console.log(firebaseConfig);
       try {
         const firebaseApps = firebase.getApp(firebaseTag);
         app = firebaseApps;
