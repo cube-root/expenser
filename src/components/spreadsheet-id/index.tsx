@@ -72,8 +72,8 @@ const SetSpreadSheetId = ({
 
   return (
     <div className="flex flex-col items-center justify-center  pt-10 w-auto">
-      <div className="border rounded-lg border-solid border-white text-white  hover:bg-white hover:text-black">
-        <button
+      <div className="rounded-lg border-solid border-white text-white  hover:bg-white hover:text-black">
+        {/* <button
           disabled={isCreating}
           onClick={() => {
             createNewSheet();
@@ -81,7 +81,8 @@ const SetSpreadSheetId = ({
           className="p-8 font-mono"
         >
           {isCreating ? 'Creating...' : 'Create New Sheet'}
-        </button>
+        </button> */}
+        Current Sheet: 
       </div>
       <div className=" flex flex-col  border rounded-lg border-solid border-white mt-10 items-center ">
         <label className="text-white font-mono text-lg pt-10">
