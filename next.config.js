@@ -11,5 +11,6 @@ module.exports = {
     STORAGE_BUCKET: process.env.STORAGE_BUCKET,
     MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
     APP_ID: process.env.APP_ID,
+    CLIENT_EMAIL: process.env.CLIENT_EMAIL
   }
 };

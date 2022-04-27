@@ -5,7 +5,7 @@ import helper from '../../helper';
 import SheetStorage from '../../hooks/sheet-storage';
 import UseAccessToken from '../../hooks/access-token';
 import { toast } from 'react-toastify';
-
+import UseLocalStorage from '../../hooks/local-storage';
 type CallBackFunction = (val: string) => any;
 type Props = {
   setSpreadSheetLinkCallBack?: CallBackFunction;
@@ -19,9 +19,10 @@ const SetSpreadSheetId = ({
   const spreadSheetLink = useRef('');
   const [isCreating, setCreating] = useState(false);
   const router = useRouter();
-  const [,setStorageData] = SheetStorage();
-  const [,getAccessToken] = UseAccessToken();
-
+  const [, setStorageData] = SheetStorage();
+  const [, getAccessToken] = UseAccessToken();
+  const [get] = UseLocalStorage();
+  const localData = get();
   const setSpreadSheetLink = () => {
     if (window && spreadSheetLink.current.length !== 0) {
       setStorageData({
@@ -82,11 +83,14 @@ const SetSpreadSheetId = ({
         >
           {isCreating ? 'Creating...' : 'Create New Sheet'}
         </button> */}
-        Current Sheet: 
+        Current Sheet: <a rel="noreferrer"  href={localData.sheetLink} target="_blank"> {localData.sheetLink}</a>
       </div>
       <div className=" flex flex-col  border rounded-lg border-solid border-white mt-10 items-center ">
         <label className="text-white font-mono text-lg pt-10">
           Paste sheet link here
+        </label>
+        <label className="text-white font-mono text-lg pt-10">
+          Please share it with &quot;{process.env.CLIENT_EMAIL}&quot;
         </label>
         <div className=" p-5 m-5  ">
           <input
