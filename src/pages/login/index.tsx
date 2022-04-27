@@ -18,9 +18,6 @@ const LoginPage = (props: { firebaseConfig: FirebaseConfigType }) => {
   return (
     <div className="bg-black h-screen w-screen">
       <Login callBackAfterLogin={loginCallBack} {...props} />
-      {/* <footer className={styles.footer}>
-                <span>Expenser</span>
-            </footer> */}
     </div>
   );
 };

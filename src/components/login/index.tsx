@@ -48,11 +48,11 @@ const Login: NextPage | any = ({
     const auth = getAuth(app);
     const db = firestore.getFirestore(app);
     // const collection: any = firestore.collection(db, firestoreUserCollectionTag);
-    provider.addScope('https://www.googleapis.com/auth/drive');
-    provider.addScope('https://www.googleapis.com/auth/drive.readonly');
-    provider.addScope('https://www.googleapis.com/auth/drive.file');
-    provider.addScope('https://www.googleapis.com/auth/spreadsheets');
-    provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
+    // provider.addScope('https://www.googleapis.com/auth/drive');
+    // provider.addScope('https://www.googleapis.com/auth/drive.readonly');
+    // provider.addScope('https://www.googleapis.com/auth/drive.file');
+    // provider.addScope('https://www.googleapis.com/auth/spreadsheets');
+    // provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
         const updateRef = firestore.doc(
@@ -70,7 +70,6 @@ const Login: NextPage | any = ({
           email: result.user.email,
           photoUrl: result.user.photoURL,
           displayName: result.user.displayName,
-          token: result._tokenResponse.oauthAccessToken,
           uid: result.user.uid,
           login_at: new Date(),
         });
