@@ -1,30 +1,34 @@
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+// import { useRouter } from 'next/router';
+// import axios from 'axios';
 import helper from '../../helper';
 import SheetStorage from '../../hooks/sheet-storage';
-import UseAccessToken from '../../hooks/access-token';
-import { toast } from 'react-toastify';
-import UseLocalStorage from '../../hooks/local-storage';
+// import UseAccessToken from '../../hooks/access-token';
+// import { toast } from 'react-toastify';
+// import UseLocalStorage from '../../hooks/local-storage';
+
 type CallBackFunction = (val: string) => any;
 type Props = {
   setSpreadSheetLinkCallBack?: CallBackFunction;
   firebaseConfig: any;
+  currentSheetLink?: string;
 };
 
 const SetSpreadSheetId = ({
   setSpreadSheetLinkCallBack = () => undefined,
-  firebaseConfig
+  firebaseConfig,
+  currentSheetLink,
 }: Props) => {
   const spreadSheetLink = useRef('');
-  const [isCreating, setCreating] = useState(false);
-  const router = useRouter();
+  const [isCreating,] = useState(false);
+  // const router = useRouter();
   const [, setStorageData] = SheetStorage();
-  const [, getAccessToken] = UseAccessToken();
-  const [get] = UseLocalStorage();
-  const localData = get();
+  // const [, getAccessToken] = UseAccessToken();
+  // const [get] = UseLocalStorage();
+  // const localData ={};
+  // const localData = get();
   const setSpreadSheetLink = () => {
-    if (window && spreadSheetLink.current.length !== 0) {
+    if (spreadSheetLink.current.length !== 0) {
       setStorageData({
         spreadSheetLink: spreadSheetLink.current,
         spreadSheetId: helper.extractSheet(spreadSheetLink.current),
@@ -33,49 +37,49 @@ const SetSpreadSheetId = ({
       setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
     }
   };
-  const createNewSheet = async () => {
-    setCreating(true);
-    const accessToken = getAccessToken();
-    try {
-      const response = await axios.post(
-        '/api/sheets/v1/create',
-        {
-          accessToken,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      if (
-        response &&
-        response.data &&
-        response.data.status &&
-        response.data.data
-      ) {
-        setStorageData({
-          spreadSheetLink: response.data.data.spreadsheetUrl,
-          spreadSheetId: response.data.data.spreadsheetId,
-          firebaseConfig
-        });
-        toast.success('Sheet created successfully');
-        router.push('/home');
-      } else {
-        toast.error('Something went wrong');
-      }
-    } catch (error: any) {
-      toast.error(error.message || 'Something went wrong');
-    } finally {
-      setCreating(false);
-    }
-  };
+  // const createNewSheet = async () => {
+  //   setCreating(true);
+  //   const accessToken = getAccessToken();
+  //   try {
+  //     const response = await axios.post(
+  //       '/api/sheets/v1/create',
+  //       {
+  //         accessToken,
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     );
+  //     if (
+  //       response &&
+  //       response.data &&
+  //       response.data.status &&
+  //       response.data.data
+  //     ) {
+  //       setStorageData({
+  //         spreadSheetLink: response.data.data.spreadsheetUrl,
+  //         spreadSheetId: response.data.data.spreadsheetId,
+  //         firebaseConfig
+  //       });
+  //       toast.success('Sheet created successfully');
+  //       router.push('/home');
+  //     } else {
+  //       toast.error('Something went wrong');
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(error.message || 'Something went wrong');
+  //   } finally {
+  //     setCreating(false);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center  pt-10 w-auto">
       <div className="rounded-lg border-solid border-white text-white  hover:bg-white hover:text-black">
         {/* <button
-          disabled={isCreating}
+          disabled={true}
           onClick={() => {
             createNewSheet();
           }}
@@ -83,7 +87,7 @@ const SetSpreadSheetId = ({
         >
           {isCreating ? 'Creating...' : 'Create New Sheet'}
         </button> */}
-        Current Sheet: <a rel="noreferrer"  href={localData.sheetLink} target="_blank"> {localData.sheetLink}</a>
+        Current Sheet: <a rel="noreferrer"  href={currentSheetLink} target="_blank"> {currentSheetLink}</a>
       </div>
       <div className=" flex flex-col  border rounded-lg border-solid border-white mt-10 items-center ">
         <label className="text-white font-mono text-lg pt-10">

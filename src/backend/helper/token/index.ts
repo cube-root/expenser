@@ -1,4 +1,3 @@
-import axios from "axios";
 import { google } from 'googleapis';
 import jwt from 'jsonwebtoken';
 import { getApp, getDB, getUser } from '../../src/api-helper/firebase/operations';
