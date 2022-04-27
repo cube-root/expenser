@@ -23,7 +23,7 @@ const convertValue = (values: Array<any>) => {
       mapColumnValue[columnLength]
     }`;
     meta['rowId'] = mainIndex + 1;
-    return { mapResult, meta };
+    return { data:mapResult, meta };
   });
   return result;
 };
