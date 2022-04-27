@@ -23,6 +23,8 @@ const GetExpense = () => {
         `/api/v1/sheets/get?sheetId=${sheetId.current}`,
         {
           headers: {
+            'API_KEY': storage.API_KEY,
+            'API_SECRET': storage.API_SECRET,
             'Content-Type': 'application/json',
           },
         },

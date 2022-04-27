@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {customAlphabet} from 'nanoid';
 
-const generateKey = (len = 30) => {
+const generateKey = (len = 50) => {
     const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#$&()', len)
     return nanoid();
 }

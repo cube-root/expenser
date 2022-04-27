@@ -58,10 +58,14 @@ const GetStorageData = (firebaseConfig:any) => {
           window.sessionStorage.setItem('photoUrl', userDocSnapShot.data().photoUrl);
           window.sessionStorage.setItem('displayName', userDocSnapShot.data().displayName);
           window.sessionStorage.setItem('isUserSet', 'true');
+          window.sessionStorage.setItem('API_KEY', userDocSnapShot.data().API_KEY);
+          window.sessionStorage.setItem('API_SECRET', userDocSnapShot.data().API_SECRET);
         }
       } else {
         storageData['photoUrl'] = window.sessionStorage.getItem("photoUrl");
         storageData['displayName'] = window.sessionStorage.getItem("displayName");
+        storageData['API_KEY'] = window.sessionStorage.getItem("API_KEY");
+        storageData['API_SECRET'] = window.sessionStorage.getItem("API_SECRET");
       }
       setData(storageData);
       setLoading(false);

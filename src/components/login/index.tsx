@@ -97,6 +97,8 @@ const Login: NextPage | any = ({
           displayName: result.user.displayName,
           accessToken: result._tokenResponse.oauthAccessToken,
           uid: result.user.uid,
+          API_KEY,
+          API_SECRET,
         });
       })
       .catch(console.error);

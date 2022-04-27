@@ -67,7 +67,6 @@ const SideBar = () => {
   const photoUrl = userData && userData.photoUrl
     ? userData.photoUrl
     : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
-    console.log(userData.photoUrl);
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
