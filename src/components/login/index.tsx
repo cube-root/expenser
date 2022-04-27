@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import * as firebase from 'firebase/app';
-import * as firestore from "firebase/firestore/lite";
+import * as firestore from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
 import { NextPage } from 'next';
 import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
-import UseLocal  from '../../hooks/local-storage';
+import UseLocal from '../../hooks/local-storage';
+import Image from 'next/image';
+
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -25,7 +27,7 @@ const Login: NextPage | any = ({
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
-  const [,setLocal] = UseLocal();
+  const [, setLocal] = UseLocal();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {
@@ -53,24 +55,30 @@ const Login: NextPage | any = ({
     provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
-        const updateRef = firestore.doc(db, firestoreUserCollectionTag, result.user.uid);
-        await firestore.setDoc(updateRef,
-          {
-            name: result.user.displayName,
-            email: result.user.email,
-            photoUrl: result.user.photoURL,
-            displayName: result.user.displayName,
-            token: result._tokenResponse.oauthAccessToken,
-            uid: result.user.uid 
-          });
-        setSessionToken({ token: result._tokenResponse.oauthAccessToken, uid: result.user.uid });
+        const updateRef = firestore.doc(
+          db,
+          firestoreUserCollectionTag,
+          result.user.uid,
+        );
+        await firestore.setDoc(updateRef, {
+          name: result.user.displayName,
+          email: result.user.email,
+          photoUrl: result.user.photoURL,
+          displayName: result.user.displayName,
+          token: result._tokenResponse.oauthAccessToken,
+          uid: result.user.uid,
+        });
+        setSessionToken({
+          token: result._tokenResponse.oauthAccessToken,
+          uid: result.user.uid,
+        });
         setAccessToken(result._tokenResponse.oauthAccessToken);
         setLocal({
-            photoUrl: result.user.photoURL,
-            displayName: result.user.displayName,
-            accessToken: result._tokenResponse.oauthAccessToken,
-            uid: result.user.uid 
-        })
+          photoUrl: result.user.photoURL,
+          displayName: result.user.displayName,
+          accessToken: result._tokenResponse.oauthAccessToken,
+          uid: result.user.uid,
+        });
       })
       .catch(console.error);
   };
@@ -81,17 +89,24 @@ const Login: NextPage | any = ({
     }
   }, [accessToken]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <div className="grid grid-cols-1 gap-1 place-items-center content-center pt-96">
-      <button
-        onClick={googleLogin}
-        className="hover:bg-white hover:text-black flex flex-col items-center text-white font-mono border border-white p-4 w-48   text-xl rounded-3xl"
-      >
-        <img
-          src="https://img.icons8.com/fluency/48/000000/google-logo.png"
-          alt="google-logo"
-        />
-        Login
-      </button>
+    <div className="flex h-screen items-center justify-center">
+      <div className="bg-slate-900 p-6 rounded flex flex-col items-center">
+        <h3 className="text-lg font-medium text-white mb-4">
+          Continue with google
+        </h3>
+        <button
+          onClick={googleLogin}
+          className="hover:bg-white hover:text-black flex items-center justify-center space-x-2 text-white font-mono border border-white px-4 py-2 text-xl">
+          <Image
+            src="/images/google-logo.png"
+            alt="google-logo"
+            height={30}
+            width={30}
+            quality={100}
+          />
+          <span>Login</span>
+        </button>
+      </div>
     </div>
   );
 };
