@@ -1,7 +1,7 @@
-import firebase from './api/helper/firebase';
-import sheets from './api/helper/sheet';
-import general from './api/helper/general';
-import { getSpreadSheetValue } from './api/v1/sheet/get';
+import firebase from './src/api/firebase';
+import sheets from './src/api/sheet';
+import general from './src/api/general';
+import { getSpreadSheetValue } from './src/routes/v1/sheet/get';
 const backendFunction = {
   firebase,
   sheets,

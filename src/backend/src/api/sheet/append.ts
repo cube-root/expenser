@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SHEET_URL } from './config';
-import sheets from '../../../src/sheets';
+import sheets from '../../../helper/sheets';
 
 const appendSpreadSheetValue = async (
   accessToken: string,

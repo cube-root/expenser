@@ -1,5 +1,5 @@
-import { getAccessToken } from '../../../src/token';
-import sheetHelper from '../../helper/sheet';
+import { getAccessToken } from '../../../../helper/token';
+import sheetHelper from '../../../api/sheet';
 const { getSpreadSheetValue: getValue } = sheetHelper
 const getSpreadSheetValue = async ({sheetId}:{sheetId: any}) => {
     const token = await getAccessToken();
