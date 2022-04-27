@@ -2,13 +2,6 @@ import { useEffect, useState } from 'react';
 
 const Storage = (): any => {
   const [userData, setUserData] = useState<any>({});
-  // useEffect(()=>{
-  //     const { result = {} } = userData;
-  //     const uidLocalStorage = window.localStorage.getItem('uid-localStorage');
-  //     if(result.user.uid !== uidLocalStorage){
-  //         // window.localStorage.clear();
-  //     }
-  // },[userData]);
   useEffect(() => {
     if (userData.global) {
       const { result = {} } = userData;

@@ -11,7 +11,7 @@ import {
   ClipboardListIcon,
 } from '@heroicons/react/outline';
 import { useEffect } from 'react';
-import hooks from '../../hooks';
+import GetStorageData from '../../hooks/local-storage';
 const classNames = (...classes: any) => {
   return classes.filter(Boolean).join(' ');
 };
@@ -44,7 +44,7 @@ const SideBar = () => {
   const [userData, setUserData] = useState<any>({});
   const [current, setCurrent] = useState('/home');
   const router = useRouter();
-  const data = hooks.GetStorageData();
+  const [getData] = GetStorageData();
   const changeRoute = (link: any) => {
     router.push(link);
   };
@@ -58,12 +58,16 @@ const SideBar = () => {
     }
   }, [router.pathname]);
   useEffect(() => {
-    setUserData(data);
-  }, [data]);
-  const photoUrl =
-    userData && userData.photoUrl
-      ? userData.photoUrl
-      : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png';
+    const data = getData();
+    setUserData({
+      displayName: data.displayName,
+      photoUrl: data.photoUrl,
+    })
+  }, [getData])
+  const photoUrl = userData && userData.photoUrl
+    ? userData.photoUrl
+    : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
+    console.log(userData.photoUrl);
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
