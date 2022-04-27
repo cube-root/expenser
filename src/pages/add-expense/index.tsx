@@ -37,6 +37,8 @@ const AddExpense = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            'API_KEY': storage.API_KEY,
+            'API_SECRET': storage.API_SECRET,
           },
         },
       );

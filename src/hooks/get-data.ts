@@ -8,7 +8,7 @@ const GetStorageData = (firebaseConfig:any) => {
   const [data, setData] = useState<any>({});
   const [isLoading, setLoading] = useState(false);
   let app;
-  app = firebase.initializeApp(firebaseConfig, 'firebaseTagx');
+
   try {
 
     const firebaseApps = firebase.getApp(firebaseTag);

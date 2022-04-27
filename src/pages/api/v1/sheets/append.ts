@@ -8,7 +8,13 @@ export default async function api(
     if (req.method === 'POST') {
         const { sheetId } = req.query;
         const { data } = req.body;
-        const response = await appendSpreadSheet({ sheetId, data });
+        const { api_secret: API_SECRET, api_key: API_KEY } = req.headers;
+        if (!API_KEY || !API_SECRET) {
+            return res.status(401).json({
+                error: 'Authorization header is missing',
+            });
+        }
+        const response = await appendSpreadSheet({ sheetId, data }, { API_KEY, API_SECRET });
         return res.status(200).json(response)
     } else {
         return res.status(500).json({

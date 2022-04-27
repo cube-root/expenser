@@ -8,11 +8,22 @@ export default async function api(
 ) {
     if (req.method === 'GET') {
         const { sheetId } = req.query;
-        const data = await getSpreadSheetValue({ sheetId });
-        return res.status(200).json(data)
+        const { api_secret: API_SECRET, api_key: API_KEY } = req.headers;
+        if (!API_KEY || !API_SECRET) {
+            return res.status(401).json({
+                error: 'Authorization header is missing',
+            });
+
+        }
+        try {
+            const data = await getSpreadSheetValue({ sheetId }, { API_KEY, API_SECRET });
+            return res.status(200).json(data)
+        } catch (error: any) {
+            return res.status(500).json({ error: error.message || 'Get api failed' })
+        }
     } else {
         return res.status(500).json({
-            message: "Method not allowed"
+            error: "Method not allowed"
         })
     }
 }
