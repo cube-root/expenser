@@ -31,7 +31,7 @@ const AddExpense = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        '/api/sheets/append',
+        '/api/sheets/v1/append',
         {
           accessToken: accessToken,
           sheetId: sheetId,

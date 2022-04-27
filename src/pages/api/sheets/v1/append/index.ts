@@ -1,37 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import handler from '../../../../backend';
+import handler from '../../../../../backend';
 
 type Data = {
   status: boolean;
   data?: any;
   message?: string;
-  serverError?: string;
-  actualErrorCode?: number;
 };
 
 export default async function api(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const { accessToken, sheetId } = req.body;
+  const { accessToken, sheetId, data } = req.body;
   try {
-    const response = await handler.sheets.getSpreadSheetValue(
+    const response = await handler.sheets.appendSpreadSheetValue(
       accessToken,
       sheetId,
-      '',
+      undefined,
+      data,
     );
     res.status(200).send({
       status: true,
       data: response,
     });
   } catch (error: any) {
-    const errorValue = error?.response?.data?.error?.message;
-    const actualErrorCode = error?.response?.data?.error?.code;
+    // console.error('sheet get api:', error.response.data, '\n\n', JSON.stringify(error.response.data));
     res.status(500).send({
       status: false,
       message: error.message || 'Something went wrong !!',
-      serverError: errorValue,
-      actualErrorCode,
     });
   }
 }

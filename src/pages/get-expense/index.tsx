@@ -20,7 +20,7 @@ const GetExpense = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        '/api/sheets/get',
+        '/api/sheets/v1/get',
         {
           accessToken: accessToken.current,
           sheetId: sheetId.current,

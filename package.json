@@ -16,6 +16,7 @@
     "@heroicons/react": "^1.0.5",
     "axios": "^0.24.0",
     "firebase": "^9.5.0",
+    "googleapis": "^100.0.0",
     "husky": "^4.3.8",
     "moment": "^2.29.1",
     "next": "12.0.4",

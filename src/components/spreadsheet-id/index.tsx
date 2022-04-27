@@ -37,7 +37,7 @@ const SetSpreadSheetId = ({
     const accessToken = getAccessToken();
     try {
       const response = await axios.post(
-        '/api/sheets/create',
+        '/api/sheets/v1/create',
         {
           accessToken,
         },

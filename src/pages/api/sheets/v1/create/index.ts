@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import handler from '../../../../backend';
+import handler from '../../../../../backend';
 
 type Data = {
   status: boolean;
