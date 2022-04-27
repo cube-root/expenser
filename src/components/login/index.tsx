@@ -60,6 +60,11 @@ const Login: NextPage | any = ({
           firestoreUserCollectionTag,
           result.user.uid,
         );
+        const userRef = await firestore.getDoc(updateRef);
+        let API_SECRET;
+        if(userRef.exists()){
+          // API_SECRET = userRef.data().API_SECRET;
+        }
         await firestore.setDoc(updateRef, {
           name: result.user.displayName,
           email: result.user.email,
@@ -67,6 +72,7 @@ const Login: NextPage | any = ({
           displayName: result.user.displayName,
           token: result._tokenResponse.oauthAccessToken,
           uid: result.user.uid,
+          login_at: new Date(),
         });
         setSessionToken({
           token: result._tokenResponse.oauthAccessToken,
