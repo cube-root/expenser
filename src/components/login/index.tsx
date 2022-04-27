@@ -8,7 +8,7 @@ import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
-
+import { generateToken, generateKey } from '../../helper';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -61,9 +61,21 @@ const Login: NextPage | any = ({
           result.user.uid,
         );
         const userRef = await firestore.getDoc(updateRef);
+
+        let API_KEY;
         let API_SECRET;
-        if(userRef.exists()){
-          // API_SECRET = userRef.data().API_SECRET;
+        if (userRef.exists() && userRef.data().API_KEY) {
+          API_KEY = userRef.data().API_KEY;
+        } else {
+          API_KEY = generateToken({
+            uid: result.user.uid,
+            email: result.user.email,
+          });
+        }
+        if (userRef.exists() && userRef.data().API_KEY) {
+          API_SECRET = userRef.data().API_SECRET;
+        } else {
+          API_SECRET = generateKey();
         }
         await firestore.setDoc(updateRef, {
           name: result.user.displayName,
@@ -72,6 +84,8 @@ const Login: NextPage | any = ({
           displayName: result.user.displayName,
           uid: result.user.uid,
           login_at: new Date(),
+          API_KEY,
+          API_SECRET
         });
         setSessionToken({
           token: result._tokenResponse.oauthAccessToken,

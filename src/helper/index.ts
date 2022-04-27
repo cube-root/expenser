@@ -1,5 +1,5 @@
 import { extractSheet } from './extract-sheet-id';
-
+import { generateToken, generateKey } from './jwt';
 type FirebaseConfigType = {
   FIREBASE_API_KEY: string | any;
   FIREBASE_AUTH_DOMAIN: string | any;
@@ -21,9 +21,14 @@ const getFirebaseConfig = (): FirebaseConfigType => {
     CLIENT_EMAIL: process.env.CLIENT_EMAIL,
   }
 }
+
 const helper = {
   extractSheet,
-  getFirebaseConfig
-};
+  getFirebaseConfig,
 
+};
+export {
+  generateToken,
+  generateKey
+}
 export default helper;
