@@ -60,9 +60,6 @@ const Home = () => {
   const { isLoading, data: storageData } = storage;
   useEffect(() => {
     const newData: any = [];
-    if (!storageData.accessToken) {
-      newData.push('Problem with Access token. Please login again.');
-    }
     if (storageData && (!storageData.sheet || !storageData.sheet.spreadSheetId)) {
       newData.push('Problem with Spreadsheet ID. Please configure sheet !!!.');
     }
