@@ -14,7 +14,6 @@ const getSpreadSheetValue = async (
   } else {
     tempRange = range;
   }
-  console.log(`${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`);
   const response = await axios.get(
     `${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`,
     {
