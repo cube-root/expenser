@@ -1,13 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSpreadSheetValue } from '../../../../backend';
-
-type Data = {
-    status?: boolean;
-    data?: any;
-    message?: string;
-    serverError?: string;
-    actualErrorCode?: number;
-};
+import { sheets } from '../../../../backend';
+const { getSpreadSheetValue } = sheets;
 
 export default async function api(
     req: NextApiRequest,

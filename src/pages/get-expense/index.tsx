@@ -20,7 +20,7 @@ const GetExpense = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `/api/v2/sheets/get?sheetId=${sheetId.current}`,
+        `/api/v1/sheets/get?sheetId=${sheetId.current}`,
         {
           headers: {
             'Content-Type': 'application/json',
