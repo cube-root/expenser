@@ -2,10 +2,10 @@ import { useRouter } from 'next/router';
 import ChangeSpreadSheet from '../../components/spreadsheet-id';
 import SideBar from '../../components/sidebar';
 import helper from '../../helper';
-
+import UseStorage from '../../hooks/get-data';
 const ChangeSpreadSheetId = () => {
   const router = useRouter();
-
+  const {data} = UseStorage(helper.getFirebaseConfig());
   const callBack = (spreadSheetId: string) => {
     if (spreadSheetId) {
       router.push('/home');
@@ -27,6 +27,7 @@ const ChangeSpreadSheetId = () => {
                     callBack(id);
                   }}
                   firebaseConfig={helper.getFirebaseConfig()}
+                  currentSheetLink={data.sheetLink}
                 />
               </div>
             </div>

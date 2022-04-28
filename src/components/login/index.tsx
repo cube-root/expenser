@@ -8,7 +8,7 @@ import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
-
+import { generateToken, generateKey } from '../../helper';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -48,11 +48,11 @@ const Login: NextPage | any = ({
     const auth = getAuth(app);
     const db = firestore.getFirestore(app);
     // const collection: any = firestore.collection(db, firestoreUserCollectionTag);
-    provider.addScope('https://www.googleapis.com/auth/drive');
-    provider.addScope('https://www.googleapis.com/auth/drive.readonly');
-    provider.addScope('https://www.googleapis.com/auth/drive.file');
-    provider.addScope('https://www.googleapis.com/auth/spreadsheets');
-    provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
+    // provider.addScope('https://www.googleapis.com/auth/drive');
+    // provider.addScope('https://www.googleapis.com/auth/drive.readonly');
+    // provider.addScope('https://www.googleapis.com/auth/drive.file');
+    // provider.addScope('https://www.googleapis.com/auth/spreadsheets');
+    // provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
         const updateRef = firestore.doc(
@@ -60,13 +60,32 @@ const Login: NextPage | any = ({
           firestoreUserCollectionTag,
           result.user.uid,
         );
+        const userRef = await firestore.getDoc(updateRef);
+
+        let API_KEY;
+        let API_SECRET;
+        if (userRef.exists() && userRef.data().API_KEY) {
+          API_KEY = userRef.data().API_KEY;
+        } else {
+          API_KEY = generateToken({
+            uid: result.user.uid,
+            email: result.user.email,
+          });
+        }
+        if (userRef.exists() && userRef.data().API_KEY) {
+          API_SECRET = userRef.data().API_SECRET;
+        } else {
+          API_SECRET = generateKey();
+        }
         await firestore.setDoc(updateRef, {
           name: result.user.displayName,
           email: result.user.email,
           photoUrl: result.user.photoURL,
           displayName: result.user.displayName,
-          token: result._tokenResponse.oauthAccessToken,
           uid: result.user.uid,
+          login_at: new Date(),
+          API_KEY,
+          API_SECRET
         });
         setSessionToken({
           token: result._tokenResponse.oauthAccessToken,
@@ -78,6 +97,8 @@ const Login: NextPage | any = ({
           displayName: result.user.displayName,
           accessToken: result._tokenResponse.oauthAccessToken,
           uid: result.user.uid,
+          API_KEY,
+          API_SECRET,
         });
       })
       .catch(console.error);

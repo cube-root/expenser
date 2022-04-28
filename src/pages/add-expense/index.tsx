@@ -13,14 +13,13 @@ import helper from '../../helper';
 const AddExpense = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
-  const {data:storage} = GetStorageData(helper.getFirebaseConfig());
+  const { data: storage } = GetStorageData(helper.getFirebaseConfig());
   const [, getAccessToken] = UseAccessToken();
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');
   const currency = useRef<string>('$');
   const fetchData = async ({
-    accessToken,
     sheetId,
     inputData,
   }: {
@@ -30,25 +29,20 @@ const AddExpense = () => {
   }) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        '/api/sheets/append',
+      await axios.post(
+        `/api/v1/sheets/append?sheetId=${sheetId}`,
         {
-          accessToken: accessToken,
-          sheetId: sheetId,
           data: inputData,
         },
         {
           headers: {
             'Content-Type': 'application/json',
+            'API_KEY': storage.API_KEY,
+            'API_SECRET': storage.API_SECRET,
           },
         },
       );
-      if (response.data.status) {
-        // setData(response.data.data)
-        toast.success('Expense added successfully');
-      } else {
-        // TODO error
-      }
+      toast.success('Expense added successfully');
     } catch (error: any) {
       console.log(error);
       toast.error('Failed to add expense');

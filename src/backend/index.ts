@@ -1,11 +1,4 @@
-import firebase from './api/firebase';
-import sheets from './api/sheet';
-import general from './api/general';
+import * as sheets from './src/routes/v1/sheet';
 
-const backendFunction = {
-  firebase,
-  sheets,
-  general,
-};
+export { sheets };
 
-export default backendFunction;

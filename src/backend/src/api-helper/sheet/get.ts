@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { SHEET_URL } from './config';
-import sheets from '../../src/sheets';
+import sheets from '../../../helper/sheets';
 
 const getSpreadSheetValue = async (
   accessToken: string,
   spreadSheetId: string,
-  range: string | undefined,
+  range?: string | undefined,
 ) => {
   let tempRange;
   if (!range) {
@@ -14,7 +14,6 @@ const getSpreadSheetValue = async (
   } else {
     tempRange = range;
   }
-  console.log(`${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`);
   const response = await axios.get(
     `${SHEET_URL}/spreadsheets/${spreadSheetId}/values/${tempRange}`,
     {
