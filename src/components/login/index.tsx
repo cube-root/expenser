@@ -61,7 +61,6 @@ const Login: NextPage | any = ({
           result.user.uid,
         );
         const userRef = await firestore.getDoc(updateRef);
-
         let API_KEY;
         let API_SECRET;
         if (userRef.exists() && userRef.data().API_KEY) {
@@ -85,10 +84,11 @@ const Login: NextPage | any = ({
           uid: result.user.uid,
           login_at: new Date(),
           API_KEY,
-          API_SECRET
+          API_SECRET,
         });
         setSessionToken({
           token: result._tokenResponse.oauthAccessToken,
+          idToken: result._tokenResponse.idToken,
           uid: result.user.uid,
         });
         setAccessToken(result._tokenResponse.oauthAccessToken);
