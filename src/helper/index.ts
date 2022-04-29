@@ -29,6 +29,7 @@ const helper = {
 };
 export {
   generateToken,
-  generateKey
+  generateKey,
+  getFirebaseConfig
 }
 export default helper;

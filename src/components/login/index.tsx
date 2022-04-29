@@ -8,11 +8,11 @@ import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
-import { generateToken, generateKey } from '../../helper';
+import { generateToken, generateKey,getFirebaseConfig } from '../../helper';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
-  firebaseConfig: {
+  firebaseConfig ?: {
     FIREBASE_API_KEY: string | any;
     FIREBASE_AUTH_DOMAIN: string | any;
     PROJECT_ID: string | any;
@@ -23,11 +23,11 @@ type Props = {
 };
 const Login: NextPage | any = ({
   callBackAfterLogin = () => undefined, // NOTE: Check for mistakes.
-  firebaseConfig: config,
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
   const [, setLocal] = UseLocal();
+  const config:any = getFirebaseConfig();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {
