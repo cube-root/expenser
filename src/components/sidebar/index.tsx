@@ -10,6 +10,7 @@ import {
   XIcon,
   CogIcon,
   ClipboardListIcon,
+  PuzzleIcon
 } from '@heroicons/react/outline';
 import { useEffect } from 'react';
 import GetStorageData from '../../hooks/local-storage';
@@ -37,6 +38,11 @@ const navigation = [
     icon: CogIcon,
     current: false,
   },
+  {
+    name: 'Integrations',
+    href: '/integrations',
+    icon: PuzzleIcon,
+  }
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ];
 
@@ -46,6 +52,7 @@ const SideBar = () => {
   const [current, setCurrent] = useState('/home');
   const router = useRouter();
   const [getData] = GetStorageData();
+  const data = getData();
   const changeRoute = (link: any) => {
     router.push(link);
   };
@@ -59,12 +66,11 @@ const SideBar = () => {
     }
   }, [router.pathname]);
   useEffect(() => {
-    const data = getData();
     setUserData({
       displayName: data.displayName,
       photoUrl: data.photoUrl,
     })
-  },[])
+  },[data])
   const photoUrl = userData && userData.photoUrl
     ? userData.photoUrl
     : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
