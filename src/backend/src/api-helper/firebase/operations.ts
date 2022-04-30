@@ -35,8 +35,25 @@ const getUser = async (db: any, uuid: any) => {
     return userDocSnapShot.data();
 
 }
+
+const getUserByEmail = async(db:any,email:string) => {
+    const collection: any = firestore.collection(db, firestoreUserCollectionTag);
+    const query = firestore.query(collection, firestore.where('email', '==', email));
+    const userDocSnapShot = await firestore.getDocs(query);
+    let result:any = userDocSnapShot.docs.map(doc => doc.data())
+    if(result.length ===0){
+        throw new Error('User not found');
+    }else{
+        result = result.find((data:any)=> data.email === email)
+        return {
+            API_KEY: result.API_KEY,
+            API_SECRET: result.API_SECRET
+        }
+    }
+}
 export {
     getApp,
     getDB,
-    getUser
+    getUser,
+    getUserByEmail
 }

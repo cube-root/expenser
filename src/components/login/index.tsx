@@ -8,11 +8,11 @@ import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
-import { generateToken, generateKey } from '../../helper';
+import { generateToken, generateKey,getFirebaseConfig } from '../../helper';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
-  firebaseConfig: {
+  firebaseConfig ?: {
     FIREBASE_API_KEY: string | any;
     FIREBASE_AUTH_DOMAIN: string | any;
     PROJECT_ID: string | any;
@@ -23,11 +23,11 @@ type Props = {
 };
 const Login: NextPage | any = ({
   callBackAfterLogin = () => undefined, // NOTE: Check for mistakes.
-  firebaseConfig: config,
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
   const [, setLocal] = UseLocal();
+  const config:any = getFirebaseConfig();
   const googleLogin = () => {
     let app;
     const firebaseConfigureJson = {
@@ -61,7 +61,6 @@ const Login: NextPage | any = ({
           result.user.uid,
         );
         const userRef = await firestore.getDoc(updateRef);
-
         let API_KEY;
         let API_SECRET;
         if (userRef.exists() && userRef.data().API_KEY) {
@@ -85,10 +84,11 @@ const Login: NextPage | any = ({
           uid: result.user.uid,
           login_at: new Date(),
           API_KEY,
-          API_SECRET
+          API_SECRET,
         });
         setSessionToken({
           token: result._tokenResponse.oauthAccessToken,
+          idToken: result._tokenResponse.idToken,
           uid: result.user.uid,
         });
         setAccessToken(result._tokenResponse.oauthAccessToken);

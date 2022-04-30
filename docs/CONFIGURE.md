@@ -91,4 +91,14 @@ Now we need to enable google sheet api from the cloud console. Go to [https://co
 3. On the next page enable the sheet api.
    <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-2.png?raw=true">
 
-<br/><br/> 4. Now you enabled google sheet api.
+<br/><br/>
+
+ 4. Now you enabled google sheet api.
+
+ <br/><br/>
+ 5. Create a new service account from the "IAm & Admin" section in the google console and download the json service account file.
+ <img src="https://github.com/cube-root/expenser/blob/main/docs/screenshots/google-cloud-service.png?raw=true">
+<br/><br/>
+6. From the service account file, create ENV variables as "SERVICE_ACCOUNT_PRIVATE_KEY" for "private_key" key in service account json file and "CLIENT_EMAIL" for "client_email" key in service account json file 
+
+

@@ -1,7 +1,7 @@
 const UseAccessToken = (): any => {
     const setToken = (result: any) => {
         if (window && result) {
-            const { token, uid } = result;
+            const { token, uid, idToken } = result;
             window
                 .sessionStorage
                 .setItem('uid',
@@ -9,6 +9,7 @@ const UseAccessToken = (): any => {
                         ? uid
                         : `${uid}`
                 );
+            window.sessionStorage.setItem('idToken', idToken);
             window
                 .sessionStorage
                 .setItem('accessToken',
