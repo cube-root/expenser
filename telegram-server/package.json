@@ -1,0 +1,23 @@
+{
+  "name": "telegram-server",
+  "version": "0.0.1",
+  "description": "Telegram bot to add expense",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node ./build/index.js",
+    "dev": "nodemon src/index.ts"
+  },
+  "author": "Abhijith V <abhijithababhijith@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "tslint": "^6.1.3",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.7.0"
+  }
+}
