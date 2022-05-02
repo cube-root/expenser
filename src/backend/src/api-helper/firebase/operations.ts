@@ -1,6 +1,6 @@
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';
-import { firebaseTag, firestoreUserCollectionTag } from '../../../../config/tag';
+import { firebaseTag, firestoreUserCollectionTag, firestoreTelegramCollectionTag } from '../../../../config/tag';
 const getApp = () => {
     let app;
     const firebaseConfig: any = {
@@ -36,24 +36,54 @@ const getUser = async (db: any, uuid: any) => {
 
 }
 
-const getUserByEmail = async(db:any,email:string) => {
+const getUserByEmail = async (db: any, email: string) => {
     const collection: any = firestore.collection(db, firestoreUserCollectionTag);
     const query = firestore.query(collection, firestore.where('email', '==', email));
     const userDocSnapShot = await firestore.getDocs(query);
-    let result:any = userDocSnapShot.docs.map(doc => doc.data())
-    if(result.length ===0){
+    let result: any = userDocSnapShot.docs.map(doc => doc.data())
+    if (result.length === 0) {
         throw new Error('User not found');
-    }else{
-        result = result.find((data:any)=> data.email === email)
+    } else {
+        result = result.find((data: any) => data.email === email)
         return {
             API_KEY: result.API_KEY,
             API_SECRET: result.API_SECRET
         }
     }
 }
+const getUserBySecret = async (db: any, secret?: string) => {
+    const collection: any = firestore.collection(db, firestoreUserCollectionTag);
+    const query = firestore.query(collection, firestore.where('API_SECRET', '==', secret?.trim()));
+    const userDocSnapShot = await firestore.getDocs(query);
+    let result: any = userDocSnapShot.docs.map(doc => doc.data())
+    if (result.length === 0) {
+        throw new Error('User not found');
+    } else {
+        result = result.find((data: any) => data.API_SECRET === secret?.trim())
+        return {
+            uid: result.uid,
+            email: result.email
+        }
+    }
+}
+const setTelegramChatId = async (db: any, chatId: string, data: any) => {
+    const updateRef = firestore.doc(
+        db,
+        firestoreTelegramCollectionTag,
+        chatId,
+    );
+    
+    await firestore.setDoc(updateRef, {
+        uuid: data.uid,
+        email: data.email,
+    });
+    
+}
 export {
     getApp,
     getDB,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    getUserBySecret,
+    setTelegramChatId
 }

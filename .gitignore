@@ -46,3 +46,6 @@ yarn-error.log*
 */node_modules/
 
 */build
+
+*/.env.local
+*/.env

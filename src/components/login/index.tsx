@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as firebase from 'firebase/app';
 import * as firestore from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useState } from 'react';
 import { NextPage } from 'next';
 import UseAccessToken from '../../hooks/access-token';
 import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
-import { generateToken, generateKey,getFirebaseConfig } from '../../helper';
+import { generateToken, generateKey, getFirebaseConfig } from '../../helper';
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
-  firebaseConfig ?: {
+  firebaseConfig?: {
     FIREBASE_API_KEY: string | any;
     FIREBASE_AUTH_DOMAIN: string | any;
     PROJECT_ID: string | any;
@@ -26,9 +25,11 @@ const Login: NextPage | any = ({
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
   const [setSessionToken] = UseAccessToken();
+  const [isLoading, setLoading] = useState(false);
   const [, setLocal] = UseLocal();
-  const config:any = getFirebaseConfig();
+  const config: any = getFirebaseConfig();
   const googleLogin = () => {
+    setLoading(true)
     let app;
     const firebaseConfigureJson = {
       apiKey: config.FIREBASE_API_KEY,
@@ -100,8 +101,10 @@ const Login: NextPage | any = ({
           API_KEY,
           API_SECRET,
         });
+        setLoading(false)
       })
       .catch(console.error);
+      
   };
 
   useEffect(() => {
@@ -116,6 +119,7 @@ const Login: NextPage | any = ({
           Continue with google
         </h3>
         <button
+          disabled={isLoading}
           onClick={googleLogin}
           className="hover:bg-white hover:text-black flex items-center justify-center space-x-2 text-white font-mono border border-white px-4 py-2 text-xl">
           <Image
@@ -125,7 +129,7 @@ const Login: NextPage | any = ({
             width={30}
             quality={100}
           />
-          <span>Login</span>
+          <span>{isLoading ? 'Loading...' : 'Login'}</span>
         </button>
       </div>
     </div>
