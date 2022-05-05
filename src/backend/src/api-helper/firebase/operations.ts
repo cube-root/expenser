@@ -1,6 +1,11 @@
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';
-import { firebaseTag, firestoreUserCollectionTag, firestoreTelegramCollectionTag } from '../../../../config/tag';
+import {
+    firebaseTag,
+    firestoreUserCollectionTag,
+    firestoreTelegramCollectionTag,
+    firestoreSheetCollectionTag
+} from '../../../../config/tag';
 const getApp = () => {
     let app;
     const firebaseConfig: any = {
@@ -62,7 +67,9 @@ const getUserBySecret = async (db: any, secret?: string) => {
         result = result.find((data: any) => data.API_SECRET === secret?.trim())
         return {
             uid: result.uid,
-            email: result.email
+            email: result.email,
+            API_KEY: result.API_KEY,
+            API_SECRET: result.API_SECRET
         }
     }
 }
@@ -72,12 +79,32 @@ const setTelegramChatId = async (db: any, chatId: string, data: any) => {
         firestoreTelegramCollectionTag,
         chatId,
     );
-    
     await firestore.setDoc(updateRef, {
         uuid: data.uid,
         email: data.email,
+        API_KEY: data.API_KEY,
+        API_SECRET: data.API_SECRET,
     });
-    
+
+}
+
+
+const getTelegramChatId = async (db: any, chatId: string) => {
+    const chatDocRef = firestore.doc(db, firestoreTelegramCollectionTag, chatId);
+    const chatSnapShot = await firestore.getDoc(chatDocRef);
+    if (!chatSnapShot.exists()) {
+        throw new Error('Telegram Chat not found');
+    }
+    return chatSnapShot.data();
+}
+
+const getSheetData = async (db: any, uid: string) => {
+    const sheetDataRef = firestore.doc(db, firestoreSheetCollectionTag, uid);
+    const sheetDataSnapShot = await firestore.getDoc(sheetDataRef);
+    if (!sheetDataSnapShot.exists()) {
+        throw new Error('Sheet data not found');
+    }
+    return sheetDataSnapShot.data();
 }
 export {
     getApp,
@@ -85,5 +112,7 @@ export {
     getUser,
     getUserByEmail,
     getUserBySecret,
-    setTelegramChatId
+    setTelegramChatId,
+    getTelegramChatId,
+    getSheetData
 }
