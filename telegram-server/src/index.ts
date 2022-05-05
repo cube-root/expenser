@@ -14,16 +14,16 @@ command: /configure API_KEY API_SECRET
 2. Add Expense \n
 command: /add --amount=250 --type=food --currency=$ --remark=test\n
 `
-bot.start((ctx) => {
+bot.start((ctx:any) => {
     ctx.reply(message, {
         parse_mode: 'HTML'
     })
 })
 
-bot.command('/configure', async (ctx) => {
+bot.command('/configure', async (ctx: any) => {
     const x = ctx.message;
     let keys = x.text.split('/configure');
-    keys = keys.filter(x => x !== '');
+    keys = keys.filter((x: any) => x !== '');
     const API_SECRET = keys[0];
     ctx.reply('Please wait while configuring')
     try {
@@ -46,11 +46,11 @@ bot.command('/configure', async (ctx) => {
 
 
 
-bot.command('/add', async (ctx) => {
+bot.command('/add', async (ctx: any) => {
     const x = ctx.message;
-    let keys = x.text.split('/add').filter(y => y !== '');
-    keys = keys[0].split(' ').filter(y => y !== '');
-    const data:{
+    let keys = x.text.split('/add').filter((y: any) => y !== '');
+    keys = keys[0].split(' ').filter((y: any) => y !== '');
+    const data: {
         amount?: number,
         remark?: string,
         type?: string,
