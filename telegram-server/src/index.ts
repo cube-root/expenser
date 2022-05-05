@@ -31,11 +31,11 @@ bot.command('/configure', async (ctx) => {
             ctx.reply('Please enter API_SECRET')
         }
         else {
-            const response = await axios.post(`${url}/api/v1/integrations/telegram/configure`, {
+            await axios.post(`${url}/api/v1/integrations/telegram/configure`, {
                 API_SECRET,
                 CHAT_ID: ctx.chat.id
             })
-            ctx.reply('Configured')
+            ctx.reply('Configured Successfully')
         }
     } catch (error) {
         console.log(error);
