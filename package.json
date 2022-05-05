@@ -1,6 +1,7 @@
 {
   "name": "expenser",
   "private": true,
+  "author": "Abhijith V <abhijithababhijith@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

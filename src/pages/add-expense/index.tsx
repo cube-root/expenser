@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import Forms from '../../components/forms';
 import SideBar from '../../components/sidebar';
 import GetStorageData from '../../hooks/get-data'
-import UseAccessToken from '../../hooks/access-token';
 import helper from '../../helper';
 
 
@@ -14,7 +13,6 @@ const AddExpense = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const { data: storage } = GetStorageData(helper.getFirebaseConfig());
-  const [, getAccessToken] = UseAccessToken();
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');
@@ -23,7 +21,6 @@ const AddExpense = () => {
     sheetId,
     inputData,
   }: {
-    accessToken: any;
     sheetId: string;
     inputData: any;
   }) => {
@@ -55,13 +52,11 @@ const AddExpense = () => {
     if (global) {
       setLoading(true);
       const sheetId = storage && storage.sheet ? storage.sheet.spreadSheetId : undefined;
-      const accessToken = getAccessToken()
       if (sheetId === null || !sheetId) {
         router.push('/home');
         return false;
       }
       await fetchData({
-        accessToken,
         sheetId,
         inputData: {
           amount: amount.current,

@@ -42,3 +42,10 @@ yarn-error.log*
 .vscode
 .env
 .env.*.local
+
+*/node_modules/
+
+*/build
+
+*/.env.local
+*/.env

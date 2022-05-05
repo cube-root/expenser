@@ -14,5 +14,9 @@
   {
     "route": "/change-spread-sheet",
     "name": "Change Spread Sheet"
+  },
+  {
+    "rout":"/integrations",
+    "name":"Integrations"
   }
 ]

@@ -19,9 +19,10 @@ export default async function api(
             const data = await getSpreadSheetValue({ sheetId }, { API_KEY, API_SECRET });
             return res.status(200).json(data)
         } catch (error: any) {
+            console.log(error);
             return res.status(500).json({ error: error.message || 'Get api failed' })
         }
-    } else {
+    } else { 
         return res.status(500).json({
             error: "Method not allowed"
         })

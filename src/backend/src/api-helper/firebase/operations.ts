@@ -1,6 +1,11 @@
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';
-import { firebaseTag, firestoreUserCollectionTag } from '../../../../config/tag';
+import {
+    firebaseTag,
+    firestoreUserCollectionTag,
+    firestoreTelegramCollectionTag,
+    firestoreSheetCollectionTag
+} from '../../../../config/tag';
 const getApp = () => {
     let app;
     const firebaseConfig: any = {
@@ -36,24 +41,78 @@ const getUser = async (db: any, uuid: any) => {
 
 }
 
-const getUserByEmail = async(db:any,email:string) => {
+const getUserByEmail = async (db: any, email: string) => {
     const collection: any = firestore.collection(db, firestoreUserCollectionTag);
     const query = firestore.query(collection, firestore.where('email', '==', email));
     const userDocSnapShot = await firestore.getDocs(query);
-    let result:any = userDocSnapShot.docs.map(doc => doc.data())
-    if(result.length ===0){
+    let result: any = userDocSnapShot.docs.map(doc => doc.data())
+    if (result.length === 0) {
         throw new Error('User not found');
-    }else{
-        result = result.find((data:any)=> data.email === email)
+    } else {
+        result = result.find((data: any) => data.email === email)
         return {
             API_KEY: result.API_KEY,
             API_SECRET: result.API_SECRET
         }
     }
 }
+const getUserBySecret = async (db: any, secret?: string) => {
+    const collection: any = firestore.collection(db, firestoreUserCollectionTag);
+    const query = firestore.query(collection, firestore.where('API_SECRET', '==', secret?.trim()));
+    const userDocSnapShot = await firestore.getDocs(query);
+    let result: any = userDocSnapShot.docs.map(doc => doc.data())
+    if (result.length === 0) {
+        throw new Error('User not found');
+    } else {
+        result = result.find((data: any) => data.API_SECRET === secret?.trim())
+        return {
+            uid: result.uid,
+            email: result.email,
+            API_KEY: result.API_KEY,
+            API_SECRET: result.API_SECRET
+        }
+    }
+}
+const setTelegramChatId = async (db: any, chatId: string, data: any) => {
+    const updateRef = firestore.doc(
+        db,
+        firestoreTelegramCollectionTag,
+        chatId,
+    );
+    await firestore.setDoc(updateRef, {
+        uuid: data.uid,
+        email: data.email,
+        API_KEY: data.API_KEY,
+        API_SECRET: data.API_SECRET,
+    });
+
+}
+
+
+const getTelegramChatId = async (db: any, chatId: string) => {
+    const chatDocRef = firestore.doc(db, firestoreTelegramCollectionTag, chatId);
+    const chatSnapShot = await firestore.getDoc(chatDocRef);
+    if (!chatSnapShot.exists()) {
+        throw new Error('Telegram Chat not found');
+    }
+    return chatSnapShot.data();
+}
+
+const getSheetData = async (db: any, uid: string) => {
+    const sheetDataRef = firestore.doc(db, firestoreSheetCollectionTag, uid);
+    const sheetDataSnapShot = await firestore.getDoc(sheetDataRef);
+    if (!sheetDataSnapShot.exists()) {
+        throw new Error('Sheet data not found');
+    }
+    return sheetDataSnapShot.data();
+}
 export {
     getApp,
     getDB,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    getUserBySecret,
+    setTelegramChatId,
+    getTelegramChatId,
+    getSheetData
 }
