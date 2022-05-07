@@ -6,7 +6,10 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "start":"cd packages/next && npm run start"
+    "start":"cd packages/next && npm run start",
+    "start:telegram": "cd packages/telegram-server && npm run start",
+    "dev:next": "cd packages/next && npm run dev",
+    "dev:telegram": "cd packages/telegram-server && npm run dev"
   },
   "repository": {
     "type": "git",
