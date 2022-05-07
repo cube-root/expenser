@@ -1,4 +1,10 @@
 import templateJSON from '../../config/template.json';
+type sheetData = {
+    amount: string;
+    remark: string;
+    type: string;
+    symbol: string
+}
 
 class Template {
     template: Record<string, Record<string, unknown>>
@@ -53,6 +59,19 @@ class Template {
                 meta
             }
 
+        })
+    }
+    sheetDataConverter = (inputValue: sheetData | any)=>{
+        return this.indexList.map((columnName:string)=>{
+            const id = this.template[columnName].id as string;
+            if (id === 'id') {
+              return `${new Date().getTime()}`;
+            } else if (id === 'date') {
+              // MM/DD/YYYY
+              return `${new Date().toLocaleDateString()}`;
+            } else {
+              return inputValue[id] ? inputValue[id] : null;
+            }
         })
     }
 }

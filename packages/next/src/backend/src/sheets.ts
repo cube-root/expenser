@@ -27,6 +27,14 @@ class SheetService {
         const value = await api.sheetsApi.get(accessToken, this.sheetId);
         return value;
     }
+    // append to sheet
+    async post(data:any) {
+        const tokenData: any = await verifyKey(this.apiKey);
+        await verifySecret(this.apiSecret, tokenData.uid);
+        const accessToken = await getAccessToken();
+        const response = await api.sheetsApi.post(accessToken, this.sheetId, data);
+        return response;
+    }
 }
 
 

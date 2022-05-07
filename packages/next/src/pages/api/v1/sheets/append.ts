@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { sheets } from '../../../../backend';
-const { appendSpreadSheet } = sheets;
+import { Sheets } from '../../../../backend';
+
 export default async function api(
     req: NextApiRequest,
     res: NextApiResponse<any>,
@@ -14,7 +14,12 @@ export default async function api(
                 error: 'Authorization header is missing',
             });
         }
-        const response = await appendSpreadSheet({ sheetId, data }, { API_KEY, API_SECRET });
+        const sheet = new Sheets({
+            API_KEY,
+            API_SECRET,
+            sheetId
+        });
+        const response = await sheet.post(data);
         return res.status(200).json(response)
     } else {
         return res.status(500).json({
