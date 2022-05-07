@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import jwt from 'jsonwebtoken';
-import { getApp, getDB, getUser } from '../../src/api-helper/firebase/operations';
+import { getApp, getDB, getUser } from '../src/api-helper/firebase/operations';
+
 const getAccessToken: any = async () => {
     return new Promise(function (resolve, reject) {
         const jwtClient = new google.auth.JWT(

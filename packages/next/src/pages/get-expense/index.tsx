@@ -89,7 +89,7 @@ const GetExpense = () => {
                   )}
                   {!isLoading && data && (
                     <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mx-3 pt-6">
-                      {data.map((item: any, index) => {
+                      {data && data.map((item: any, index) => {
                         const { data: mapResult, meta } = item;
                         return (
                           <Cards

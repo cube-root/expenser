@@ -1,0 +1,67 @@
+{
+    "A": {
+        "id": "id",
+        "name": "Id",
+        "type": "int",
+        "inputMeta": {
+            "field": "number"
+        }
+    },
+    "B": {
+        "id": "date",
+        "name": "Date",
+        "type": "datetime",
+        "inputMeta": {
+            "field": "date"
+        }
+    },
+    "C": {
+        "id": "amount",
+        "name": "Amount",
+        "type": "float",
+        "inputMeta": {
+            "field": "number"
+        }
+    },
+    "D": {
+        "id": "symbol",
+        "name": "Symbol",
+        "type": "string",
+        "inputMeta": {
+            "field": "select"
+        }
+    },
+    "E": {
+        "id": "type",
+        "name": "Type",
+        "type": "string",
+        "options": [
+            {
+                "value": "food",
+                "label": "Food",
+                "defaultValue": true
+            },
+            {
+                "value": "travel",
+                "label": "Travel"
+            },
+            {
+                "value": "others",
+                "label": "Others"
+            }
+        ],
+        "inputMeta": {
+            "field": "select"
+        }
+    },
+    "F": {
+        "id": "remark",
+        "name": "Remark",
+        "isNullable": true,
+        "type": "string",
+        "inputMeta": {
+            "field": "text-area",
+            "isNullable": true
+        }
+    }
+}

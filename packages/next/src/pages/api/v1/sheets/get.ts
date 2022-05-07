@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { sheets } from '../../../../backend';
-const { getSpreadSheetValue } = sheets;
+import { Sheets } from '../../../../backend';
+
 
 export default async function api(
     req: NextApiRequest,
@@ -16,7 +16,12 @@ export default async function api(
 
         }
         try {
-            const data = await getSpreadSheetValue({ sheetId }, { API_KEY, API_SECRET });
+            const sheet = new Sheets({
+                API_KEY,
+                API_SECRET,
+                sheetId
+            });
+            const data = await sheet.get();
             return res.status(200).json(data)
         } catch (error: any) {
             console.log(error);
