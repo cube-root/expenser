@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-    thirdParty
+    Telegram
 } from '../../../../../backend';
 
 export default async function api(
@@ -16,7 +16,10 @@ export default async function api(
             });
         }
         try {
-            const response = await thirdParty.v1.telegram.addExpense(chatId, {
+            const telegram = new Telegram({
+                CHAT_ID: chatId
+            })
+            const response = await telegram.addExpense({
                 amount: data.amount,
                 remark: data.remark === undefined ? '' : data.remark,
                 symbol: data.symbol,
@@ -29,7 +32,7 @@ export default async function api(
                 message: 'Something went wrong',
             })
         }
-        
+
     } else {
         return res.status(500).json({
             message: "Method not allowed"

@@ -85,7 +85,7 @@ class FirebaseService {
             API_SECRET: data.API_SECRET,
         });
     }
-    getTelegramChatId = async (chatId:string) => {
+    getTelegramChatId = async (chatId: string | string[]) => {
         const chatDocRef = firestore.doc(this.db, tags.telegramCollectionTag, chatId);
         const chatSnapShot = await firestore.getDoc(chatDocRef);
         if (!chatSnapShot.exists()) {
@@ -93,7 +93,7 @@ class FirebaseService {
         }
         return chatSnapShot.data();
     }
-    getSheetData = async(uid:string)=>{
+    getSheetData = async (uid: string) => {
         const sheetDataRef = firestore.doc(this.db, tags.sheetCollectionTag, uid);
         const sheetDataSnapShot = await firestore.getDoc(sheetDataRef);
         if (!sheetDataSnapShot.exists()) {
