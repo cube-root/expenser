@@ -50,7 +50,7 @@ class FirebaseService {
             }
         }
     }
-    getUserBySecret = async (secret: string) => {
+    getUserBySecret = async (secret?: string) => {
         const collection: any = firestore.collection(this.db, tags.userCollectionTag);
         const query = firestore.query(collection, firestore.where('API_SECRET', '==', secret?.trim()));
         const userDocSnapShot = await firestore.getDocs(query);

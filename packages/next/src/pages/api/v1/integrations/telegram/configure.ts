@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-  thirdParty
+  Telegram
 } from '../../../../../backend';
 
 export default async function handler(
@@ -10,10 +10,11 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const response = await thirdParty.v1.telegram.configure({
-          API_SECRET: req.body.API_SECRET,
-          CHAT_ID: req.body.CHAT_ID
-      });
+      const telegram = new Telegram({
+        API_SECRET: req.body.API_SECRET,
+        CHAT_ID: req.body.CHAT_ID
+      })
+      const response = await telegram.configure();
       return res.status(200).json(response);
     } catch (error: any) {
       console.log(error);
