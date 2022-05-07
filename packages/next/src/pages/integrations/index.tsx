@@ -2,14 +2,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import useLocalStorage from "../../hooks/local-storage";
 import axios from 'axios';
+import SideBar from '../../components/sidebar';
+
 type typeResponse = {
     API_KEY: 'string',
     API_SECRET: 'string',
 }
 const Integrations = () => {
     const [userData, setData] = useState<any>({})
-    const [isLoading,setLoading] = useState(false);
-    const [responseData,setResponseData] = useState<typeResponse | undefined>(undefined);
+    const [isLoading, setLoading] = useState(false);
+    const [responseData, setResponseData] = useState<typeResponse | undefined>(undefined);
     const [get] = useLocalStorage();
     const data = get();
     useEffect(() => {
@@ -19,11 +21,10 @@ const Integrations = () => {
     }, [
         data
     ])
-    const showKeys = async()=>{
+    const showKeys = async () => {
         try {
             setLoading(true);
-            console.log(userData.idToken)
-            const response = await axios.post('/api/v1/integrations/keys',{},{
+            const response = await axios.post('/api/v1/integrations/keys', {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${userData.idToken}`
@@ -35,29 +36,63 @@ const Integrations = () => {
         }
         setLoading(false)
     }
-    if(isLoading){
-        return (<div>Loading.....</div>)
+    const revokeKeys = async()=>{
+        try {
+            setLoading(true);
+            const response = await axios.post('/api/v1/integrations/revoke-keys', {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userData.idToken}`
+                }
+            })
+            setResponseData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
+    }
+    if (isLoading) {
+        return (
+            <div>
+                <SideBar />
+                <div className="md:pl-72 flex flex-col flex-1  h-screen overflow-y-auto no-scrollbar mt-5">
+                    Loading.....
+                </div>
+            </div>)
     }
     return (
         <div>
-            <div>
-                <div>
-                    <button
-                    className="border rounded-lg p-2"
-                        onClick={showKeys}
-                    >Show Keys</button>
-                </div>
+            <SideBar />
+            <div className="md:pl-72 flex flex-col flex-1  h-screen overflow-y-auto no-scrollbar mt-5">
+                <div className="flex flex-row gap-3 mt-10">
+                    <div>
+                        <button
+                            disabled={isLoading}
+                            className="border rounded-lg p-2"
+                            onClick={showKeys}
+                        >Show Keys</button>
+                    </div>
 
-            {responseData &&(
-                <div className="flex flex-col">
+
                     <div>
-                        API KEY : `{responseData.API_KEY}`
-                    </div>
-                    <div>
-                        API SECRET : `{responseData.API_SECRET}`
+                        <button
+                            disabled={isLoading}
+                            className="border rounded-lg p-2"
+                            onClick={revokeKeys}
+                        >Revoke Keys</button>
                     </div>
                 </div>
-            )}
+                {responseData && (
+                    <div className="flex flex-col">
+                        <div>
+                            API KEY : `{responseData.API_KEY}`
+                        </div>
+                        <div>
+                            API SECRET : `{responseData.API_SECRET}`
+                        </div>
+                    </div>
+                )}
+
             </div>
         </div>
     )

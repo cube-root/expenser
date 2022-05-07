@@ -62,7 +62,7 @@ const SetSpreadSheetId = ({
             }}
           />
         </div>
-        <div className=" p-5 m-5  ">
+        <div className=" p-5 m-5 mt-2  ">
           <input
             className="p-8 border rounded border-white font-mono "
             type="text"
