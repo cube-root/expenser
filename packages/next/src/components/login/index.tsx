@@ -4,10 +4,11 @@ import * as firestore from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { NextPage } from 'next';
 import UseAccessToken from '../../hooks/access-token';
-import { firebaseTag, firestoreUserCollectionTag } from '../../config/tag';
+import tag from '../../config/tag.json';
 import UseLocal from '../../hooks/local-storage';
 import Image from 'next/image';
 import { generateToken, generateKey, getFirebaseConfig } from '../../helper';
+
 type CallBackFunction = () => any;
 type Props = {
   callBackAfterLogin: CallBackFunction;
@@ -40,10 +41,10 @@ const Login: NextPage | any = ({
       appId: config.APP_ID,
     };
     try {
-      const firebaseApps = firebase.getApp(firebaseTag);
+      const firebaseApps = firebase.getApp(tag.firebaseTag);
       app = firebaseApps;
     } catch (error) {
-      app = firebase.initializeApp(firebaseConfigureJson, firebaseTag);
+      app = firebase.initializeApp(firebaseConfigureJson, tag.firebaseTag);
     }
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
@@ -58,7 +59,7 @@ const Login: NextPage | any = ({
       .then(async (result: any) => {
         const updateRef = firestore.doc(
           db,
-          firestoreUserCollectionTag,
+          tag.userCollectionTag,
           result.user.uid,
         );
         const userRef = await firestore.getDoc(updateRef);
@@ -104,7 +105,7 @@ const Login: NextPage | any = ({
         setLoading(false)
       })
       .catch(console.error);
-      
+
   };
 
   useEffect(() => {
