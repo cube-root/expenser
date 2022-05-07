@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';
-import { firestoreSheetCollectionTag, firebaseTag, firestoreUserCollectionTag } from '../config/tag';
+import tag from '../config/tag.json';
 
 const GetStorageData = (firebaseConfig:any) => {
   const [data, setData] = useState<any>({});
@@ -11,10 +11,10 @@ const GetStorageData = (firebaseConfig:any) => {
 
   try {
 
-    const firebaseApps = firebase.getApp(firebaseTag);
+    const firebaseApps = firebase.getApp(tag.firebaseTag);
     app = firebaseApps;
   } catch (error) {
-    app = firebase.initializeApp({...firebaseConfig,projectId: process.env.PROJECT_ID}, firebaseTag);
+    app = firebase.initializeApp({...firebaseConfig,projectId: process.env.PROJECT_ID}, tag.firebaseTag);
   }
   const db = firestore.getFirestore(app);
   // const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
@@ -31,7 +31,7 @@ const GetStorageData = (firebaseConfig:any) => {
       storageData['accessToken'] = window.sessionStorage.getItem('accessToken');
       storageData['uid'] = userId;
       if (!window.sessionStorage.getItem("sheetId")) {
-        const sheetDockRef = firestore.doc(db, firestoreSheetCollectionTag, userId);
+        const sheetDockRef = firestore.doc(db, tag.sheetCollectionTag, userId);
         const sheetDocSnapShot = await firestore.getDoc(sheetDockRef);
         if (sheetDocSnapShot.exists()) {
           storageData['sheet'] = sheetDocSnapShot.data();
@@ -49,7 +49,7 @@ const GetStorageData = (firebaseConfig:any) => {
         }
       }
       if (window.sessionStorage.getItem("isUserSet") !== 'true') {
-        const userDocRef = firestore.doc(db, firestoreUserCollectionTag, userId);
+        const userDocRef = firestore.doc(db, tag.userCollectionTag, userId);
         const userDocSnapShot = await firestore.getDoc(userDocRef);
         if (userDocSnapShot.exists()) {
           storageData['user'] = userDocSnapShot.data();

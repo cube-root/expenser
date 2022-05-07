@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { firestoreSheetCollectionTag, firebaseTag } from '../config/tag';
+import tag from '../config/tag.json';
 import * as firestore from "firebase/firestore/lite";
 import * as firebase from 'firebase/app';
 
@@ -11,16 +11,16 @@ const SheetStorage = () => {
       const { spreadSheetId, spreadSheetLink, firebaseConfig } = data;
       let app;
       try {
-        const firebaseApps = firebase.getApp(firebaseTag);
+        const firebaseApps = firebase.getApp(tag.firebaseTag);
         app = firebaseApps;
       } catch (error) {
-        app = firebase.initializeApp({ ...firebaseConfig, projectId: process.env.PROJECT_ID }, firebaseTag);
+        app = firebase.initializeApp({ ...firebaseConfig, projectId: process.env.PROJECT_ID }, tag.firebaseTag);
       }
       const db = firestore.getFirestore(app);
       // const collection: any = firestore.collection(db, firestoreSheetCollectionTag);
       const currentUser = window.sessionStorage.getItem('uid');
       if (currentUser && spreadSheetId) {
-        const updateRef = firestore.doc(db, firestoreSheetCollectionTag, currentUser);
+        const updateRef = firestore.doc(db, tag.sheetCollectionTag, currentUser);
         await firestore.setDoc(updateRef, {
           spreadSheetId,
           spreadSheetLink,
