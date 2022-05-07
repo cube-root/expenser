@@ -8,7 +8,6 @@
     "start": "next start",
     "lint:next": "next lint",
     "lint:eslint": "eslint \"**/*.{ts,tsx}\" --max-warnings=0",
-    "lint:tsc": "tsc --noemit",
     "lint": "run-p lint:*",
     "predeploy": "npm run build"
   },

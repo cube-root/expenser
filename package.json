@@ -6,10 +6,13 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "start":"cd packages/next && npm run start",
+    "start": "cd packages/next && npm run start",
     "start:telegram": "cd packages/telegram-server && npm run start",
     "dev:next": "cd packages/next && npm run dev",
-    "dev:telegram": "cd packages/telegram-server && npm run dev"
+    "dev:telegram": "cd packages/telegram-server && npm run dev",
+    "lint:next": "cd packages/next && npm run lint",
+    "lint:telegram": "cd packages/telegram-server && npm run lint",
+    "lint": "run-p lint:*"
   },
   "repository": {
     "type": "git",
@@ -23,5 +26,8 @@
   "homepage": "https://github.com/cube-root/expenser#readme",
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
