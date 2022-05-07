@@ -1,0 +1,6 @@
+{
+    "firebaseTag": "login",
+    "userCollectionTag": "users",
+    "sheetCollectionTag": "sheets",
+    "telegramCollectionTag": "telegram"
+}

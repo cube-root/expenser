@@ -5,11 +5,17 @@
 2. Clone the [Repo](https://github.com/cube-root/expenser) and Install the dependency
 
 ```
-npm i
+npm i && npm run bootstrap && npm run build
 ```
 
-3. Run the project
+3. Run the NextJs app
 
 ```
-npm run dev
+npm run dev:next
+```
+
+4. Run telegram server
+
+```
+npm run dev:telegram
 ```

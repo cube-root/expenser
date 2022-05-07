@@ -1,16 +1,3 @@
-node_modules
-.tmp
-.sass-cache
-public/components
-heroku
-.env
-build/
-packages/core-api/coverage
-junit.xml
-
-.env.local
-
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
