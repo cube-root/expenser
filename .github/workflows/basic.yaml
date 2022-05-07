@@ -28,6 +28,5 @@ jobs:
         run: npm ci
       - name: Build Lerna
         run: npm run bootstrap && npm run build
-
-      # - name: Run linter
-      #   run: npm run lint
+      - name: Lint check
+        run: npm run lint
