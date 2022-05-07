@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import jwt from 'jsonwebtoken';
-import { getApp, getDB, getUser } from '../src/api-helper/firebase/operations';
+import Firebase from './firebase';
+
 
 const getAccessToken: any = async () => {
     return new Promise(function (resolve, reject) {
@@ -32,9 +33,8 @@ const verifyKey: any = async (token: any) => {
 }
 
 const verifySecret:any = async (API_SECRET:any,uuid:any) => {
-    const app = getApp();
-    const db = getDB(app);
-    const userData = await getUser(db, uuid);
+    const firebase = new Firebase();
+    const userData = await firebase.getUser(uuid);
     if (userData.API_SECRET !== API_SECRET) {
         throw new Error('Authentication Failed');
     }
