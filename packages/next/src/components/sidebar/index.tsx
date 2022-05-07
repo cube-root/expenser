@@ -57,7 +57,7 @@ const SideBar = () => {
     router.push(link);
   };
   const onLogout = () => {
-    window.sessionStorage.clear();
+    window.localStorage.clear();
     router.push('/login');
   };
   useEffect(() => {

@@ -14,17 +14,17 @@ const UseLocalStorage = (): any => {
 
     const set = (data: localStorageData) => {
         if (window) {
-            window.sessionStorage.setItem('accessToken', data.accessToken);
-            window.sessionStorage.setItem('uid', data.uid);
-            window.sessionStorage.setItem('photoUrl', data.photoUrl);
-            window.sessionStorage.setItem('displayName', data.displayName);
-            window.sessionStorage.setItem('isUserSet', 'true');
-            window.sessionStorage.setItem('API_KEY', data.API_KEY);
-            window.sessionStorage.setItem('API_SECRET', data.API_SECRET);
+            window.localStorage.setItem('accessToken', data.accessToken);
+            window.localStorage.setItem('uid', data.uid);
+            window.localStorage.setItem('photoUrl', data.photoUrl);
+            window.localStorage.setItem('displayName', data.displayName);
+            window.localStorage.setItem('isUserSet', 'true');
+            window.localStorage.setItem('API_KEY', data.API_KEY);
+            window.localStorage.setItem('API_SECRET', data.API_SECRET);
             if (data.sheetId)
-                window.sessionStorage.setItem('sheetId', data.sheetId);
+                window.localStorage.setItem('sheetId', data.sheetId);
             if (data.sheetLink)
-                window.sessionStorage.setItem('sheetLink', data.sheetLink);
+                window.localStorage.setItem('sheetLink', data.sheetLink);
         }
 
     }
@@ -32,15 +32,15 @@ const UseLocalStorage = (): any => {
         const [data, setData] = useState({});
         useEffect(() => {
             setData({
-                accessToken: window.sessionStorage.getItem('accessToken') || '',
-                uid: window.sessionStorage.getItem('uid') || '',
-                photoUrl: window.sessionStorage.getItem('photoUrl') || '',
-                displayName: window.sessionStorage.getItem('displayName') || '',
-                sheetId: window.sessionStorage.getItem('sheetId') || undefined,
-                sheetLink: window.sessionStorage.getItem('sheetLink') || undefined,
-                API_KEY: window.sessionStorage.getItem('API_KEY') || '',
-                API_SECRET: window.sessionStorage.getItem('API_SECRET') || '',
-                idToken: window.sessionStorage.getItem('idToken') || ''
+                accessToken: window.localStorage.getItem('accessToken') || '',
+                uid: window.localStorage.getItem('uid') || '',
+                photoUrl: window.localStorage.getItem('photoUrl') || '',
+                displayName: window.localStorage.getItem('displayName') || '',
+                sheetId: window.localStorage.getItem('sheetId') || undefined,
+                sheetLink: window.localStorage.getItem('sheetLink') || undefined,
+                API_KEY: window.localStorage.getItem('API_KEY') || '',
+                API_SECRET: window.localStorage.getItem('API_SECRET') || '',
+                idToken: window.localStorage.getItem('idToken') || ''
             })
         }, [])
         return data;
