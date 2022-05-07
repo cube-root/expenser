@@ -1,8 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {
-  thirdParty
-} from '../../../../backend';
+import { getKeys } from '../../../../backend'
 type Data = {
   API_KEY?: string,
   API_SECRET?: string,
@@ -18,7 +16,7 @@ export default async function handler(
       return res.status(401).json({ message: 'Authorization header missing' });
     }
     try {
-      const response = await thirdParty.v1.getKeys(req.headers.authorization.split(' ')[1]);
+      const response = await getKeys(req.headers.authorization.split(' ')[1]);
       return res.status(200).json(response);
     } catch (error: any) {
       console.log(error);
