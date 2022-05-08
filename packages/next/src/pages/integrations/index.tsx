@@ -77,7 +77,7 @@ const Integrations = () => {
             <SideBar />
             <div className="md:pl-72 flex flex-col flex-1  h-screen overflow-y-auto no-scrollbar mt-5">
                 <div className="flex flex-row gap-3 mt-10">
-                    <div>
+                    <div className="font-mono">
                         <button
                             disabled={isLoading}
                             className="border rounded-lg p-2"
@@ -86,7 +86,7 @@ const Integrations = () => {
                     </div>
 
 
-                    <div>
+                    <div className="font-mono">
                         <button
                             disabled={isLoading}
                             className="border rounded-lg p-2"
@@ -95,12 +95,18 @@ const Integrations = () => {
                     </div>
                 </div>
                 {responseData && (
-                    <div className="flex flex-col">
-                        <div>
-                            API KEY : `{responseData.API_KEY}`
+                    <div className="flex flex-col mt-10 gap-7">
+                        <div className="flex flex-col gap-1 ">
+                            <div className="font-bold">
+                                API KEY :
+                            </div>
+                            <div className="mt-2 border font-mono">{responseData.API_KEY}</div>
                         </div>
-                        <div>
-                            API SECRET : `{responseData.API_SECRET}`
+                        <div className="flex flex-col gap-1 ">
+                            <div className="font-bold">
+                                API SECRET :
+                            </div>
+                            <div className="mt-2 border font-mono">{responseData.API_SECRET}</div>
                         </div>
                     </div>
                 )}
