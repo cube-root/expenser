@@ -10,7 +10,7 @@ import {
   XIcon,
   CogIcon,
   ClipboardListIcon,
-  // PuzzleIcon
+  PuzzleIcon
 } from '@heroicons/react/outline';
 import { useEffect } from 'react';
 import GetStorageData from '../../hooks/local-storage';
@@ -38,11 +38,11 @@ const navigation = [
     icon: CogIcon,
     current: false,
   },
-  // {
-  //   name: 'Integrations',
-  //   href: '/integrations',
-  //   icon: PuzzleIcon,
-  // }
+  {
+    name: 'Integrations',
+    href: '/integrations',
+    icon: PuzzleIcon,
+  }
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ];
 
@@ -57,7 +57,7 @@ const SideBar = () => {
     router.push(link);
   };
   const onLogout = () => {
-    window.sessionStorage.clear();
+    window.localStorage.clear();
     router.push('/login');
   };
   useEffect(() => {

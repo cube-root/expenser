@@ -25,7 +25,7 @@ const Login: NextPage | any = ({
   callBackAfterLogin = () => undefined, // NOTE: Check for mistakes.
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
-  const [setSessionToken] = UseAccessToken();
+  const [,setSessionToken] = UseAccessToken();
   const [isLoading, setLoading] = useState(false);
   const [, setLocal] = UseLocal();
   const config: any = getFirebaseConfig();
@@ -49,12 +49,6 @@ const Login: NextPage | any = ({
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
     const db = firestore.getFirestore(app);
-    // const collection: any = firestore.collection(db, firestoreUserCollectionTag);
-    // provider.addScope('https://www.googleapis.com/auth/drive');
-    // provider.addScope('https://www.googleapis.com/auth/drive.readonly');
-    // provider.addScope('https://www.googleapis.com/auth/drive.file');
-    // provider.addScope('https://www.googleapis.com/auth/spreadsheets');
-    // provider.addScope('https://www.googleapis.com/auth/spreadsheets.readonly');
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
         const updateRef = firestore.doc(

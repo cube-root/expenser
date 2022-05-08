@@ -26,6 +26,12 @@ class FirebaseService {
         this.app = app;
         this.db = firestore.getFirestore(this.app);
     }
+
+    /**
+     * 
+     * GETTERS 
+     */
+
     getUser = async (uuid: string) => {
         const userDocRef = firestore.doc(this.db, tags.userCollectionTag, uuid);
         const userDocSnapShot = await firestore.getDoc(userDocRef);
@@ -44,10 +50,7 @@ class FirebaseService {
             throw new Error('User not found');
         } else {
             result = result.find((data: any) => data.email === email)
-            return {
-                API_KEY: result.API_KEY,
-                API_SECRET: result.API_SECRET
-            }
+            return result;
         }
     }
     getUserBySecret = async (secret?: string) => {
@@ -67,6 +70,28 @@ class FirebaseService {
             }
         }
     }
+    getTelegramChatId = async (chatId: string | any) => {
+        const chatDocRef = firestore.doc(this.db, tags.telegramCollectionTag, chatId);
+        const chatSnapShot = await firestore.getDoc(chatDocRef);
+        if (!chatSnapShot.exists()) {
+            throw new Error('Telegram Chat not found');
+        }
+        return chatSnapShot.data();
+    }
+    getSheetData = async (uid: string) => {
+        const sheetDataRef = firestore.doc(this.db, tags.sheetCollectionTag, uid);
+        const sheetDataSnapShot = await firestore.getDoc(sheetDataRef);
+        if (!sheetDataSnapShot.exists()) {
+            throw new Error('Sheet data not found');
+        }
+        return sheetDataSnapShot.data();
+    }
+
+    /**
+     * 
+     * SETTERS
+     */
+
     setTelegramChatId = async (chatId: string, data: {
         uid: string,
         email: string,
@@ -85,21 +110,21 @@ class FirebaseService {
             API_SECRET: data.API_SECRET,
         });
     }
-    getTelegramChatId = async (chatId: string | string[]) => {
-        const chatDocRef = firestore.doc(this.db, tags.telegramCollectionTag, chatId);
-        const chatSnapShot = await firestore.getDoc(chatDocRef);
-        if (!chatSnapShot.exists()) {
-            throw new Error('Telegram Chat not found');
+    setUser = async (uid: string, data: any) => {
+        const updateRef = firestore.doc(
+            this.db,
+            tags.userCollectionTag,
+            uid,
+        );
+        const userRef = await firestore.getDoc(updateRef);
+        let userData = {};
+        if (userRef.exists()) {
+            userData = userRef.data();
         }
-        return chatSnapShot.data();
-    }
-    getSheetData = async (uid: string) => {
-        const sheetDataRef = firestore.doc(this.db, tags.sheetCollectionTag, uid);
-        const sheetDataSnapShot = await firestore.getDoc(sheetDataRef);
-        if (!sheetDataSnapShot.exists()) {
-            throw new Error('Sheet data not found');
-        }
-        return sheetDataSnapShot.data();
+        await firestore.setDoc(updateRef, {
+            ...userData,
+            ...data
+        })
     }
 }
 

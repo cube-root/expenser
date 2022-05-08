@@ -3,15 +3,15 @@ const UseAccessToken = (): any => {
         if (window && result) {
             const { token, uid, idToken } = result;
             window
-                .sessionStorage
+                .localStorage
                 .setItem('uid',
                     typeof token === 'string'
                         ? uid
                         : `${uid}`
                 );
-            window.sessionStorage.setItem('idToken', idToken);
+            window.localStorage.setItem('idToken', idToken);
             window
-                .sessionStorage
+                .localStorage
                 .setItem('accessToken',
                     typeof token === 'string'
                         ? token
@@ -20,9 +20,9 @@ const UseAccessToken = (): any => {
         }
     }
     const getAccessToken = () => {
-        return window.sessionStorage.getItem('accessToken');
+        return window.localStorage.getItem('accessToken');
     }
-    return [setToken, getAccessToken];
+    return [getAccessToken, setToken];
 };
 
 export default UseAccessToken;

@@ -6,7 +6,7 @@ jobs:
   lint:
     name: Lint check
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     steps:
       - name: Checkout commit
         uses: actions/checkout@v2

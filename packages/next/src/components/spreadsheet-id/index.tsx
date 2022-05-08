@@ -1,11 +1,7 @@
 import { useRef, useState } from 'react';
-// import { useRouter } from 'next/router';
-// import axios from 'axios';
 import helper from '../../helper';
 import SheetStorage from '../../hooks/sheet-storage';
-// import UseAccessToken from '../../hooks/access-token';
-// import { toast } from 'react-toastify';
-// import UseLocalStorage from '../../hooks/local-storage';
+
 
 type CallBackFunction = (val: string) => any;
 type Props = {
@@ -20,61 +16,21 @@ const SetSpreadSheetId = ({
   currentSheetLink,
 }: Props) => {
   const spreadSheetLink = useRef('');
+  const name = useRef('');
   const [isCreating,] = useState(false);
-  // const router = useRouter();
   const [, setStorageData] = SheetStorage();
-  // const [, getAccessToken] = UseAccessToken();
-  // const [get] = UseLocalStorage();
-  // const localData ={};
-  // const localData = get();
-  const setSpreadSheetLink = () => {
+  const setSpreadSheetLink = async () => {
     if (spreadSheetLink.current.length !== 0) {
-      setStorageData({
+      await setStorageData({
         spreadSheetLink: spreadSheetLink.current,
         spreadSheetId: helper.extractSheet(spreadSheetLink.current),
-        firebaseConfig
+        firebaseConfig,
+        name: name.current,
       });
       setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current));
     }
   };
-  // const createNewSheet = async () => {
-  //   setCreating(true);
-  //   const accessToken = getAccessToken();
-  //   try {
-  //     const response = await axios.post(
-  //       '/api/sheets/v1/create',
-  //       {
-  //         accessToken,
-  //       },
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     );
-  //     if (
-  //       response &&
-  //       response.data &&
-  //       response.data.status &&
-  //       response.data.data
-  //     ) {
-  //       setStorageData({
-  //         spreadSheetLink: response.data.data.spreadsheetUrl,
-  //         spreadSheetId: response.data.data.spreadsheetId,
-  //         firebaseConfig
-  //       });
-  //       toast.success('Sheet created successfully');
-  //       router.push('/home');
-  //     } else {
-  //       toast.error('Something went wrong');
-  //     }
-  //   } catch (error: any) {
-  //     toast.error(error.message || 'Something went wrong');
-  //   } finally {
-  //     setCreating(false);
-  //   }
-  // };
-
+  
   return (
     <div className="flex flex-col items-center justify-center  pt-10 w-auto">
       <div className="rounded-lg border-solid border-white text-white  hover:bg-white hover:text-black">
@@ -103,6 +59,16 @@ const SetSpreadSheetId = ({
             placeholder="Paste Spread Sheet Link here"
             onChange={event => {
               spreadSheetLink.current = event.target.value;
+            }}
+          />
+        </div>
+        <div className=" p-5 m-5 mt-2  ">
+          <input
+            className="p-8 border rounded border-white font-mono "
+            type="text"
+            placeholder="Name for the sheet"
+            onChange={event => {
+              name.current = event.target.value;
             }}
           />
         </div>

@@ -27,45 +27,45 @@ const GetStorageData = (firebaseConfig:any) => {
       const storageData: any = {
         sheet: {},
       };
-      const userId = window.sessionStorage.getItem('uid') || '';
-      storageData['accessToken'] = window.sessionStorage.getItem('accessToken');
+      const userId = window.localStorage.getItem('uid') || '';
+      storageData['accessToken'] = window.localStorage.getItem('accessToken');
       storageData['uid'] = userId;
-      if (!window.sessionStorage.getItem("sheetId")) {
+      if (!window.localStorage.getItem("sheetId")) {
         const sheetDockRef = firestore.doc(db, tag.sheetCollectionTag, userId);
         const sheetDocSnapShot = await firestore.getDoc(sheetDockRef);
         if (sheetDocSnapShot.exists()) {
           storageData['sheet'] = sheetDocSnapShot.data();
           storageData['sheetId'] = sheetDocSnapShot.data().spreadSheetId;
           storageData['sheetLink'] = sheetDocSnapShot.data().spreadSheetLink;
-          window.sessionStorage.setItem('sheetId', sheetDocSnapShot.data().spreadSheetId);
-          window.sessionStorage.setItem('sheetLink', sheetDocSnapShot.data().spreadSheetLink);
+          window.localStorage.setItem('sheetId', sheetDocSnapShot.data().spreadSheetId);
+          window.localStorage.setItem('sheetLink', sheetDocSnapShot.data().spreadSheetLink);
         }
       } else {
-        storageData['sheetId'] = window.sessionStorage.getItem("sheetId");
-        storageData['sheetLink'] = window.sessionStorage.getItem("sheetLink");
+        storageData['sheetId'] = window.localStorage.getItem("sheetId");
+        storageData['sheetLink'] = window.localStorage.getItem("sheetLink");
         storageData['sheet'] = {
-          spreadSheetId: window.sessionStorage.getItem("sheetId"),
-          spreadSheetLink: window.sessionStorage.getItem("sheetLink"),
+          spreadSheetId: window.localStorage.getItem("sheetId"),
+          spreadSheetLink: window.localStorage.getItem("sheetLink"),
         }
       }
-      if (window.sessionStorage.getItem("isUserSet") !== 'true') {
+      if (window.localStorage.getItem("isUserSet") !== 'true') {
         const userDocRef = firestore.doc(db, tag.userCollectionTag, userId);
         const userDocSnapShot = await firestore.getDoc(userDocRef);
         if (userDocSnapShot.exists()) {
           storageData['user'] = userDocSnapShot.data();
           storageData['photoUrl'] = userDocSnapShot.data().photoUrl;
           storageData['displayName'] = userDocSnapShot.data().displayName;
-          window.sessionStorage.setItem('photoUrl', userDocSnapShot.data().photoUrl);
-          window.sessionStorage.setItem('displayName', userDocSnapShot.data().displayName);
-          window.sessionStorage.setItem('isUserSet', 'true');
-          window.sessionStorage.setItem('API_KEY', userDocSnapShot.data().API_KEY);
-          window.sessionStorage.setItem('API_SECRET', userDocSnapShot.data().API_SECRET);
+          window.localStorage.setItem('photoUrl', userDocSnapShot.data().photoUrl);
+          window.localStorage.setItem('displayName', userDocSnapShot.data().displayName);
+          window.localStorage.setItem('isUserSet', 'true');
+          window.localStorage.setItem('API_KEY', userDocSnapShot.data().API_KEY);
+          window.localStorage.setItem('API_SECRET', userDocSnapShot.data().API_SECRET);
         }
       } else {
-        storageData['photoUrl'] = window.sessionStorage.getItem("photoUrl");
-        storageData['displayName'] = window.sessionStorage.getItem("displayName");
-        storageData['API_KEY'] = window.sessionStorage.getItem("API_KEY");
-        storageData['API_SECRET'] = window.sessionStorage.getItem("API_SECRET");
+        storageData['photoUrl'] = window.localStorage.getItem("photoUrl");
+        storageData['displayName'] = window.localStorage.getItem("displayName");
+        storageData['API_KEY'] = window.localStorage.getItem("API_KEY");
+        storageData['API_SECRET'] = window.localStorage.getItem("API_SECRET");
       }
       setData(storageData);
       setLoading(false);
