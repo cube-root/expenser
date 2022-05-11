@@ -20,7 +20,7 @@ const UseAccessToken = (): any => {
         }
     }
     const getAccessToken = () => {
-        return window.localStorage.getItem('accessToken');
+        return window ? window.localStorage.getItem('accessToken') : undefined;
     }
     return [getAccessToken, setToken];
 };

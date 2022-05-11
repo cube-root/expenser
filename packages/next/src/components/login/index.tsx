@@ -3,9 +3,9 @@ import * as firebase from 'firebase/app';
 import * as firestore from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { NextPage } from 'next';
-import UseAccessToken from '../../hooks/access-token';
+import useAccessToken from '../../hooks/access-token';
 import tag from '../../config/tag.json';
-import UseLocal from '../../hooks/local-storage';
+import useLocal from '../../hooks/local-storage';
 import Image from 'next/image';
 import { generateToken, generateKey, getFirebaseConfig } from '../../helper';
 
@@ -25,9 +25,10 @@ const Login: NextPage | any = ({
   callBackAfterLogin = () => undefined, // NOTE: Check for mistakes.
 }: Props) => {
   const [accessToken, setAccessToken] = useState<any>(undefined);
-  const [,setSessionToken] = UseAccessToken();
+  const [getSessionToken, setSessionToken] = useAccessToken();
   const [isLoading, setLoading] = useState(false);
-  const [, setLocal] = UseLocal();
+  const [getLocal, setLocal] = useLocal();
+  const secretKeys = getLocal(); 
   const config: any = getFirebaseConfig();
   const googleLogin = () => {
     setLoading(true)
@@ -107,6 +108,14 @@ const Login: NextPage | any = ({
       return callBackAfterLogin();
     }
   }, [accessToken]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const token = getSessionToken();
+    const { API_KEY, API_SECRET } = secretKeys;
+    if (token && API_KEY && API_SECRET && callBackAfterLogin) {
+      return callBackAfterLogin();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [secretKeys])
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="bg-slate-900 p-6 rounded flex flex-col items-center">
