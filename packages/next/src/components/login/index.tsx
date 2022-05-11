@@ -6,7 +6,6 @@ import { NextPage } from 'next';
 import useAccessToken from '../../hooks/access-token';
 import tag from '../../config/tag.json';
 import useLocal from '../../hooks/local-storage';
-import useKeys from '../../hooks/keys';
 import Image from 'next/image';
 import { generateToken, generateKey, getFirebaseConfig } from '../../helper';
 
