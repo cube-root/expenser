@@ -2,23 +2,29 @@
 import { useState } from 'react'
 import Setup from './setup';
 import Create from './create';
+
+type inputProps = {
+    currentSheetLink?: string
+    sheetLink?: string
+    sheetId?: string
+}
 const tabs = [
     { id: 'create', name: 'Create new sheet', href: '#' },
     { id: 'setup', name: 'Update current sheet', href: '#' },
-    { id: 'used-sheet', name: 'Used sheets', href: '#' }
+    // { id: 'used-sheet', name: 'Used sheets', href: '#' }
 ]
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
-const RenderComponents = ({ type }: { type: string }) => {
+const RenderComponents = ({ type, props }: { type: string, props: inputProps }) => {
     console.log('inn', type)
     switch (type) {
         case 'create': {
             return <Create />
         }
         case 'setup': {
-            return <Setup />
+            return <Setup {...props} />
         }
         case 'used-sheet': {
             return <div>Used sheet</div>
@@ -29,10 +35,10 @@ const RenderComponents = ({ type }: { type: string }) => {
     }
 }
 export default function SheetSettings({
-    currentSheetLink
-}: {
-    currentSheetLink?: string
-}) {
+    currentSheetLink,
+    sheetId,
+    sheetLink
+}: inputProps) {
 
     const [current, setCurrent] = useState(tabs[0].id)
 
@@ -88,7 +94,16 @@ export default function SheetSettings({
                                         </div>
                                     </div>
                                     <div className='mt-3'>
-                                        <RenderComponents type={current} />
+                                        <RenderComponents
+                                            type={current}
+                                            props={
+                                                {
+                                                    currentSheetLink,
+                                                    sheetId,
+                                                    sheetLink
+                                                }
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
