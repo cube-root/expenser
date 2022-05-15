@@ -42,7 +42,7 @@ const navigation: any = [
 const secondaryNavigation: Array<any> = [
     {
         name: 'Sheets',
-        href: '/change-spread-sheet',
+        href: '/sheet-settings',
         icon: CogIcon,
         current: true,
     },
