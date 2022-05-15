@@ -6,7 +6,7 @@ type inputProps = {
 
 
 const Setup = (props: inputProps) => {
-
+    
     return (
         <>
             <div className="mt-10 divide-y divide-gray-200">

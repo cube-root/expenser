@@ -55,6 +55,8 @@ const SheetStorage = () => {
           sheets: sheets ? sheets : [],
           spreadSheetLink,
         });
+        window.localStorage.setItem('sheetId', spreadSheetId);
+        window.localStorage.setItem('sheetLink', spreadSheetLink);
       }
     }
     updateData(data)

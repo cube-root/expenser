@@ -80,7 +80,7 @@ const SetSpreadSheetId = ({
               setSpreadSheetLink();
             }}
           >
-            Save
+            {isCreating ? 'Saving....' : 'Save'}
           </button>
         </div>
       </div>

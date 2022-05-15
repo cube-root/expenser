@@ -7,6 +7,8 @@ type inputProps = {
     currentSheetLink?: string
     sheetLink?: string
     sheetId?: string
+    firebaseConfig?: any
+    callBack?: any
 }
 const tabs = [
     { id: 'create', name: 'Create new sheet', href: '#' },
@@ -21,7 +23,10 @@ const RenderComponents = ({ type, props }: { type: string, props: inputProps }) 
     console.log('inn', type)
     switch (type) {
         case 'create': {
-            return <Create />
+            return <Create
+                firebaseConfig={props.firebaseConfig}
+                setSpreadSheetLinkCallBack={props.callBack}
+            />
         }
         case 'setup': {
             return <Setup {...props} />
@@ -37,7 +42,9 @@ const RenderComponents = ({ type, props }: { type: string, props: inputProps }) 
 export default function SheetSettings({
     currentSheetLink,
     sheetId,
-    sheetLink
+    sheetLink,
+    firebaseConfig,
+    callBack
 }: inputProps) {
 
     const [current, setCurrent] = useState(tabs[0].id)
@@ -100,7 +107,9 @@ export default function SheetSettings({
                                                 {
                                                     currentSheetLink,
                                                     sheetId,
-                                                    sheetLink
+                                                    sheetLink,
+                                                    firebaseConfig,
+                                                    callBack
                                                 }
                                             }
                                         />
