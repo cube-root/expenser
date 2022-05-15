@@ -8,11 +8,11 @@ import api from './helper/api';
 const botToken = process.env.BOT_TOKEN || '';
 const message = `
 Expense \n\n\n
-1. Configure your API key and secret eg: /configure ajknsd ajsdiw  \n
-command: /configure API_KEY API_SECRET
+1. Configure your API SECRET eg: /configure   \n
+command: /configure API_SECRET
 \n \n \n \n
 2. Add Expense \n
-command: /add --amount=250 --type=food --currency=$ --remark=test\n
+command: /add \n
 `;
 
 class Bot {
@@ -24,8 +24,9 @@ class Bot {
 
   start() {
     console.log('bot started....');
-    this.bot.on('new_chat_members', (msg:any) => {
-      this.bot.sendMessage(msg.chat.id, message);
+    this.bot.onText(/\/start/, (msg: any) => {
+      const chatId = msg.chat.id;
+      this.bot.sendMessage(chatId, message);
     });
     this.bot.onText(/\/help/, (msg: any) => {
       const chatId = msg.chat.id;
@@ -79,23 +80,77 @@ class Bot {
     }
   }
 
+  async keyboard(chatId: number, question: string, options: any) {
+    await this.bot.sendMessage(chatId, question, {
+      reply_markup: {
+        force_reply: true,
+        inline_keyboard: options,
+      },
+    });
+    return new Promise((resolve: any) => {
+      this.bot.on('callback_query', (msg: any) => {
+        resolve(msg);
+      });
+    });
+  }
+
   add() {
     this.bot.onText(/\/add/, async (msg: any) => {
       const amount: any = await this.replyBot(msg.chat.id, 'Enter Amount');
       const remark: any = await this.replyBot(msg.chat.id, 'Enter Remark');
-      const type: any = await this.replyBot(msg.chat.id, 'Enter type (eg:food, travel, etc)');
+      const type: any = await this.keyboard(
+        msg.chat.id,
+        'Enter type',
+        [
+          [{
+            text: 'food',
+            callback_data: 'food',
+
+          }],
+          [{
+            text: 'travel',
+            callback_data: 'travel',
+          }],
+          [{
+            text: 'others',
+            callback_data: 'others',
+
+          }],
+        ],
+      );
+      const currency: any = await this.keyboard(
+        msg.chat.id,
+        'Enter currency',
+        [
+          [{
+            text: '$',
+            callback_data: '$',
+
+          }],
+          [{
+            text: '₹',
+            callback_data: '₹',
+          }],
+          [{
+            text: '€',
+            callback_data: 'ot€hers',
+
+          }],
+        ],
+      );
       await this.bot.sendMessage(msg.chat.id, 'Adding to sheet. Please wait...');
       try {
         await api.add({
           amount: amount.text,
           remark: remark.text,
-          type: type.text,
+          type: type.data,
           chatId: msg.chat.id,
+          currency: currency.data,
         });
         await this.bot.sendMessage(msg.chat.id, 'Added successfully');
       } catch (error: any) {
         await this.bot.sendMessage(msg.chat.id, 'Something went wrong');
-        if (error.response) { await this.bot.sendMessage(msg.chat.id, `${error.message}`); }
+        if (error.response) { await this.bot.sendMessage(msg.chat.id, `${error.message} `); }
       }
     });
   }
