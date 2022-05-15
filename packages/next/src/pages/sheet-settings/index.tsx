@@ -10,7 +10,7 @@ const SheetSettings = () => {
     const router = useRouter();
     const [newData, setData] = useState<any>({});
     const { data } = UseStorage(helper.getFirebaseConfig());
-    const callBack = (sheetId: string,sheetLink:string) => {
+    const callBack = (sheetId: string, sheetLink: string) => {
         if (sheetId) {
             setData({
                 ...newData,
@@ -23,8 +23,6 @@ const SheetSettings = () => {
     useEffect(() => {
         setData({ ...data });
     }, [data])
- 
-    console.log(data);
     return (<>
         <SideBar>
             <SheetSettingTabs
