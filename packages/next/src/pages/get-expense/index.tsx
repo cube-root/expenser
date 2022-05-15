@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
-import { RefreshIcon } from '@heroicons/react/solid';
+// import { RefreshIcon } from '@heroicons/react/solid';
 import GetStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
 import helper from '../../helper';
@@ -66,10 +66,10 @@ const GetExpense = () => {
           {(isLoading || isLoadingStorageData) && (
             <div className="flex flex-col items-center justify-center ">
               <div className="p-4">
-                <RefreshIcon
+                {/* <RefreshIcon
                   className="animate-spin h-13 w-10"
-                  color="white"
-                />
+                  color="black"
+                /> */}
               </div>
               <p className="text-black font-mono">
                 Loading
