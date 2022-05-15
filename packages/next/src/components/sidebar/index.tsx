@@ -14,6 +14,8 @@ import {
 } from '@heroicons/react/outline';
 import { useEffect } from 'react';
 import GetStorageData from '../../hooks/local-storage';
+import NewSideBar from './new';
+
 const classNames = (...classes: any) => {
   return classes.filter(Boolean).join(' ');
 };
@@ -70,7 +72,7 @@ const SideBar = () => {
       displayName: data.displayName,
       photoUrl: data.photoUrl,
     })
-  },[data])
+  }, [data])
   const photoUrl = userData && userData.photoUrl
     ? userData.photoUrl
     : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png'
@@ -247,4 +249,5 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export { SideBar };
+export default NewSideBar;
