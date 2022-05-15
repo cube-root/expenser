@@ -136,7 +136,7 @@ export default function SideBar({
                                         <div className="absolute top-0 right-0 -mr-12 pt-2">
                                             <button
                                                 type="button"
-                                                className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                                                className="font-mono ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                                                 onClick={() => setSidebarOpen(false)}
                                             >
                                                 <span className="sr-only">Close sidebar</span>
@@ -157,7 +157,7 @@ export default function SideBar({
                                                         current === item.href
                                                             ? 'bg-cyan-800 text-white'
                                                             : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                                                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                                                        'group flex items-center px-2 py-2 text-base font-mono rounded-md'
                                                     )}
                                                     aria-current={current === item.href ? 'page' : undefined}
                                                 >
@@ -176,7 +176,7 @@ export default function SideBar({
                                                             current === item.href
                                                                 ? 'bg-cyan-800 text-white'
                                                                 : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                                                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                                                            'group flex items-center px-2 py-2 text-base font-mono rounded-md'
                                                         )}
                                                         aria-current={current === item.href ? 'page' : undefined}
                                                     >
@@ -216,7 +216,7 @@ export default function SideBar({
                                         onClick={() => changeRoute(item.href)}
                                         className={classNames(
                                             current === item.href ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                                            'group w-full flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md'
+                                            'group w-full flex items-center px-2 py-2 text-sm leading-6 font-mono rounded-md'
                                         )}
                                         aria-current={current === item.href ? 'page' : undefined}
                                     >
@@ -233,7 +233,7 @@ export default function SideBar({
                                             onClick={() => changeRoute(item.href)}
                                             className={classNames(
                                                 current === item.href ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                                                'group w-full flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md'
+                                                'group w-full flex items-center px-2 py-2 text-sm leading-6 font-mono rounded-md'
                                             )}
                                             aria-current={current === item.href ? 'page' : undefined}
                                         >
@@ -272,7 +272,7 @@ export default function SideBar({
                                                 src={photoUrl}
                                                 alt=""
                                             />
-                                            <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+                                            <span className="hidden ml-3 text-gray-700 text-sm font-mono lg:block">
                                                 <span className="sr-only">Open user menu for </span>{userData.displayName}
                                             </span>
                                             <ChevronDownIcon
