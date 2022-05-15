@@ -1,116 +1,65 @@
-import { useState, useRef } from 'react';
-import Forms from '../../components/forms';
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ')
+}
 
-type CardProps = {
+const CardWrapper = ({ children }: { children: any }) => {
+  return (
+    <div>
+      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">History</h2>
+      <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {children}
+      </ul>
+    </div>
+  )
+}
+const CardChild = ({
+  key,
+  heading,
+  amount,
+  date,
+  description,
+  currency,
+  bgColor = 'bg-cyan-600',
+  startOf
+}: {
+  key: any
   heading?: string;
   amount?: string;
   date?: string;
   description?: string;
   currency?: string;
   meta?: any;
-};
-
-const Cards = ({
-  heading,
-  amount,
-  date,
-  description,
-  currency,
-}: // meta,  // NOTE: Commenting out unused variable.
-CardProps) => {
-  const [isEditing, setEditing] = useState(false);
-
-  const headingRef = useRef<any>(heading);
-  const amountRef = useRef<any>(amount);
-  const dateRef = useRef<any>(date);
-  const descriptionRef = useRef<any>(description);
-  const currencyRef = useRef<any>(currency);
-
-  // NOTE: unused function.
-  // const onClickEdit = () => {
-  //   setEditing(true);
-  // };
-  const onCancel = () => {
-    headingRef.current = heading;
-    amountRef.current = amount;
-    dateRef.current = date;
-    descriptionRef.current = description;
-    currencyRef.current = currency;
-
-    setEditing(false);
-  };
+  bgColor?: string;
+  Icon?: any;
+  startOf?: string;
+}) => {
   return (
-    <div className="border border-white  rounded flex flex-col items-center justify-center p-2">
-      <div className="text-xl">
-        {!isEditing && <p>{headingRef.current}</p>}
-        {isEditing && (
-          <Forms.TypeFormField
-            defaultValue={headingRef.current}
-            onChange={(event: any) => {
-              headingRef.current = event.target.value;
-            }}
-          />
+    <li key={key} className="col-span-1 flex shadow-sm rounded-md font-mono">
+      <div
+        className={classNames(
+          bgColor,
+          'flex-shrink-0 flex items-center justify-center w-24 text-white text-sm font-medium rounded-l-md'
         )}
+      >
+        <div className="m-2">
+          {startOf}
+        </div>
       </div>
-      <div className="text-2xl text-white p-2 font-mono">
-        {!isEditing && (
-          <p>
-            {amountRef.current} {currencyRef.current}
-          </p>
-        )}
-        {isEditing && (
-          <div className="flex flex-row">
-            <Forms.AmountFormField
-              className="w-full text-white font-mono"
-              type="number"
-              defaultValue={amountRef.current}
-              onChange={(event: any) => {
-                amountRef.current = event.target.value;
-              }}
-            />
-            <Forms.CurrencyFormField
-              className="w-full text-white font-mono"
-              onChange={(event: any) => {
-                currencyRef.current = event.target.value;
-              }}
-            />
-          </div>
-        )}
-      </div>
-      <div className="text-sm text-white font-mono p-1">
-        <p>Date: {dateRef.current}</p>
-      </div>
-      <div className="text-sm p-1">
-        {isEditing && (
-          <Forms.RemarkFormField
-            placeholder="Remark"
-            className="text-white font-mono"
-            defaultValue={descriptionRef.current}
-            onChange={(event: any) => {
-              descriptionRef.current = event.target.value;
-            }}
-          />
-        )}
-        {!isEditing && (
-          <p className="text-white font-mono">{descriptionRef.current}</p>
-        )}
-      </div>
-      <div className=" flex flex-row p-2">
-        {/* <button
-                    className="border rounded font-mono bg-white hover:bg-black hover:text-white p-2"
-                    onClick={onClickEdit}
-                >
-                    {!isEditing ? 'Edit' : 'Save'}
-                </button> */}
-        {isEditing && (
-          <button
-            onClick={onCancel}
-            className="border rounded font-mono  hover:bg-black hover:text-white p-2"
-          ></button>
-        )}
-      </div>
-    </div>
-  );
-};
+      <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+        <div className="flex-1 px-4 py-2 text-sm truncate">
+          <p>{heading}</p>
+          <p>{amount} {currency}</p>
+          <p className="text-gray-500">{description}</p>
+          <p>{date}</p>
+        </div>
 
-export default Cards;
+      </div>
+    </li>
+  )
+}
+const Card = {
+  CardWrapper,
+  CardChild
+}
+
+export default Card;
