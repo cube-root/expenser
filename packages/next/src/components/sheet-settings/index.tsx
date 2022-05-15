@@ -1,6 +1,5 @@
 
 import { useState } from 'react'
-import Setup from './setup';
 import Create from './create';
 import Current from './current';
 
@@ -21,7 +20,6 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 const RenderComponents = ({ type, props }: { type: string, props: inputProps }) => {
-    console.log('inn', type)
     switch (type) {
         case 'create': {
             return <Create
