@@ -76,7 +76,7 @@ const TelegramLogin = () => {
                 CHAT_ID: chatId,
             })
             if (window)
-                window.location.href = 'https://telegram.me/abhisawzm_bot';
+                window.location.href = 'https://telegram.me/expenser_scheduler_bot';
         } catch (error) {
             console.log(error)
         }
