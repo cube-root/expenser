@@ -15,7 +15,8 @@
     "dev:telegram": "cd packages/telegram-server && npm run dev",
     "lint:next": "cd packages/next && npm run lint",
     "lint:telegram": "cd packages/telegram-server && npm run lint",
-    "lint": "run-p lint:*"
+    "lint": "run-p lint:*",
+    "heroku-postbuild": "cd packages/telegram-server && npm run build"
   },
   "repository": {
     "type": "git",
