@@ -1,5 +1,6 @@
 import FirebaseService from "../helper/firebase";
 import SheetService from "./sheets";
+import axios from "axios";
 class TelegramService extends FirebaseService {
     firebase: FirebaseService
     apiSecret?: string
@@ -26,6 +27,12 @@ class TelegramService extends FirebaseService {
             API_KEY: userData.API_KEY,
             API_SECRET: userData.API_SECRET,
         });
+        // send success message to chat
+        try {
+            await axios.get(`${process.env.WEBHOOK_URL}/api/v1/webhooks/send-message?chatId=${this.chatId}&text='Configuration Success'`);
+        } catch (error) {
+           // do nothing     
+        }
     }
     addExpense = async (data: { amount: string, remark: string, symbol: string, type: string }) => {
         const chatData = await this.firebase.getTelegramChatId(this.chatId);
