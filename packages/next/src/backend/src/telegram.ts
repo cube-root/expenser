@@ -29,8 +29,19 @@ class TelegramService extends FirebaseService {
         });
         // send success message to chat
         try {
-            await axios.get(`${process.env.WEBHOOK_URL}/api/v1/webhooks/send-message?chatId=${this.chatId}&text='Configuration Success'`);
+            let message = 'Successfully configured Telegram integration \n\n';
+            message += 'Now add the expense using \\add command \n\n';
+            await axios.get(
+                `${process.env.WEBHOOK_URL}/api/v1/webhooks/send-message?chatId=${this.chatId}&text=${message}`,
+                {
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.WEBHOOK_TOKEN}`
+                    }
+                }
+                );
         } catch (error) {
+            console.log(error);
            // do nothing     
         }
     }
