@@ -3,9 +3,11 @@ import { NextFunction, Request, Response } from 'express';
 const auth = (req:Request, res:Response, next:NextFunction) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     const token = req.headers.authorization.split(' ')[1];
-    if (token === process.env.TOKEN) {
+    if (token === process.env.TOKEN?.trim()) {
       return next();
     }
+    console.log(`${process.env.TOKEN}`);
+    console.log(`${token}`);
   }
   return res.status(401).send({
     message: 'Auth failed',
