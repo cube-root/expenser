@@ -1,1 +1,1 @@
-web: npm run start:telegram
+web: cd packages/telegram-server && npm run i && npm run start
