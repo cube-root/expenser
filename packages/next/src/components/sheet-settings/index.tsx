@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Create from './create';
 import Current from './current';
+import Update from './update';
 
 type inputProps = {
     currentSheetLink?: string
@@ -13,7 +14,7 @@ type inputProps = {
 const tabs = [
     { id: 'create', name: 'Create new sheet', href: '#' },
     { id: 'current', name: 'Current sheet', href: '#' },
-    // { id: 'used-sheet', name: 'Used sheets', href: '#' }
+    { id: 'update', name: 'Update sheets', href: '#' }
 ]
 
 function classNames(...classes: any) {
@@ -30,9 +31,12 @@ const RenderComponents = ({ type, props }: { type: string, props: inputProps }) 
         case 'current': {
             return <Current {...props} />
         }
-        // case 'used-sheet': {
-        //     return <div>Used sheet</div>
-        // }
+        case 'update': {
+            return <Update
+                firebaseConfig={props.firebaseConfig}
+                setSpreadSheetLinkCallBack={props.callBack}
+            />
+        }
         default: {
             return null
         }
