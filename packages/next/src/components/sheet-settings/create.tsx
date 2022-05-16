@@ -11,10 +11,12 @@ const Create = ({
 }) => {
     const spreadSheetLink = useRef('');
     const name = useRef('');
-    const [isCreating,] = useState(false);
+    const [isCreating,setCreating] = useState(false);
     const [, setStorageData] = SheetStorage();
 
-    const setSpreadSheetLink = async () => {
+    const setSpreadSheetLink = async () => 
+    {
+        setCreating(true)
         if (spreadSheetLink.current.length !== 0) {
             await setStorageData({
                 spreadSheetLink: spreadSheetLink.current,
@@ -24,6 +26,7 @@ const Create = ({
             });
             setSpreadSheetLinkCallBack(helper.extractSheet(spreadSheetLink.current), spreadSheetLink.current);
         }
+        setCreating(false)
     };
 
     return (
@@ -85,7 +88,7 @@ const Create = ({
                             className="border border-black bg-white p-2 text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
 
                         >
-                            Save
+                            {isCreating ? 'Saving...' : 'Save'}
                         </button>
                     </div>
                 </div>
