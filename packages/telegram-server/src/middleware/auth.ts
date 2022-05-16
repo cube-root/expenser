@@ -6,8 +6,6 @@ const auth = (req:Request, res:Response, next:NextFunction) => {
     if (token === process.env.TOKEN?.trim()) {
       return next();
     }
-    console.log(`${process.env.TOKEN}`);
-    console.log(`${token}`);
   }
   return res.status(401).send({
     message: 'Auth failed',
