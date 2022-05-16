@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 /* eslint-disable consistent-return */
 import 'dotenv/config';
 import TelegramBot from 'node-telegram-bot-api';
@@ -7,8 +5,8 @@ import api from './helper/api';
 
 const message = `
 Expense \n\n\n
-1. Configure your API SECRET eg: /configure   \n
-command: /configure API_SECRET
+1. Configure with dashboard eg: /configure   \n
+command: /configure 
 \n \n \n \n
 2. Add Expense \n
 command: /add \n
@@ -35,25 +33,14 @@ export default class Bot {
 
   configure() {
     this.bot.onText(/\/configure/, async (msg: any) => {
-      const apiPrompt = await this.bot.sendMessage(msg.chat.id, 'Hi, Please enter your API_SECRET HERE', {
-        reply_markup: {
-          force_reply: true,
-        },
-      });
       const chatId = msg.chat.id;
-      this.bot.onReplyToMessage(chatId, apiPrompt.message_id, async (secret: any) => {
-        const apiSecret = secret.text;
-        if (!apiSecret || apiSecret.length === 0) {
-          return this.bot.sendMessage(chatId, 'Please enter API_SECRET');
-        }
-        try {
-          await this.bot.sendMessage(chatId, 'Configuring... Please wait');
-          await api.configure(apiSecret, chatId);
-          await this.bot.sendMessage(chatId, 'Configured successfully');
-        } catch (error: any) {
-          await this.bot.sendMessage(chatId, 'Something went wrong');
-          if (error.response) { await this.bot.sendMessage(chatId, `${error.message}`); }
-        }
+      const customUrl = `${process.env.URL}/telegram-login?chatId=${chatId}`;
+      await this.bot.sendMessage(chatId, 'Click to login', {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+        reply_markup: {
+          inline_keyboard: [[{ text: 'Login', url: customUrl }]],
+        },
       });
     });
   }
@@ -152,5 +139,13 @@ export default class Bot {
         if (error.response) { await this.bot.sendMessage(msg.chat.id, `${error.message} `); }
       }
     });
+  }
+
+  async sendMessage(chatId:number| string | any, text:string|any) {
+    try {
+      await this.bot.sendMessage(chatId, text);
+    } catch (error) {
+      // do nothing
+    }
   }
 }

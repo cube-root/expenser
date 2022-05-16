@@ -16,6 +16,8 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
     }
 }
