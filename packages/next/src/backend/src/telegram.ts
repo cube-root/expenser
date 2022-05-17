@@ -1,6 +1,5 @@
 import FirebaseService from "../helper/firebase";
 import SheetService from "./sheets";
-import axios from "axios";
 import api from '../api';
 
 class TelegramService extends FirebaseService {
@@ -36,6 +35,19 @@ class TelegramService extends FirebaseService {
             await api.webhooks.sendMessage(this.chatId, 'Something went wrong!!');
             throw new Error('Invalid data');
         }
+
+        // check if already configured
+        try {
+            const telegramData = await this.firebase.getTelegramChatId(this.chatId);
+            console.log(telegramData);
+            if(telegramData.uuid === this.uid){
+                await api.webhooks.sendMessage(this.chatId, 'Already configured');
+                return;
+            }
+        } catch (error) {
+            // if error, then configure
+        }
+
         const userData = await this.firebase.getUserByEmail(this.email);
         await this.firebase.setTelegramChatId(typeof this.chatId === 'string' ? this.chatId : `${this.chatId}`, {
             uid: this.uid,
@@ -45,7 +57,7 @@ class TelegramService extends FirebaseService {
         });
         // send success message to chat
         let message = 'Successfully configured Telegram integration \n\n';
-        message += 'Now add the expense using \\add command \n\n';
+        message += 'Now add the expense using /add command \n\n';
         await api.webhooks.sendMessage(this.chatId, message);
     }
     addExpense = async (data: { amount: string, remark: string, symbol: string, type: string }) => {
