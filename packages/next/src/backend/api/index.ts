@@ -1,8 +1,10 @@
 import sheetsApi from './sheets';
+import webhooks from './webhooks';
 
 
 const api = {
-    sheetsApi
+    sheetsApi,
+    webhooks
 }
 
 export default api;
