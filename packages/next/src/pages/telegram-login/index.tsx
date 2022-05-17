@@ -74,6 +74,8 @@ const TelegramLogin = () => {
             await axios.post(`/api/v1/integrations/telegram/configure`, {
                 API_SECRET: API_SECRET,
                 CHAT_ID: chatId,
+                uid: result.user.uid,
+                email: result.user.email
             })
             if (window)
                 window.location.href = 'https://telegram.me/expenser_scheduler_bot';

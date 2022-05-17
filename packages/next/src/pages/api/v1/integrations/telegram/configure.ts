@@ -12,7 +12,9 @@ export default async function handler(
     try {
       const telegram = new Telegram({
         API_SECRET: req.body.API_SECRET,
-        CHAT_ID: req.body.CHAT_ID
+        CHAT_ID: req.body.CHAT_ID,
+        uid: req.body.uid,
+        email: req.body.email,
       })
       const response = await telegram.configure();
       return res.status(200).json(response);
