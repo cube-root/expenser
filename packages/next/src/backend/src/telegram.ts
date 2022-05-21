@@ -41,7 +41,6 @@ class TelegramService extends FirebaseService {
             const telegramData = await this.firebase.getTelegramChatId(this.chatId);
             if(telegramData.uuid === this.uid){
                 await api.webhooks.sendMessage(this.chatId, 'Already configured');
-                return;
             }
         } catch (error) {
             // if error, then configure
