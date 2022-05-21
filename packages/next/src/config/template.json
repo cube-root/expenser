@@ -35,21 +35,6 @@
         "id": "type",
         "name": "Type",
         "type": "string",
-        "options": [
-            {
-                "value": "food",
-                "label": "Food",
-                "defaultValue": true
-            },
-            {
-                "value": "travel",
-                "label": "Travel"
-            },
-            {
-                "value": "others",
-                "label": "Others"
-            }
-        ],
         "inputMeta": {
             "field": "select"
         }
