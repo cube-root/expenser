@@ -23,7 +23,7 @@ const api = {
                 },
             },
         );
-        const data = template.converter(response.data.values)
+        const data = template.converter(response.data.values || [])
         return data;
     },
     post: async (accessToken: string,
@@ -32,7 +32,7 @@ const api = {
             amount: string;
             remark: string;
             type: string;
-            symbol: string
+            symbol?: string
         },
         range: string | undefined = undefined,
 

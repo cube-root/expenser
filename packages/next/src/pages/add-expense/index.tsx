@@ -5,18 +5,18 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Forms from '../../components/forms';
 import SideBar from '../../components/sidebar';
-import GetStorageData from '../../hooks/get-data'
+import getStorageData from '../../hooks/get-data'
 import helper from '../../helper';
 
 
 const AddExpense = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
-  const { data: storage } = GetStorageData(helper.getFirebaseConfig());
+  const { data: storage } = getStorageData(helper.getFirebaseConfig());
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');
-  const currency = useRef<string>('$');
+  // const currency = useRef<string>('$');
   const fetchData = async ({
     sheetId,
     inputData,
@@ -41,7 +41,6 @@ const AddExpense = () => {
       );
       toast.success('Expense added successfully');
     } catch (error: any) {
-      console.log(error);
       toast.error('Failed to add expense');
       if (error.message) toast.info(error.message);
     }
@@ -56,13 +55,13 @@ const AddExpense = () => {
         router.push('/home');
         return false;
       }
+      //symbol: currency.current,
       await fetchData({
         sheetId,
         inputData: {
           amount: amount.current,
           remark: remark.current,
-          type: type.current,
-          symbol: currency.current,
+          type: type.current
         },
       });
       setLoading(false);
@@ -153,7 +152,7 @@ const AddExpense = () => {
                     </div>
                   </div>
                 </div>
-                <div className="sm:col-span-4">
+                {/* <div className="sm:col-span-4">
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Currency
                   </label>
@@ -177,7 +176,7 @@ const AddExpense = () => {
                       </svg>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

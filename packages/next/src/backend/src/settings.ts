@@ -5,23 +5,62 @@ import {
 } from '../helper/token';
 import Firebase from '../helper/firebase';
 
+type inputProps = {
+    API_KEY: string | any,
+    API_SECRET: string | any,
+    data?: any
+}
 const settings = {
     get: async ({
         API_KEY,
         API_SECRET
-    }: {
-        API_KEY: string | string[],
-        API_SECRET: string | string[]
-    }) => {
+    }: inputProps) => {
         const tokenData: any = await verifyKey(API_KEY);
         await verifySecret(API_SECRET, tokenData.uid);
         const firebase = new Firebase();
         const sheetData = await firebase.getSheetData(tokenData.uid);
         return {
-            currentSheet : sheetData.spreadSheetId,
+            currentSheet: sheetData.spreadSheetId,
             currentSheetLink: sheetData.spreadSheetLink,
             usedSheets: sheetData.sheets || [],
         }
+    },
+    getGeneralSettings: async ({
+        API_KEY,
+        API_SECRET
+    }: inputProps) => {
+        const tokenData: any = await verifyKey(API_KEY);
+        await verifySecret(API_SECRET, tokenData.uid);
+        const firebase = new Firebase();
+        let result = {}
+        try {
+            const data = await firebase.getGeneralSettings(tokenData.uid);
+            result = data;
+        } catch (error) {
+            // set default settings
+            await firebase.setGeneralSettings(tokenData.uid, {
+                types: ["food", "travel", "other"],
+                defaultCurrency: '$'
+            })
+            result = {
+                types: ["food", "travel", "other"],
+                defaultCurrency: '$'
+            }
+        }
+        return result;
+    },
+    setGeneralSettings: async ({
+        API_KEY,
+        API_SECRET,
+        data
+    }: inputProps) => {
+        if (!data) {
+            throw new Error('Invalid data');
+        }
+        const tokenData: any = await verifyKey(API_KEY);
+        await verifySecret(API_SECRET, tokenData.uid);
+        const firebase = new Firebase();
+        await firebase.setGeneralSettings(tokenData.uid, data);
     }
 }
 
