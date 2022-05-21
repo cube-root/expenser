@@ -86,6 +86,14 @@ class FirebaseService {
         }
         return sheetDataSnapShot.data();
     }
+    getGeneralSettings = async (uid: string) => {
+        const settingsRef = firestore.doc(this.db, tags.settingsCollectionTag, uid);
+        const settingsSnapShot = await firestore.getDoc(settingsRef);
+        if (!settingsSnapShot.exists()) {
+            throw new Error('Settings data not found');
+        }
+        return settingsSnapShot.data();
+    }
 
     /**
      * 
@@ -123,6 +131,22 @@ class FirebaseService {
         }
         await firestore.setDoc(updateRef, {
             ...userData,
+            ...data
+        })
+    }
+    setGeneralSettings = async (uid: string, data: any) => {
+        const updateRef = firestore.doc(
+            this.db,
+            tags.settingsCollectionTag,
+            uid,
+        );
+        const settingsRef = await firestore.getDoc(updateRef);
+        let settingsData = {};
+        if (settingsRef.exists()) {
+            settingsData = settingsRef.data();
+        }
+        await firestore.setDoc(updateRef, {
+            ...settingsData,
             ...data
         })
     }
