@@ -22,5 +22,21 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
             })
         }
     }
+    if (req.method === 'POST') {
+        try {
+            await settings.setGeneralSettings({
+                API_KEY: API_KEY,
+                API_SECRET: API_SECRET,
+                data: req.body
+            })
+            return res.status(200).json({
+                message: 'Success'
+            })
+        } catch (error: any) {
+            return res.status(500).json({
+                message: error.message || 'Post api failed'
+            })
+        }
+    }
 }
 export default api;

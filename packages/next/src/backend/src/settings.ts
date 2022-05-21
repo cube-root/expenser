@@ -7,7 +7,8 @@ import Firebase from '../helper/firebase';
 
 type inputProps = {
     API_KEY: string | any,
-    API_SECRET: string | any
+    API_SECRET: string | any,
+    data?: any
 }
 const settings = {
     get: async ({
@@ -38,15 +39,28 @@ const settings = {
         } catch (error) {
             // set default settings
             await firebase.setGeneralSettings(tokenData.uid, {
-                types: ["food","travel","other"],
+                types: ["food", "travel", "other"],
                 defaultCurrency: '$'
             })
             result = {
-                types: ["food","travel","other"],
+                types: ["food", "travel", "other"],
                 defaultCurrency: '$'
             }
         }
         return result;
+    },
+    setGeneralSettings: async ({
+        API_KEY,
+        API_SECRET,
+        data
+    }: inputProps) => {
+        if (!data) {
+            throw new Error('Invalid data');
+        }
+        const tokenData: any = await verifyKey(API_KEY);
+        await verifySecret(API_SECRET, tokenData.uid);
+        const firebase = new Firebase();
+        await firebase.setGeneralSettings(tokenData.uid, data);
     }
 }
 
