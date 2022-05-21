@@ -32,7 +32,7 @@ const api = {
             amount: string;
             remark: string;
             type: string;
-            symbol: string
+            symbol?: string
         },
         range: string | undefined = undefined,
 

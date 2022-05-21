@@ -4,6 +4,7 @@ import {
     verifySecret
 } from '../helper/token';
 import api from '../api';
+import Firebase from '../helper/firebase';
 
 class SheetService {
     sheetId?: string | string[];
@@ -13,7 +14,7 @@ class SheetService {
     constructor({ sheetId, API_KEY, API_SECRET }: {
         sheetId: string | string[],
         API_KEY: string | string[],
-        API_SECRET: string| string[]
+        API_SECRET: string | string[]
     }) {
         this.sheetId = sheetId;
         this.apiKey = API_KEY;
@@ -28,11 +29,22 @@ class SheetService {
         return value;
     }
     // append to sheet
-    async post(data:any) {
+    async post(data: any) {
         const tokenData: any = await verifyKey(this.apiKey);
         await verifySecret(this.apiSecret, tokenData.uid);
+        const firebase = new Firebase();
+        let symbol = '$';
+        try {
+            const generaSettings = await firebase.getGeneralSettings(tokenData.uid);
+            symbol = generaSettings.defaultCurrency
+        } catch (error) {
+            symbol = '$'
+        }
         const accessToken = await getAccessToken();
-        const response = await api.sheetsApi.post(accessToken, this.sheetId, data);
+        const response = await api.sheetsApi.post(accessToken, this.sheetId, {
+            ...data,
+            symbol: data.symbol ? data.symbol : symbol,
+        });
         return response;
     }
 }
