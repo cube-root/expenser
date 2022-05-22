@@ -11,6 +11,9 @@ command: /configure
 \n \n \n \n
 2. Add Expense \n
 command: /add \n
+\n\n\n\n
+3. Change sheet\n
+command: /change
 `;
 
 export default class Bot {
