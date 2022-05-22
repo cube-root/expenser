@@ -23,5 +23,6 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
             })
         }
     }
+    return res.status(500).json({ message: 'Method not allowed' });
 }
 export default api;

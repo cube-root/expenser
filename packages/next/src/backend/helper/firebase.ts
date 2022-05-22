@@ -150,6 +150,50 @@ class FirebaseService {
             ...data
         })
     }
+    setSheetData = async (uid: string, data: {
+        spreadSheetId: string,
+        spreadSheetLink: string,
+    }) => {
+        let sheetData: any = {};
+        const { spreadSheetId, spreadSheetLink } = data;
+        const sheetDataRef = firestore.doc(this.db, tags.sheetCollectionTag, uid);
+        let sheets: any;
+        try {
+            sheetData = await this.getSheetData(uid);
+            sheets = sheetData.sheets;
+            if (sheets) {
+                const alreadyData = sheets.find((sheet: any) => sheet.id === spreadSheetId);
+                if (!alreadyData) {
+                    sheets.push({
+                        id: spreadSheetId,
+                        link: spreadSheetLink,
+                        createdAt: new Date().toISOString(),
+                    })
+                }
+            } else {
+                sheets = [{
+                    id: spreadSheetId,
+                    link: spreadSheetLink,
+                    createdAt: new Date().toISOString(),
+                }];
+            }
+        } catch (error) {
+            sheetData = {}
+        }
+
+
+        await firestore.setDoc(sheetDataRef, {
+            ...sheetData,
+            ...data,
+            sheets: sheets ? sheets : []
+        })
+        return {
+            ...sheetData,
+            ...data,
+            sheets: sheets ? sheets : []
+        }
+
+    }
 }
 
 export default FirebaseService;

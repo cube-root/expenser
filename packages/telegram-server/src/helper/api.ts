@@ -37,6 +37,21 @@ const api = {
       },
     });
   },
+  changeSheet: async (
+    sheetId:string,
+    sheetLink: string,
+    chatId:string | number,
+  ) => {
+    await axios.post(`${url}/api/v1/integrations/telegram/change-sheet`, {
+      sheetId,
+      sheetLink,
+    }, {
+      headers: {
+        chat_id: chatId,
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 };
 
 export default api;

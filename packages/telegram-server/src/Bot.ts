@@ -2,6 +2,7 @@
 import 'dotenv/config';
 import TelegramBot from 'node-telegram-bot-api';
 import api from './helper/api';
+import extract from './helper/extract-sheet-id';
 
 const message = `
 Expense \n\n\n
@@ -10,6 +11,9 @@ command: /configure
 \n \n \n \n
 2. Add Expense \n
 command: /add \n
+\n\n\n\n
+3. Change sheet\n
+command: /change
 `;
 
 export default class Bot {
@@ -147,5 +151,21 @@ export default class Bot {
     } catch (error) {
       // do nothing
     }
+  }
+
+  async changeSheet() {
+    this.bot.onText(/\/change/, async (msg: any) => {
+      const chatId = msg.chat.id;
+      const sheet:any = await this.replyBot(chatId, 'Enter Sheet link');
+      try {
+        await this.bot.sendMessage(chatId, 'Changing sheet. Please wait...');
+        const sheetId = extract.extractSheet(sheet.text);
+        await api.changeSheet(sheetId, sheet.text, chatId);
+        await this.bot.sendMessage(chatId, 'Sheet changed successfully');
+      } catch (error: any) {
+        await this.bot.sendMessage(chatId, 'Something went wrong');
+        if (error.response) { await this.bot.sendMessage(chatId, `${error.message} `); }
+      }
+    });
   }
 }
