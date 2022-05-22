@@ -39,7 +39,7 @@ class TelegramService extends FirebaseService {
         // check if already configured
         try {
             const telegramData = await this.firebase.getTelegramChatId(this.chatId);
-            if(telegramData.uuid === this.uid){
+            if (telegramData.uuid === this.uid) {
                 await api.webhooks.sendMessage(this.chatId, 'Already configured');
             }
         } catch (error) {
@@ -70,6 +70,15 @@ class TelegramService extends FirebaseService {
             API_SECRET,
         })
         await sheet.post(data);
+    }
+    changeSheet = async (sheetId: string, sheetLink: string) => {
+        const chatData = await this.firebase.getTelegramChatId(this.chatId);
+        const { uuid } = chatData;
+        return this.firebase.setSheetData(uuid, {
+            spreadSheetId: sheetId,
+            spreadSheetLink: sheetLink
+        });
+
     }
 }
 
