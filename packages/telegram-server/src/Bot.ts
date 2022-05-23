@@ -145,7 +145,7 @@ export default class Bot {
     });
   }
 
-  async sendMessage(chatId:number| string | any, text:string|any) {
+  async sendMessage(chatId: number | string | any, text: string | any) {
     try {
       await this.bot.sendMessage(chatId, text);
     } catch (error) {
@@ -156,7 +156,8 @@ export default class Bot {
   async changeSheet() {
     this.bot.onText(/\/change/, async (msg: any) => {
       const chatId = msg.chat.id;
-      const sheet:any = await this.replyBot(chatId, 'Enter Sheet link');
+      await this.bot.sendMessage(chatId, `Share the email with your sheet (${process.env.CLIENT_EMAIL})`);
+      const sheet: any = await this.replyBot(chatId, 'Enter Sheet link');
       try {
         await this.bot.sendMessage(chatId, 'Changing sheet. Please wait...');
         const sheetId = extract.extractSheet(sheet.text);
