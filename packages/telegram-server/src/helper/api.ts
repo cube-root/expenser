@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { generateToken } from './token';
 
 const url = process.env.URL || 'http://localhost:3000';
 
@@ -32,22 +33,22 @@ const api = {
       },
     }, {
       headers: {
-        chat_id: chatId,
+        'x-access-token': generateToken({ chatId }),
         'Content-Type': 'application/json',
       },
     });
   },
   changeSheet: async (
-    sheetId:string,
+    sheetId: string,
     sheetLink: string,
-    chatId:string | number,
+    chatId: string | number,
   ) => {
     await axios.post(`${url}/api/v1/integrations/telegram/change-sheet`, {
       sheetId,
       sheetLink,
     }, {
       headers: {
-        chat_id: chatId,
+        'x-access-token': generateToken({ chatId }),
         'Content-Type': 'application/json',
       },
     });
