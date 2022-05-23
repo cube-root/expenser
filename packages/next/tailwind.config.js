@@ -3,6 +3,7 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
+  darkMode: 'class',
   theme: {
     screen: {
       sm: '200px',
@@ -13,6 +14,9 @@ module.exports = {
 
       lg: '1440px',
       // => @media (min-width: 1440px) { ... }
+    },
+    fontFamily: {
+      dmSans: ['"DM Sans"', 'sans-serif'],
     },
     extend: {},
   },
