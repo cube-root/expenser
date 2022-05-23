@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-    Telegram
+    Telegram,
+    verifyToken
 } from '../../../../../backend';
 
 export default async function api(
@@ -9,15 +10,16 @@ export default async function api(
 ) {
     if (req.method === 'POST') {
         const { data } = req.body;
-        const { chat_id: chatId } = req.headers;
-        if (!chatId) {
+        if (!req.headers['x-access-token']) {
             return res.status(401).json({
                 error: 'Header is missing',
             });
         }
+        const tokenData = await verifyToken(req.headers['x-access-token'], process.env.WEBHOOK_TOKEN);
+        const { chatId } = tokenData;
         try {
             const telegram = new Telegram({
-                CHAT_ID: chatId
+                CHAT_ID: typeof chatId  === 'string' ? chatId : `${chatId}`,
             })
             const response = await telegram.addExpense({
                 amount: data.amount,
