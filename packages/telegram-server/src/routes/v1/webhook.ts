@@ -4,7 +4,7 @@ import { bot } from '../../index';
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/send-message', auth, async (req, res) => {
+router.all('/send-message', auth, async (req, res) => {
   try {
     const {
       chatId,
