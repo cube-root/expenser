@@ -6,14 +6,14 @@ import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
 // import { RefreshIcon } from '@heroicons/react/solid';
-import GetStorageData from '../../hooks/get-data';
+import getStorageData from '../../hooks/get-data';
 import { toast } from 'react-toastify';
 import helper from '../../helper';
 
 const GetExpense = () => {
   const accessToken = useRef<any>(null);
   const [isLoading, setLoading] = useState(false);
-  const { isLoading: isLoadingStorageData, data: storage } = GetStorageData(helper.getFirebaseConfig());
+  const { isLoading: isLoadingStorageData, data: storage } = getStorageData(helper.getFirebaseConfig());
   const [data, setData] = useState([]);
   const sheetId = useRef<any>(null);
 

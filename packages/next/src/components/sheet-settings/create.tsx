@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import helper from '../../helper';
-import SheetStorage from '../../hooks/sheet-storage';
+import sheetStorage from '../../hooks/sheet-storage';
 
 const Create = ({
     setSpreadSheetLinkCallBack = () => undefined,
@@ -12,7 +12,7 @@ const Create = ({
     const spreadSheetLink = useRef('');
     const name = useRef('');
     const [isCreating,setCreating] = useState(false);
-    const [, setStorageData] = SheetStorage();
+    const [, setStorageData] = sheetStorage();
 
     const setSpreadSheetLink = async () => 
     {

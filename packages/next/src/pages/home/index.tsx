@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar';
-import GetStorageData from '../../hooks/get-data';
+import getStorageData from '../../hooks/get-data';
 import ErrorCard from '../../components/error-card';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
@@ -56,7 +56,7 @@ function CompleteCard() {
 
 const Home = () => {
   const [data, setData] = useState<any>([]);
-  const storage = GetStorageData(helper.getFirebaseConfig());
+  const storage = getStorageData(helper.getFirebaseConfig());
   const { isLoading, data: storageData } = storage;
   useEffect(() => {
     const newData: any = [];

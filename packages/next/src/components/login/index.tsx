@@ -28,10 +28,10 @@ const Login: NextPage | any = ({
   const [getSessionToken, setSessionToken] = useAccessToken();
   const [isLoading, setLoading] = useState(false);
   const [getLocal, setLocal] = useLocal();
-  const secretKeys = getLocal(); 
+  const secretKeys = getLocal();
   const config: any = getFirebaseConfig();
   const googleLogin = () => {
-    setLoading(true)
+    setLoading(true);
     let app;
     const firebaseConfigureJson = {
       apiKey: config.FIREBASE_API_KEY,
@@ -97,10 +97,9 @@ const Login: NextPage | any = ({
           API_KEY,
           API_SECRET,
         });
-        setLoading(false)
+        setLoading(false);
       })
       .catch(console.error);
-
   };
 
   useEffect(() => {
@@ -114,28 +113,22 @@ const Login: NextPage | any = ({
     if (token && API_KEY && API_SECRET && callBackAfterLogin) {
       return callBackAfterLogin();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [secretKeys])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [secretKeys]);
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="bg-slate-900 p-6 rounded flex flex-col items-center">
-        <h3 className="text-lg font-medium text-white mb-4">
-          Continue with google
-        </h3>
-        <button
-          disabled={isLoading}
-          onClick={googleLogin}
-          className="hover:bg-white hover:text-black flex items-center justify-center space-x-2 text-white font-mono border border-white px-4 py-2 text-xl">
-          <Image
-            src="/images/google-logo.png"
-            alt="google-logo"
-            height={30}
-            width={30}
-            quality={100}
-          />
-          <span>{isLoading ? 'Loading...' : 'Login'}</span>
-        </button>
-      </div>
+    <div>
+      <button
+        className="flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full"
+        disabled={isLoading}
+        onClick={googleLogin}>
+        <Image
+          src="/images/google-logo.png"
+          alt="logo"
+          width={20}
+          height={20}
+        />
+        <span className="ml-2 text-lg">Login with Google</span>
+      </button>
     </div>
   );
 };
