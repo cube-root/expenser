@@ -9,7 +9,8 @@
     "lint:next": "next lint",
     "lint:eslint": "eslint \"**/*.{ts,tsx}\" --max-warnings=0",
     "lint": "run-p lint:*",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "export": "next export"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",
