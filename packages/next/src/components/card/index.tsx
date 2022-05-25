@@ -1,17 +1,23 @@
+import { ClockIcon } from '@heroicons/react/outline';
+
 function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 const CardWrapper = ({ children }: { children: any }) => {
   return (
-    <div>
-      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">History</h2>
-      <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <>
+      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4">
+        History
+      </h2>
+      <ul
+        role="list"
+        className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {children}
       </ul>
-    </div>
-  )
-}
+    </>
+  );
+};
 const CardChild = ({
   key,
   heading,
@@ -20,9 +26,9 @@ const CardChild = ({
   description,
   currency,
   bgColor = 'bg-cyan-600',
-  startOf
+  startOf,
 }: {
-  key: any
+  key: any;
   heading?: string;
   amount?: string;
   date?: string;
@@ -34,32 +40,27 @@ const CardChild = ({
   startOf?: string;
 }) => {
   return (
-    <li key={key} className="col-span-1 flex shadow-sm rounded-md font-mono">
-      <div
-        className={classNames(
-          bgColor,
-          'flex-shrink-0 flex items-center justify-center w-24 text-white text-sm font-medium rounded-l-md'
-        )}
-      >
-        <div className="m-2">
-          {startOf}
-        </div>
+    <li
+      key={key}
+      className="col-span-1 flex justify-between items-start shadow-sm rounded-md font-mono bg-slate-50 p-4 border-l-4 border-red-600">
+      <div className="flex-auto">
+        <p>{heading}</p>
+        <p className="text-2xl font-medium my-1">
+          {currency} {amount}
+        </p>
+        <p className="text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-gray-400 text-sm">{date}</p>
       </div>
-      <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-        <div className="flex-1 px-4 py-2 text-sm truncate">
-          <p>{heading}</p>
-          <p>{amount} {currency}</p>
-          <p className="text-gray-500">{description}</p>
-          <p>{date}</p>
-        </div>
-
+      <div className="flex items-center space-x-1 text-slate-500">
+        <ClockIcon className="h-4 w-4" aria-hidden="true" />
+        <p>{startOf}</p>
       </div>
     </li>
-  )
-}
+  );
+};
 const Card = {
   CardWrapper,
-  CardChild
-}
+  CardChild,
+};
 
 export default Card;

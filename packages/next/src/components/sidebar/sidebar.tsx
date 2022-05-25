@@ -111,13 +111,9 @@ export default function SideBar({ children = null }: { children?: any }) {
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full">
-                <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-black">
-                  <div className="flex-shrink-0 flex items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://raw.githubusercontent.com/cube-root/expenser/main/packages/next/public/expenser-logo.png"
-                      alt="Easywire logo"
-                    />
+                <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-slate-50">
+                  <div className="flex-shrink-0 flex items-center justify-center px-4">
+                    <Image src="/logo/straight.svg" height={50} width={150} />
                   </div>
                   <Transition.Child
                     as={Fragment}
@@ -130,7 +126,7 @@ export default function SideBar({ children = null }: { children?: any }) {
                     <div className="absolute top-0 right-0 -mr-12 pt-2">
                       <button
                         type="button"
-                        className="font-mono ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                        className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                         onClick={() => setSidebarOpen(false)}>
                         <span className="sr-only">Close sidebar</span>
                         <XIcon
@@ -141,7 +137,7 @@ export default function SideBar({ children = null }: { children?: any }) {
                     </div>
                   </Transition.Child>
                   <nav
-                    className="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto"
+                    className="mt-5 flex-shrink-0 h-full divide-y divide-slate-200 overflow-y-auto"
                     aria-label="Sidebar">
                     <div className="px-2 space-y-1">
                       {navigation.map((item: any) => (
@@ -150,15 +146,15 @@ export default function SideBar({ children = null }: { children?: any }) {
                           onClick={() => changeRoute(item.href)}
                           className={classNames(
                             current === item.href
-                              ? 'bg-cyan-800 text-white'
-                              : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                            'group flex items-center px-2 py-2 text-base font-mono rounded-md',
+                              ? 'bg-slate-800 text-slate-100'
+                              : 'text-slate-800 hover:bg-slate-200',
+                            'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                           )}
                           aria-current={
                             current === item.href ? 'page' : undefined
                           }>
                           <item.icon
-                            className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                            className="mr-4 flex-shrink-0 h-6 w-6"
                             aria-hidden="true"
                           />
                           {item.name}
@@ -173,15 +169,15 @@ export default function SideBar({ children = null }: { children?: any }) {
                             onClick={() => changeRoute(item.href)}
                             className={classNames(
                               current === item.href
-                                ? 'bg-cyan-800 text-white'
-                                : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                              'group flex items-center px-2 py-2 text-base font-mono rounded-md',
+                                ? 'bg-slate-800 text-slate-100'
+                                : 'text-slate-800 hover:bg-slate-200',
+                              'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                             )}
                             aria-current={
                               current === item.href ? 'page' : undefined
                             }>
                             <item.icon
-                              className="mr-4 h-6 w-6 text-cyan-200"
+                              className="mr-4 h-6 w-6"
                               aria-hidden="true"
                             />
                             {item.name}
@@ -202,17 +198,16 @@ export default function SideBar({ children = null }: { children?: any }) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col flex-grow bg-black pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
-              <div className="flex items-center p-5 w-full text-white font-mono">
-                <div className="h-10 w-10 relative mr-2">
-                  <Image src="/expenser-logo.png" alt="logo" layout="fill" />
+          <div className="flex flex-col flex-grow bg-slate-50 pt-5 pb-4 overflow-y-auto">
+            <div className="flex items-center flex-shrink-0">
+              <div className="flex items-center py-5 w-full text-white ">
+                <div className="h-10 w-full relative">
+                  <Image src="/logo/straight.svg" alt="logo" layout="fill" />
                 </div>
-                <p className="text-2xl font-light">Expenser</p>
               </div>
             </div>
             <nav
-              className="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
+              className="mt-5 flex-1 flex flex-col divide-y divide-slate-200 overflow-y-auto"
               aria-label="Sidebar">
               <div className="px-2 space-y-1">
                 {navigation.map((item: any) => (
@@ -221,13 +216,13 @@ export default function SideBar({ children = null }: { children?: any }) {
                     onClick={() => changeRoute(item.href)}
                     className={classNames(
                       current === item.href
-                        ? 'bg-cyan-800 text-white'
-                        : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                      'group w-full flex items-center px-2 py-2 text-sm leading-6 font-mono rounded-md',
+                        ? 'bg-slate-800 text-slate-100'
+                        : 'text-slate-800 hover:bg-slate-200',
+                      'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                     )}
                     aria-current={current === item.href ? 'page' : undefined}>
                     <item.icon
-                      className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                      className="mr-4 flex-shrink-0 h-6 w-6"
                       aria-hidden="true"
                     />
                     {item.name}
@@ -242,15 +237,12 @@ export default function SideBar({ children = null }: { children?: any }) {
                       onClick={() => changeRoute(item.href)}
                       className={classNames(
                         current === item.href
-                          ? 'bg-cyan-800 text-white'
-                          : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                        'group w-full flex items-center px-2 py-2 text-sm leading-6 font-mono rounded-md',
+                          ? 'bg-slate-800 text-slate-100'
+                          : 'text-slate-800 hover:bg-slate-200',
+                        'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                       )}
                       aria-current={current === item.href ? 'page' : undefined}>
-                      <item.icon
-                        className="mr-4 h-6 w-6 text-cyan-200"
-                        aria-hidden="true"
-                      />
+                      <item.icon className="mr-4 h-6 w-6" aria-hidden="true" />
                       {item.name}
                     </button>
                   ))}
@@ -282,7 +274,7 @@ export default function SideBar({ children = null }: { children?: any }) {
                         src={photoUrl}
                         alt=""
                       />
-                      <span className="hidden ml-3 text-gray-700 text-sm font-mono lg:block">
+                      <span className="hidden ml-3 text-gray-700 text-sm  lg:block">
                         <span className="sr-only">Open user menu for </span>
                         {userData.displayName}
                       </span>
@@ -301,26 +293,6 @@ export default function SideBar({ children = null }: { children?: any }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {/* <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                    >
-                                                        Your Profile
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                    >
-                                                        Settings
-                                                    </a>
-                                                )}
-                                            </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <button
