@@ -85,7 +85,7 @@ export default function SideBar({ children = null }: { children?: any }) {
       : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png';
   return (
     <>
-      <div className="min-h-full">
+      <div className="h-screen overflow-auto">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -146,8 +146,8 @@ export default function SideBar({ children = null }: { children?: any }) {
                           onClick={() => changeRoute(item.href)}
                           className={classNames(
                             current === item.href
-                              ? 'bg-slate-800 text-slate-100'
-                              : 'text-slate-800 hover:bg-slate-200',
+                              ? 'bg-slate-800 text-slate-100 dark:bg-slate-700 dark:text-slate-200'
+                              : 'text-slate-800 hover:bg-slate-200 dark:text-slate-100 dark:hover:bg-slate-700/50',
                             'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                           )}
                           aria-current={
@@ -169,8 +169,8 @@ export default function SideBar({ children = null }: { children?: any }) {
                             onClick={() => changeRoute(item.href)}
                             className={classNames(
                               current === item.href
-                                ? 'bg-slate-800 text-slate-100'
-                                : 'text-slate-800 hover:bg-slate-200',
+                                ? 'bg-slate-800 text-slate-100 dark:bg-slate-700 dark:text-slate-200'
+                                : 'text-slate-800 hover:bg-slate-200 dark:text-slate-100 dark:hover:bg-slate-700/50',
                               'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                             )}
                             aria-current={
@@ -198,7 +198,7 @@ export default function SideBar({ children = null }: { children?: any }) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col flex-grow bg-slate-50 pt-5 pb-4 overflow-y-auto">
+          <div className="flex flex-col flex-grow bg-slate-50 dark:bg-slate-800 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0">
               <div className="flex items-center py-5 w-full text-white ">
                 <div className="h-10 w-full relative">
@@ -207,7 +207,7 @@ export default function SideBar({ children = null }: { children?: any }) {
               </div>
             </div>
             <nav
-              className="mt-5 flex-1 flex flex-col divide-y divide-slate-200 overflow-y-auto"
+              className="mt-5 flex-1 flex flex-col divide-y divide-slate-200 dark:divide-slate-900 overflow-y-auto"
               aria-label="Sidebar">
               <div className="px-2 space-y-1">
                 {navigation.map((item: any) => (
@@ -216,8 +216,8 @@ export default function SideBar({ children = null }: { children?: any }) {
                     onClick={() => changeRoute(item.href)}
                     className={classNames(
                       current === item.href
-                        ? 'bg-slate-800 text-slate-100'
-                        : 'text-slate-800 hover:bg-slate-200',
+                        ? 'bg-slate-800 text-slate-100 dark:bg-slate-700 dark:text-slate-200'
+                        : 'text-slate-800 hover:bg-slate-200 dark:text-slate-100 dark:hover:bg-slate-700/50',
                       'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                     )}
                     aria-current={current === item.href ? 'page' : undefined}>
@@ -237,8 +237,8 @@ export default function SideBar({ children = null }: { children?: any }) {
                       onClick={() => changeRoute(item.href)}
                       className={classNames(
                         current === item.href
-                          ? 'bg-slate-800 text-slate-100'
-                          : 'text-slate-800 hover:bg-slate-200',
+                          ? 'bg-slate-800 text-slate-100 dark:bg-slate-700 dark:text-slate-200'
+                          : 'text-slate-800 hover:bg-slate-200 dark:text-slate-100 dark:hover:bg-slate-700/50',
                         'group w-full flex items-center px-2 py-2 text-sm leading-6  rounded-md',
                       )}
                       aria-current={current === item.href ? 'page' : undefined}>
@@ -252,11 +252,11 @@ export default function SideBar({ children = null }: { children?: any }) {
           </div>
         </div>
 
-        <div className="lg:pl-64 flex flex-col flex-1">
-          <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
+        <div className="lg:pl-64 flex flex-col flex-auto h-screen">
+          <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none dark:bg-gray-800 dark:border-gray-800">
             <button
               type="button"
-              className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+              className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 lg:hidden"
               onClick={() => setSidebarOpen(true)}>
               <span className="sr-only">Open sidebar</span>
               <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
@@ -268,18 +268,18 @@ export default function SideBar({ children = null }: { children?: any }) {
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
+                    <Menu.Button className="max-w-xs bg-white dark:bg-slate-900 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50 dark:lg:hover:bg-gray-900">
                       <img
                         className="h-8 w-8 rounded-full"
                         src={photoUrl}
                         alt=""
                       />
-                      <span className="hidden ml-3 text-gray-700 text-sm  lg:block">
+                      <span className="hidden ml-3 text-gray-700 dark:text-slate-300 text-sm  lg:block">
                         <span className="sr-only">Open user menu for </span>
                         {userData.displayName}
                       </span>
                       <ChevronDownIcon
-                        className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
+                        className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 dark:text-slate-300 lg:block"
                         aria-hidden="true"
                       />
                     </Menu.Button>
@@ -312,7 +312,9 @@ export default function SideBar({ children = null }: { children?: any }) {
             </div>
           </div>
           {/* className="flex-1 pb-8" */}
-          <main>{children}</main>
+          <div className="flex-auto bg-white dark:bg-slate-900 overflow-y-auto">
+            {children}
+          </div>
         </div>
       </div>
     </>

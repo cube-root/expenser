@@ -73,7 +73,7 @@ const GetExpense = () => {
                   color="black"
                 /> */}
             </div>
-            <p className="text-black font-mono">
+            <p className="text-black  ">
               Loading
               <span className="animate-pulse pl-1 pr-1">...</span>
               Please wait

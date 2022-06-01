@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
@@ -16,11 +16,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       className={classNames(darkMode ? 'dark' : '', 'font-dmSans relative')}>
       <Component {...pageProps} darkMode={darkMode} />
       <ToastContainer />
-      <button
+      {/* <button
         onClick={() => setDarkMode(!darkMode)}
-        className="absolute top-0 right-0 dark:text-white">
+        className="absolute top-0 right-0 dark:text-white z-50">
         {darkMode ? 'Light' : 'Dark'}
-      </button>
+      </button> */}
     </main>
   );
 }

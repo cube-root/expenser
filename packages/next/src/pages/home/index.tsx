@@ -24,19 +24,15 @@ function CompleteCard() {
           />
         </div>
         <div className="ml-3">
-          <h3 className="text-sm font-mono text-green-800">
-            Configure completed
-          </h3>
+          <h3 className="text-sm   text-green-800">Configure completed</h3>
           <div className="mt-2 text-sm text-green-700">
-            <p className="font-mono">
-              Add and view expense from the navigation tab !!
-            </p>
+            <p className=" ">Add and view expense from the navigation tab !!</p>
           </div>
           <div className="mt-4">
             <div className="-mx-2 -my-1.5 flex pt-5">
               <button
                 type="button"
-                className="border  border-black  font-mono bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+                className="border  border-black    bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
                 onClick={() => {
                   router.push('/add-expense');
                 }}>
@@ -44,7 +40,7 @@ function CompleteCard() {
               </button>
               <button
                 type="button"
-                className="border  border-black font-mono ml-3 bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+                className="border  border-black   ml-3 bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
                 onClick={() => {
                   router.push('/get-expense');
                 }}>
@@ -61,7 +57,7 @@ function CompleteCard() {
 const InitialCard = () => {
   const router = useRouter();
   return (
-    <div className="rounded-md bg-green-50 px-4 py-6 text-center">
+    <div className="rounded-md bg-green-600/20 px-4 py-6 text-center dark:text-white">
       <Image
         src="/images/currency symbols.png"
         alt="currencies"
@@ -85,7 +81,7 @@ const InitialCard = () => {
 const TelegramIntegration = () => {
   const router = useRouter();
   return (
-    <div className="rounded-md bg-blue-50 px-4 py-6">
+    <div className="rounded-md bg-blue-600/20 dark:text-white px-4 py-6">
       <div className="flex space-x-4 mb-4 sm:justify-center">
         <Image
           src="/images/telegram_logo.png"
@@ -134,7 +130,7 @@ const Home = () => {
           </div>
         )}
         {!isLoading && (
-          <div className="flex flex-col flex-auto overflow-y-auto">
+          <div className="flex flex-col flex-auto">
             <div className="py-6">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -142,7 +138,7 @@ const Home = () => {
                   <TelegramIntegration />
                 </div>
                 <button
-                  className="flex items-center justify-between w-full bg-green-50 p-4 space-x-4 text-slate-900 rounded-lg my-4"
+                  className="flex items-center justify-between w-full bg-green-600/20 dark:text-slate-50 p-4 space-x-4 text-slate-900 rounded-lg my-4"
                   onClick={() => {
                     router.push('/get-expense');
                   }}>

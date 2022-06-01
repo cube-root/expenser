@@ -42,16 +42,18 @@ const CardChild = ({
   return (
     <li
       key={key}
-      className="col-span-1 flex justify-between items-start shadow-sm rounded-md font-mono bg-slate-50 p-4 border-l-4 border-red-600">
+      className="col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600">
       <div className="flex-auto">
-        <p>{heading}</p>
-        <p className="text-2xl font-medium my-1">
+        <p className="dark:text-white">{heading}</p>
+        <p className="text-2xl font-medium my-1 dark:text-white">
           {currency} {amount}
         </p>
-        <p className="text-gray-500 text-sm mb-2">{description}</p>
-        <p className="text-gray-400 text-sm">{date}</p>
+        <p className="text-slate-500 dark:text-slate-200 text-sm mb-2">
+          {description}
+        </p>
+        <p className="text-slate-400 dark:text-slate-300 text-sm">{date}</p>
       </div>
-      <div className="flex items-center space-x-1 text-slate-500">
+      <div className="flex items-center space-x-1 text-slate-500 dark:text-slate-200">
         <ClockIcon className="h-4 w-4" aria-hidden="true" />
         <p>{startOf}</p>
       </div>
