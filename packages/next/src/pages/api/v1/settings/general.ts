@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { settings } from '../../../../backend';
+import { settings } from '../../../../lib';
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
     const {

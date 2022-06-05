@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { revokeKeys } from '../../../../backend';
+import { revokeKeys } from '../../../../lib';
 
 type Data = {
     API_KEY?: string,

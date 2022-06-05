@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
     settings
-} from '../../../../backend'
+} from '../../../../lib'
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
     const {
         'x-api_key': API_KEY,
