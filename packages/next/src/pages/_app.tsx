@@ -3,16 +3,17 @@ import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { useState } from 'react';
 import Mode from '../components/mode';
-
+import useMode from '../hooks/mode';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [darkMode, setDarkMode] = useState(true);
+  const {
+    darkMode,
+    toggleMode: setDarkMode
+  } = useMode();
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
-
   return (
     <main
       className={classNames(darkMode ? 'dark' : '', 'font-dmSans relative')}>
