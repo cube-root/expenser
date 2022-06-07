@@ -30,6 +30,7 @@ const Login: NextPage | any = ({
   const [getLocal, setLocal] = useLocal();
   const secretKeys = getLocal();
   const config: any = getFirebaseConfig();
+  
   const googleLogin = () => {
     setLoading(true);
     let app;

@@ -1,6 +1,7 @@
 import { extractSheet } from './extract-sheet-id';
 import { generateToken, generateKey } from './jwt';
-type FirebaseConfigType = {
+
+export type FirebaseConfigType = {
   FIREBASE_API_KEY: string | any;
   FIREBASE_AUTH_DOMAIN: string | any;
   PROJECT_ID: string | any;
@@ -21,7 +22,12 @@ const getFirebaseConfig = (): FirebaseConfigType => {
     CLIENT_EMAIL: process.env.CLIENT_EMAIL,
   }
 }
-
+const NODE_ENV = process.env.NODE_ENV;
+const Logger = {
+  log: NODE_ENV === 'production' ? () => { console.log('production') } : console.log,
+  error: NODE_ENV === 'production' ? () => { console.log('production') } : console.error,
+  warn: NODE_ENV === 'production' ? () => { console.log('production') } : console.warn,
+}
 const helper = {
   extractSheet,
   getFirebaseConfig,
@@ -30,6 +36,7 @@ const helper = {
 export {
   generateToken,
   generateKey,
-  getFirebaseConfig
+  getFirebaseConfig,
+  Logger
 }
 export default helper;
