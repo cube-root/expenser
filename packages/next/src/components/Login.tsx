@@ -6,7 +6,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import tag from '../config/tag.json';
 import axios from 'axios';
 
-const Login = () => {
+const Login = (props: {
+    callBack: (props: {
+        API_KEY: string,
+        API_SECRET: string,
+        uid: string,
+        email: string,
+        photoUrl: string,
+        name: string,
+    }) => void
+}) => {
     const [isLoading, setLoading] = useState(false);
     const onClickLogin = async () => {
         setLoading(true);
@@ -31,7 +40,6 @@ const Login = () => {
             const auth = getAuth(app);
             const data: any = await signInWithPopup(auth, provider);
             const { accessToken } = (data && data.user) || {};
-            console.log(accessToken);
             const result = await axios.post('/api/v1/user/login', {
                 accessToken
             }, {
@@ -39,7 +47,9 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log(result);
+            if (props.callBack) {
+                props.callBack(result.data);
+            }
         } catch (error) {
             Logger.error(error);
         }

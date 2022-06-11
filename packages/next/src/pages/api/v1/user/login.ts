@@ -12,7 +12,7 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         try {
             const user = new User(accessToken);
-            const value = await user.verifyUser();
+            const value = await user.registerUser();
             return res.status(200).json(value)
         } catch (error: any) {
             return res.status(500).json({

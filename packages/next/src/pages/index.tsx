@@ -16,8 +16,8 @@ const SplashScreen = () => {
 const GetStarted = ({ darkMode }: { darkMode: boolean }) => {
   const router = useRouter();
 
-  const loginCallBack = () => {
-    router.push('/home');
+  const loginCallBack = (data:any) => {
+    console.log(data)
   };
 
   return (
@@ -61,7 +61,7 @@ const GetStarted = ({ darkMode }: { darkMode: boolean }) => {
               <span className="text-green-600">Google Sheets</span>
             </p>
           </div>
-          <Login callBackAfterLogin={loginCallBack} />
+          <Login callBack={loginCallBack} />
         </div>
       </div>
     </div>
