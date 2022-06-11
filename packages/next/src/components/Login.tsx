@@ -7,6 +7,7 @@ import tag from '../config/tag.json';
 import axios from 'axios';
 
 const Login = (props: {
+    forceLoading?: boolean;
     callBack: (props: {
         API_KEY: string,
         API_SECRET: string,
@@ -58,7 +59,7 @@ const Login = (props: {
     return (<div>
         <button
             className="flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full"
-            disabled={isLoading}
+            disabled={isLoading || props.forceLoading}
             onClick={onClickLogin}>
             <Image
                 src="/images/google-logo.png"
@@ -66,8 +67,8 @@ const Login = (props: {
                 width={20}
                 height={20}
             />
-            {isLoading && (<span className="ml-2 text-lg">Loading...</span>)}
-            {!isLoading && (<span className="ml-2 text-lg">Login with Google</span>)}
+            {(isLoading || props.forceLoading) && (<span className="ml-2 text-lg">Loading...</span>)}
+            {(!isLoading && !props.forceLoading) && (<span className="ml-2 text-lg">Login with Google</span>)}
         </button>
     </div>)
 }

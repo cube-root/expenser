@@ -3,18 +3,41 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Login } from '../components';
 import useUser from '../hooks/user';
-const SplashScreen = () => {
-  return (
-    <div className="bg-white h-screen w-full dark:bg-slate-900">
-      <div className="flex justify-center items-center h-full">
-        <Image src="/logo/stacked.svg" alt="logo" width={150} height={150} />
-      </div>
-    </div>
-  );
-};
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const GetStarted = ({ darkMode }: { darkMode: boolean }) => {
+const Home = ({ darkMode }: { darkMode: boolean }) => {
+  const [isLoading, setLoading] = useState(false);
+  const router = useRouter();
   const [user, setUser] = useUser();
+  
+  const checkSheetSettings = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/api/v1/sheets/settings', {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api_key': user.API_KEY,
+          'x-api_secret': user.API_SECRET
+        }
+      });
+      const data = response.data;
+      if (data && data.currentSheet) {
+        router.push(`/home`);
+      } else {
+        router.push(`/onboarding`);
+      }
+    } catch (error) {
+      router.push(`/onboarding`);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (user && user.API_KEY && user.API_SECRET) {
+      checkSheetSettings();
+    }
+  }, [])
   const loginCallBack = (data: any) => {
     setUser({ ...data });
   };
@@ -59,17 +82,13 @@ const GetStarted = ({ darkMode }: { darkMode: boolean }) => {
               <span className="text-green-600">Google Sheets</span>
             </p>
           </div>
-          <Login callBack={loginCallBack} />
+          <Login callBack={loginCallBack} forceLoading={isLoading} />
         </div>
       </div>
     </div>
   );
 };
 
-const Home = ({ darkMode }: { darkMode: boolean }) => {
-  const router = useRouter();
-  return <GetStarted darkMode={darkMode} />;
-};
 
 export default Home;
 
