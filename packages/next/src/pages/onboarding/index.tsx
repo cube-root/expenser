@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -8,12 +7,25 @@ import {
   InformationCircleIcon,
   SparklesIcon,
 } from '@heroicons/react/outline';
-
+import { getFirebaseConfig } from '../../helper';
+import useUser from '../../hooks/user'
+import { useRouter } from 'next/router';
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   const router = useRouter();
-  const emailAddress = 'expenser@expenser-bacf1.iam.gserviceaccount.com';
+  const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();
   const [copied, setCopied] = useState(false);
+  const [user] = useUser();
+  useEffect(() => {
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000)
+  }, [copied])
 
+  useEffect(() => {
+    if (!user || !user.API_KEY || !user.API_SECRET) {
+      router.push('/');
+    }
+  }, [user])
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-around space-y-4 text-slate-900 dark:text-slate-100 max-w-4xl mx-auto h-full">
@@ -40,6 +52,7 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
                 className="flex items-center px-4 py-1 space-x-2 rounded-full bg-slate-800 text-white"
                 onClick={() => {
                   navigator.clipboard.writeText(emailAddress);
+                  setCopied(true);
                 }}>
                 <DuplicateIcon className="h-4 w-4" />
                 <span>{copied ? 'Copied to clipboard' : 'Copy email id'}</span>
