@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Login } from '../components';
-
+import useUser from '../hooks/user';
 const SplashScreen = () => {
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900">
@@ -14,12 +14,10 @@ const SplashScreen = () => {
 };
 
 const GetStarted = ({ darkMode }: { darkMode: boolean }) => {
-  const router = useRouter();
-
-  const loginCallBack = (data:any) => {
-    console.log(data)
+  const [user, setUser] = useUser();
+  const loginCallBack = (data: any) => {
+    setUser({ ...data });
   };
-
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-center h-full space-y-4 text-slate-900 dark:text-slate-100">

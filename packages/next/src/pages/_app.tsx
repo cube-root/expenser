@@ -5,15 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Mode from '../components/mode';
 import useMode from '../hooks/mode';
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   const {
     darkMode,
     toggleMode: setDarkMode
   } = useMode();
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-  }
+
   return (
     <main
       className={classNames(darkMode ? 'dark' : '', 'font-dmSans relative')}>
