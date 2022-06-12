@@ -14,7 +14,8 @@ import {
   PuzzleIcon,
 } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import useStorageData from '../../hooks/local-storage';
+import useUser from '../../hooks/user';
+
 
 const navigation: any = [
   {
@@ -55,12 +56,12 @@ function classNames(...classes: any) {
 }
 
 export default function SideBar({ children = null }: { children?: any }) {
+  const [data] = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userData, setUserData] = useState<any>({});
   const [current, setCurrent] = useState('/home');
   const router = useRouter();
-  const [getData] = useStorageData();
-  const data = getData();
+  
   const changeRoute = (link: any) => {
     router.push(link);
   };
