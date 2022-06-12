@@ -38,7 +38,7 @@ const Connect = () => {
       },{
         headers:{
           'Content-Type': 'application/json',
-          'x-api_token': user.API_KEY,
+          'x-api_key': user.API_KEY,
           'x-api_secret': user.API_SECRET
         }
       })
