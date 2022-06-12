@@ -37,6 +37,7 @@ export {
   generateToken,
   generateKey,
   getFirebaseConfig,
-  Logger
+  Logger,
+  extractSheet
 }
 export default helper;

@@ -61,7 +61,7 @@ const settings = {
         await verifySecret(API_SECRET, tokenData.uid);
         const firebase = new Firebase();
         await firebase.setGeneralSettings(tokenData.uid, data);
-    }
+    },
 }
 
 export default settings;
