@@ -61,7 +61,6 @@ export default function SideBar({ children = null }: { children?: any }) {
   const [userData, setUserData] = useState<any>({});
   const [current, setCurrent] = useState('/home');
   const router = useRouter();
-  
   const changeRoute = (link: any) => {
     router.push(link);
   };
@@ -79,7 +78,7 @@ export default function SideBar({ children = null }: { children?: any }) {
       displayName: data.displayName,
       photoUrl: data.photoUrl,
     });
-  }, [data]);
+  }, []);
   const photoUrl =
     userData && userData.photoUrl
       ? userData.photoUrl

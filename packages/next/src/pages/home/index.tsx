@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar';
-import GetStorageData from '../../hooks/get-data';
 import ErrorCard from '../../components/error-card';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import helper from '../../helper';
+import withUser from '../../wrapper/check-user';
 import {
   ChevronRightIcon,
   ClipboardListIcon,
@@ -107,18 +106,8 @@ const TelegramIntegration = () => {
 
 const Home = () => {
   const [data, setData] = useState<any>([]);
-  const storage = GetStorageData(helper.getFirebaseConfig());
-  const { isLoading, data: storageData } = storage;
-  useEffect(() => {
-    const newData: any = [];
-    if (
-      storageData &&
-      (!storageData.sheet || !storageData.sheet.spreadSheetId)
-    ) {
-      newData.push('Problem with Spreadsheet ID. Please configure sheet !!!.');
-    }
-    setData(newData);
-  }, [storageData]);
+  const [isLoading,setLoading] = useState(false);
+
   const router = useRouter();
 
   return (
@@ -167,4 +156,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withUser(Home);
