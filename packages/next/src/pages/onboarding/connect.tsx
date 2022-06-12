@@ -1,18 +1,9 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import {
-  ChevronRightIcon,
-  DuplicateIcon,
-  InformationCircleIcon,
-} from '@heroicons/react/outline';
-
-const Connect = ({ darkMode }: { darkMode: boolean }) => {
-  const router = useRouter();
-  const emailAddress = 'expenser@expenser-bacf1.iam.gserviceaccount.com';
-  const [copied, setCopied] = useState(false);
-
+import { useState } from 'react';
+import withUser from '../../wrapper/check-user';
+const Connect = () => {
+  
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-center space-y-4 text-slate-900 dark:text-slate-100 max-w-4xl mx-auto h-full">
@@ -39,8 +30,8 @@ const Connect = ({ darkMode }: { darkMode: boolean }) => {
                   type="url"
                   name="url"
                   id="url"
-                  className="shadow-sm px-4 py-2 border focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-slate-300 rounded-md"
-                  placeholder="you@example.com"
+                  className="shadow-sm px-4 py-2 border focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-slate-300 rounded-md block dark:text-black"
+                  placeholder="https://docs.google.com/spreadsheets/d/1jsmoasdns2jnsdl/edit#gid=0"
                 />
               </div>
             </div>
@@ -55,8 +46,8 @@ const Connect = ({ darkMode }: { darkMode: boolean }) => {
                   type="text"
                   name="name"
                   id="name"
-                  className="shadow-sm px-4 py-2 border focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-slate-300 rounded-md"
-                  placeholder="you@example.com"
+                  className="shadow-sm px-4 py-2 border focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-slate-300 rounded-md block dark:text-black"
+                  placeholder="your sheet"
                 />
               </div>
             </div>
@@ -74,4 +65,4 @@ const Connect = ({ darkMode }: { darkMode: boolean }) => {
   );
 };
 
-export default Connect;
+export default withUser(Connect);

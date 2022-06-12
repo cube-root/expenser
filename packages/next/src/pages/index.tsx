@@ -10,7 +10,6 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const [user, setUser] = useUser();
-  
   const checkSheetSettings = async () => {
     setLoading(true);
     try {
@@ -40,6 +39,7 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   }, [])
   const loginCallBack = (data: any) => {
     setUser({ ...data });
+    checkSheetSettings();
   };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">

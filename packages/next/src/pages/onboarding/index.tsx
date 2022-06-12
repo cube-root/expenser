@@ -8,24 +8,17 @@ import {
   SparklesIcon,
 } from '@heroicons/react/outline';
 import { getFirebaseConfig } from '../../helper';
-import useUser from '../../hooks/user'
-import { useRouter } from 'next/router';
+import withUser from '../../wrapper/check-user';
+
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
-  const router = useRouter();
   const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();
   const [copied, setCopied] = useState(false);
-  const [user] = useUser();
   useEffect(() => {
     setTimeout(() => {
       setCopied(false);
     }, 3000)
   }, [copied])
 
-  useEffect(() => {
-    if (!user || !user.API_KEY || !user.API_SECRET) {
-      router.push('/');
-    }
-  }, [user])
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-around space-y-4 text-slate-900 dark:text-slate-100 max-w-4xl mx-auto h-full">
@@ -42,11 +35,11 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
             Create a new Google sheet and share with email below
           </h2>
           <div className="relative mx-auto w-full">
-            <input
-              type="email"
-              className="border border-slate-800 rounded-md bg-slate-50 px-2 pt-2 pb-6 w-full text-center dark:text-slate-800"
-              value={emailAddress}
-            />
+            <span
+            className="border border-slate-800 rounded-md bg-slate-50 px-2 pt-2 pb-6 w-full text-center dark:text-slate-800"
+            >
+              {emailAddress}
+            </span>
             <div className="absolute top-10 inset-x-0 flex justify-center">
               <button
                 className="flex items-center px-4 py-1 space-x-2 rounded-full bg-slate-800 text-white"
@@ -101,4 +94,4 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   );
 };
 
-export default OnBoarding;
+export default withUser(OnBoarding);
