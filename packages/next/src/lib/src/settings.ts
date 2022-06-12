@@ -23,6 +23,7 @@ const settings = {
             currentSheet: sheetData.spreadSheetId,
             currentSheetLink: sheetData.spreadSheetLink,
             usedSheets: sheetData.sheets || [],
+            name: sheetData.name || ''
         }
     },
     getGeneralSettings: async ({

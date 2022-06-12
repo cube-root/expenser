@@ -7,12 +7,16 @@ import { toast } from 'react-toastify';
 import { extractSheet } from '../../helper'
 import axios from 'axios';
 import useUser from '../../hooks/user';
+import useSheet from '../../hooks/sheet';
 
 const Connect = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [url, setUrl] = useState<any>(undefined);
-  const [name, setName] = useState<any>(undefined);
+  const [url, setUrl] = useState<any>('');
+  const [name, setName] = useState<any>('');
   const [user] = useUser();
+  const [, setSheet] = useSheet();
+  const router = useRouter();
+
   const saveSettings = async () => {
     setIsLoading(true);
     const schema = yup.object().shape({
@@ -35,13 +39,19 @@ const Connect = () => {
         sheetLink: validData.url,
         sheetId: extractSheet(validData.url),
         name: validData.name,
-      },{
-        headers:{
+      }, {
+        headers: {
           'Content-Type': 'application/json',
           'x-api_key': user.API_KEY,
           'x-api_secret': user.API_SECRET
         }
       })
+      setSheet({
+        sheetId: extractSheet(validData.url),
+        sheetUrl: validData.url,
+        name: validData.name
+      });
+      router.push('/home');
     } catch (error: any) {
       if (error.errors) {
         error.errors && error.errors.forEach((err: any) => {

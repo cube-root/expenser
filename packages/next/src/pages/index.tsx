@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Login } from '../components';
 import useUser from '../hooks/user';
+import useSheet from '../hooks/sheet';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -10,6 +11,7 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const [user, setUser] = useUser();
+  const [, setSheet] = useSheet()
   const checkSheetSettings = async () => {
     setLoading(true);
     try {
@@ -22,6 +24,11 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
       });
       const data = response.data;
       if (data && data.currentSheet) {
+        setSheet({
+          sheetId: data.currentSheet,
+          sheetUrl: data.currentSheetLink,
+          name: data.name
+        })
         router.push(`/home`);
       } else {
         router.push(`/onboarding`);
