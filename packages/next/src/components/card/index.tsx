@@ -25,7 +25,7 @@ const CardChild = ({
   date,
   description,
   currency,
-  bgColor = 'bg-cyan-600',
+  // bgColor = 'bg-cyan-600',
   startOf,
 }: {
   key: any;
@@ -41,7 +41,7 @@ const CardChild = ({
 }) => {
   return (
     <li
-      key={key}
+      key={key ? key : new Date().getTime()}
       className="col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600">
       <div className="flex-auto">
         <p className="dark:text-white">{heading}</p>

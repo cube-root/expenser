@@ -12,14 +12,17 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   const router = useRouter();
   const [user, setUser] = useUser();
   const [, setSheet] = useSheet()
-  const checkSheetSettings = async () => {
+  const checkSheetSettings = async ({ API_KEY, API_SECRET }:{
+    API_KEY: string,
+    API_SECRET: string
+  }) => {
     setLoading(true);
     try {
       const response = await axios.get('/api/v1/sheets/settings', {
         headers: {
           'Content-Type': 'application/json',
-          'x-api_key': user.API_KEY,
-          'x-api_secret': user.API_SECRET
+          'x-api_key': API_KEY,
+          'x-api_secret': API_SECRET
         }
       });
       const data = response.data;
@@ -41,12 +44,18 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
 
   useEffect(() => {
     if (user && user.API_KEY && user.API_SECRET) {
-      checkSheetSettings();
+      checkSheetSettings({
+        API_KEY: user.API_KEY,
+        API_SECRET: user.API_SECRET
+      });
     }
   }, [])
   const loginCallBack = (data: any) => {
     setUser({ ...data });
-    checkSheetSettings();
+    checkSheetSettings({
+      API_KEY: data.API_KEY,
+      API_SECRET: data.API_SECRET
+    });
   };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
