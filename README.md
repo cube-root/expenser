@@ -4,7 +4,7 @@ Manage your personal bills using google spread sheet.
 
 <br/>
 
-Live Demo: [https://expenser-one.vercel.app/](https://expenser-one.vercel.app/)
+Live Demo: [https://www.myexpense.app/](https://www.myexpense.app)
 
 ## Built with
 
