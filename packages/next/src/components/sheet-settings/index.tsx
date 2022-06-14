@@ -33,9 +33,9 @@ const RenderComponents = ({
         <Update />
       );
     }
-    // case 'general': {
-    //   return <General />;
-    // }
+    case 'general': {
+      return <General />;
+    }
     default: {
       return null;
     }

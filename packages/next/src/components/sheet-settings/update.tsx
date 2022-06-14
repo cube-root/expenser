@@ -12,7 +12,7 @@ import {
 const Update = () => {
   const [isCreating, setCreating] = useState(false);
   const [user] = useUser();
-  const [sheet, setSheet] = useSheet();
+  const [, setSheet] = useSheet();
 
   const spreadSheetLink = useRef('');
   const name = useRef('');
