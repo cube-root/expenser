@@ -6,6 +6,8 @@ Manage your personal bills using google spread sheet.
 
 Live Demo: [https://www.myexpense.app/](https://www.myexpense.app)
 
+Download PWA: [PWA](https://appmaker.xyz/pwa-to-apk/download/1bplEfDZ6Zl4d1xPEMcg)
+
 ## Built with
 
 1. Next.js
