@@ -7,6 +7,7 @@ import SideBar from '../../components/sidebar';
 import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
+import withUser from '../../wrapper/check-user';
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
@@ -94,4 +95,4 @@ const GetExpense = () => {
     </SideBar>
   );
 };
-export default GetExpense;
+export default withUser(GetExpense);

@@ -66,7 +66,7 @@ export default function SideBar({ children = null }: { children?: any }) {
   };
   const onLogout = () => {
     window.localStorage.clear();
-    router.push('/');
+    window.location.reload();
   };
   useEffect(() => {
     if (router.pathname) {

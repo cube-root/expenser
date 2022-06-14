@@ -6,6 +6,7 @@ import useUser from '../../hooks/user';
 import {
   ClipboardCopyIcon,
 } from '@heroicons/react/outline';
+import withUser from '../../wrapper/check-user';
 
 type typeResponse = {
   API_KEY: 'string';
@@ -19,21 +20,21 @@ const Integrations = () => {
     undefined,
   );
   const [user, setUser] = useUser();
-    useEffect(()=>{
-      if(copiedkey){
-        setTimeout(()=>{
-          setCopiedKey(false);
-        },3000)
-      }
-      if(copiedsecret){
-        setTimeout(()=>{
-          setCopiedSecret(false);
-        },3000)
-      }
-    },[
-      copiedkey,
-      copiedsecret,
-    ])
+  useEffect(() => {
+    if (copiedkey) {
+      setTimeout(() => {
+        setCopiedKey(false);
+      }, 3000)
+    }
+    if (copiedsecret) {
+      setTimeout(() => {
+        setCopiedSecret(false);
+      }, 3000)
+    }
+  }, [
+    copiedkey,
+    copiedsecret,
+  ])
   const showKeys = async () => {
     try {
       setLoading(true);
@@ -169,4 +170,4 @@ const Integrations = () => {
   );
 };
 
-export default Integrations;
+export default withUser(Integrations);
