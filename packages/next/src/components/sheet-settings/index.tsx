@@ -25,9 +25,9 @@ const RenderComponents = ({
         <Create />
       );
     }
-    // case 'current': {
-    //   return <Current {...props} />;
-    // }
+    case 'current': {
+      return <Current />;
+    }
     // case 'update': {
     //   return (
     //     <Update

@@ -1,10 +1,6 @@
-type inputProps = {
-  currentSheetLink?: string;
-  sheetLink?: string;
-  sheetId?: string;
-};
-
-const Current = (props: inputProps) => {
+import useSheet from "../../hooks/sheet";
+const Current = () => {
+  const [sheet] = useSheet();
   return (
     <div className="mt-12">
       <dl className="divide-y divide-gray-200 text-gray-800 dark:text-gray-300">
@@ -15,15 +11,15 @@ const Current = (props: inputProps) => {
               <a
                 target={'_blank'}
                 rel="noreferrer"
-                href={props.currentSheetLink ? props.currentSheetLink : '#'}>
-                {props.sheetId}
+                href={sheet.sheetUrl}>
+                {sheet.name} ({sheet.sheetId})
               </a>
             </span>
             <span className="ml-4 flex-shrink-0">
               <a
                 target={'_blank'}
                 rel="noreferrer"
-                href={props.currentSheetLink ? props.currentSheetLink : '#'}
+                href={sheet.sheetUrl}
                 className="rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                 Open Sheet
               </a>

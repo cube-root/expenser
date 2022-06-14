@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 
 const Create = () => {
   const [user] = useUser();
-  const [,setSheet] = useSheet();
+  const [, setSheet] = useSheet();
   const spreadSheetLink = useRef('');
   const name = useRef('');
   const [isCreating, setCreating] = useState(false);
@@ -53,6 +53,7 @@ const Create = () => {
         sheetUrl: validData.url,
         name: validData.name
       });
+      toast.info('Sheet updated')
     } catch (error: any) {
       if (error.errors) {
         error.errors && error.errors.forEach((err: any) => {
