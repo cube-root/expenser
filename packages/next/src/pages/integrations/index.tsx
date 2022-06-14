@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SideBar from '../../components/sidebar';
 import { toast } from 'react-toastify';
 import useUser from '../../hooks/user';
+import {
+  ClipboardCopyIcon,
+  PlusIcon,
+  SaveIcon,
+} from '@heroicons/react/outline';
 
 type typeResponse = {
   API_KEY: 'string';
@@ -10,11 +15,27 @@ type typeResponse = {
 };
 const Integrations = () => {
   const [isLoading, setLoading] = useState(false);
+  const [copiedkey, setCopiedKey] = useState(false);
+  const [copiedsecret, setCopiedSecret] = useState(false);
   const [responseData, setResponseData] = useState<typeResponse | undefined>(
     undefined,
   );
   const [user, setUser] = useUser();
-
+    useEffect(()=>{
+      if(copiedkey){
+        setTimeout(()=>{
+          setCopiedKey(false);
+        },3000)
+      }
+      if(copiedsecret){
+        setTimeout(()=>{
+          setCopiedSecret(false);
+        },3000)
+      }
+    },[
+      copiedkey,
+      copiedsecret,
+    ])
   const showKeys = async () => {
     try {
       setLoading(true);
@@ -101,12 +122,46 @@ const Integrations = () => {
           {responseData && (
             <div className="flex flex-col mt-10 gap-7">
               <div className="flex flex-col gap-1 ">
-                <div className="font-bold">API KEY :</div>
-                <div className="mt-2 border  ">{responseData.API_KEY}</div>
+                <div className="font-bold flex flex-row items-center">
+                  <span>API KEY :</span>
+                  <div className='ml-2'>
+                    <button
+                      onClick={() => {
+                        setCopiedKey(true);
+                        navigator.clipboard.writeText(responseData.API_KEY);
+                      }}
+                      className="px-4 py-2 rounded bg-slate-800 dark:bg-slate-700 hover:bg-opacity-90 dark:hover:bg-opacity-90 text-white  inset-y-0 right-0 rounded-r-md inline-flex items-center justify-center space-x-2">
+                      <ClipboardCopyIcon className="h-5 w-5" />
+                      <span>{copiedkey ? 'Copied to clipboard' : 'Copy to clipboard'}</span>
+                    </button>
+                  </div>
+                </div>
+                <input type="text"
+                  value={responseData.API_KEY}
+                  disabled
+                  className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white dark:text-black"
+                />
               </div>
               <div className="flex flex-col gap-1 ">
-                <div className="font-bold">API SECRET :</div>
-                <div className="mt-2 border  ">{responseData.API_SECRET}</div>
+                <div className="font-bold flex flex-row items-center">
+                  <span>API SECRET :</span>
+                  <div className='ml-2'>
+                    <button
+                      onClick={() => {
+                        setCopiedSecret(true);
+                        navigator.clipboard.writeText(responseData.API_KEY);
+                      }}
+                      className="px-4 py-2 rounded bg-slate-800 dark:bg-slate-700 hover:bg-opacity-90 dark:hover:bg-opacity-90 text-white  inset-y-0 right-0 rounded-r-md inline-flex items-center justify-center space-x-2">
+                      <ClipboardCopyIcon className="h-5 w-5" />
+                      <span>{copiedsecret ? 'Copied to clipboard' : 'Copy to clipboard'}</span>
+                    </button>
+                  </div>
+                </div>
+                <input type="text"
+                  value={responseData.API_SECRET}
+                  disabled
+                  className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white dark:text-black"
+                />
               </div>
             </div>
           )}
