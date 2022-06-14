@@ -4,13 +4,6 @@ import Current from './current';
 import Update from './update';
 import General from './general';
 
-type inputProps = {
-  currentSheetLink?: string;
-  sheetLink?: string;
-  sheetId?: string;
-  firebaseConfig?: any;
-  callBack?: any;
-};
 const tabs = [
   { id: 'create', name: 'Create new sheet', href: '#' },
   { id: 'current', name: 'Current sheet', href: '#' },
@@ -22,47 +15,36 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 const RenderComponents = ({
-  type,
-  props,
+  type
 }: {
   type: string;
-  props: inputProps;
 }) => {
   switch (type) {
     case 'create': {
       return (
-        <Create
-          firebaseConfig={props.firebaseConfig}
-          setSpreadSheetLinkCallBack={props.callBack}
-        />
+        <Create />
       );
     }
-    case 'current': {
-      return <Current {...props} />;
-    }
-    case 'update': {
-      return (
-        <Update
-          firebaseConfig={props.firebaseConfig}
-          setSpreadSheetLinkCallBack={props.callBack}
-        />
-      );
-    }
-    case 'general': {
-      return <General />;
-    }
+    // case 'current': {
+    //   return <Current {...props} />;
+    // }
+    // case 'update': {
+    //   return (
+    //     <Update
+    //       firebaseConfig={props.firebaseConfig}
+    //       setSpreadSheetLinkCallBack={props.callBack}
+    //     />
+    //   );
+    // }
+    // case 'general': {
+    //   return <General />;
+    // }
     default: {
       return null;
     }
   }
 };
-export default function SheetSettings({
-  currentSheetLink,
-  sheetId,
-  sheetLink,
-  firebaseConfig,
-  callBack,
-}: inputProps) {
+export default function SheetSettings() {
   const [current, setCurrent] = useState(tabs[0].id);
 
   return (
@@ -122,13 +104,6 @@ export default function SheetSettings({
               <div>
                 <RenderComponents
                   type={current}
-                  props={{
-                    currentSheetLink,
-                    sheetId,
-                    sheetLink,
-                    firebaseConfig,
-                    callBack,
-                  }}
                 />
               </div>
             </div>

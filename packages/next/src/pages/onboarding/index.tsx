@@ -14,9 +14,11 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();
   const [copied, setCopied] = useState(false);
   useEffect(() => {
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000)
+    if (copied) {
+      setTimeout(() => {
+        setCopied(false);
+      }, 3000)
+    }
   }, [copied])
 
   return (
@@ -36,7 +38,7 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
           </h2>
           <div className="relative mx-auto w-full">
             <span
-            className="border border-slate-800 rounded-md bg-slate-50 px-2 pt-2 pb-6 w-full text-center dark:text-slate-800"
+              className="border border-slate-800 rounded-md bg-slate-50 px-2 pt-2 pb-6 w-full text-center dark:text-slate-800"
             >
               {emailAddress}
             </span>
