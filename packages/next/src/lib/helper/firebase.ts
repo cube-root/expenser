@@ -153,6 +153,7 @@ class FirebaseService {
     setSheetData = async (uid: string, data: {
         spreadSheetId: string,
         spreadSheetLink: string,
+        name: string,
     }) => {
         let sheetData: any = {};
         const { spreadSheetId, spreadSheetLink } = data;
@@ -168,6 +169,7 @@ class FirebaseService {
                         id: spreadSheetId,
                         link: spreadSheetLink,
                         createdAt: new Date().toISOString(),
+                        name: data.name
                     })
                 }
             } else {
@@ -175,10 +177,16 @@ class FirebaseService {
                     id: spreadSheetId,
                     link: spreadSheetLink,
                     createdAt: new Date().toISOString(),
+                    name: data.name
                 }];
             }
         } catch (error) {
-            sheetData = {}
+            sheets = [{
+                id: spreadSheetId,
+                link: spreadSheetLink,
+                createdAt: new Date().toISOString(),
+                name: data.name
+            }]
         }
 
 

@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import {
     Telegram,
     verifyToken
-} from '../../../../../backend';
+} from '../../../../../lib';
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {

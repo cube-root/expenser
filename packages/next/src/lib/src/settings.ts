@@ -23,6 +23,7 @@ const settings = {
             currentSheet: sheetData.spreadSheetId,
             currentSheetLink: sheetData.spreadSheetLink,
             usedSheets: sheetData.sheets || [],
+            name: sheetData.name || ''
         }
     },
     getGeneralSettings: async ({
@@ -61,7 +62,7 @@ const settings = {
         await verifySecret(API_SECRET, tokenData.uid);
         const firebase = new Firebase();
         await firebase.setGeneralSettings(tokenData.uid, data);
-    }
+    },
 }
 
 export default settings;

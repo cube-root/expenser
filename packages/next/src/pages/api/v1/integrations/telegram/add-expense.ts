@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import {
     Telegram,
     verifyToken
-} from '../../../../../backend';
+} from '../../../../../lib';
 
 export default async function api(
     req: NextApiRequest,

@@ -47,6 +47,16 @@ class SheetService {
         });
         return response;
     }
+    async changeSheet(sheetId: string, sheetLink: string, sheetName: string) {
+        const tokenData: any = await verifyKey(this.apiKey);
+        await verifySecret(this.apiSecret, tokenData.uid);
+        const firebase = new Firebase()
+        return firebase.setSheetData(tokenData.uid, {
+            spreadSheetId: sheetId,
+            spreadSheetLink: sheetLink,
+            name: sheetName
+        });
+    }
 }
 
 

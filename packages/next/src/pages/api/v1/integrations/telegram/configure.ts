@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   Telegram
-} from '../../../../../backend';
+} from '../../../../../lib';
 
 export default async function handler(
   req: NextApiRequest,

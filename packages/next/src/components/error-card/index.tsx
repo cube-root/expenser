@@ -15,15 +15,13 @@ const ErrorCard = (props: inputProp) => {
           <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
         </div>
         <div className="ml-3">
-          <h3 className="text-sm font-medium font-mono text-red-800">
-            {props.title}
-          </h3>
+          <h3 className="text-sm font-medium   text-red-800">{props.title}</h3>
           <div className="mt-2 text-sm text-red-700">
             <ul role="list" className="list-disc pl-5 space-y-1">
               {props.list &&
                 props.list.map((item: listArray, index: any) => {
                   return (
-                    <li className="font-mono" key={index}>
+                    <li className=" " key={index}>
                       {item}
                     </li>
                   );

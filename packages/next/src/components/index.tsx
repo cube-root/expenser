@@ -1,2 +1,2 @@
-import Login from './login';
+import Login from './Login';
 export { Login };
