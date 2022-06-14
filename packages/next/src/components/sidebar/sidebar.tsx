@@ -113,7 +113,7 @@ export default function SideBar({ children = null }: { children?: any }) {
                 leaveTo="-translate-x-full">
                 <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-slate-50">
                   <div className="flex-shrink-0 flex items-center justify-center px-4">
-                    <Image src="/logo/straight.svg" height={50} width={150} />
+                    <Image src="/logo/straight.svg" height={50} width={150} alt="" />
                   </div>
                   <Transition.Child
                     as={Fragment}

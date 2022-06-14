@@ -1,9 +1,5 @@
 import { ClockIcon } from '@heroicons/react/outline';
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const CardWrapper = ({ children }: { children: any }) => {
   return (
     <>
