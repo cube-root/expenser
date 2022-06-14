@@ -5,8 +5,6 @@ import { toast } from 'react-toastify';
 import useUser from '../../hooks/user';
 import {
   ClipboardCopyIcon,
-  PlusIcon,
-  SaveIcon,
 } from '@heroicons/react/outline';
 
 type typeResponse = {
