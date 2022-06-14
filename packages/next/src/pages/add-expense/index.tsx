@@ -16,6 +16,7 @@ const AddExpense = () => {
   const [isLoading, setLoading] = useState(false);
   const [user] = useUser();
   const [sheet] = useSheet();
+
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');
@@ -101,20 +102,20 @@ const AddExpense = () => {
               Amount
             </label>
             <div className="mt-1 flex">
-              <div className="relative">
+              {/* <div className="relative">
                 <Forms.CurrencyFormField
                   required
                   name="currency"
-                  // onChange={(event: any) => {
-                  //   currency.current = event.target.value;
-                  // }}
+                  onChange={(event: any) => {
+                    currency.current = event.target.value;
+                  }}
                   className="appearance-none bg-gray-100 border border-gray-500 border-r-0 text-black py-3 px-4 pr-8 rounded-l-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="currency"
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 -top-2 flex items-center px-2 text-gray-700">
                   <ChevronDownIcon className="fill-current h-5 w-5" />
                 </div>
-              </div>
+              </div> */}
               <Forms.AmountFormField
                 required
                 className="flex-auto appearance-none bg-white text-black border border-gray-500 rounded-r-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
