@@ -7,7 +7,8 @@ type State = {
     API_SECRET: string,
     name: string,
     photoUrl: string,
-    uid: string
+    uid: string,
+    accessToken: string,
 }
 
 const user: any = create(persist(
@@ -17,15 +18,17 @@ const user: any = create(persist(
         name: undefined,
         photoUrl: undefined,
         uid: undefined,
+        accessToken: undefined,
         setUser: (
             {
                 API_KEY,
                 API_SECRET,
                 name,
                 photoUrl,
-                uid
+                uid,
+                accessToken
             }: State
-        ) => set((state: State) => ({ ...state, API_KEY, API_SECRET, name, photoUrl, uid })),
+        ) => set((state: State) => ({ ...state, API_KEY, API_SECRET, name, photoUrl, uid, accessToken })),
     }),
     {
         name: "user"
@@ -39,14 +42,16 @@ const useUser = () => {
         API_SECRET,
         name,
         photoUrl,
-        setUser
+        setUser,
+        accessToken
     } = user();
 
     return [{
         API_KEY,
         API_SECRET,
         name,
-        photoUrl
+        photoUrl,
+        accessToken
     }, setUser];
 }
 export default useUser;

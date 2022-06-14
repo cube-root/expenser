@@ -1,29 +1,20 @@
-import { useEffect } from 'react';
 import { useState } from 'react';
-import useLocalStorage from '../../hooks/local-storage';
 import axios from 'axios';
 import SideBar from '../../components/sidebar';
 import { toast } from 'react-toastify';
-import useKeys from '../../hooks/keys';
+import useUser from '../../hooks/user';
 
 type typeResponse = {
   API_KEY: 'string';
   API_SECRET: 'string';
 };
 const Integrations = () => {
-  const [userData, setData] = useState<any>({});
   const [isLoading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState<typeResponse | undefined>(
     undefined,
   );
-  const [get] = useLocalStorage();
-  const data = get();
-  const [, setKeys] = useKeys();
-  useEffect(() => {
-    setData({
-      idToken: data.idToken,
-    });
-  }, [data]);
+  const [user, setUser] = useUser();
+
   const showKeys = async () => {
     try {
       setLoading(true);
@@ -33,7 +24,7 @@ const Integrations = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userData.idToken}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         },
       );
@@ -54,15 +45,12 @@ const Integrations = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userData.idToken}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         },
       );
       toast.success('Keys revoked successfully');
-      setKeys({
-        API_KEY: response.data.API_KEY,
-        API_SECRET: response.data.API_SECRET,
-      });
+      setUser({ ...user, ...response.data });
       setResponseData(response.data);
     } catch (error: any) {
       toast.error(error.message || 'Failed to revoke keys');

@@ -49,7 +49,7 @@ const Login = (props: {
                 }
             })
             if (props.callBack) {
-                props.callBack(result.data);
+                props.callBack({ ...result.data, accessToken });
             }
         } catch (error) {
             Logger.error(error);
