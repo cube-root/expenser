@@ -28,14 +28,11 @@ const RenderComponents = ({
     case 'current': {
       return <Current />;
     }
-    // case 'update': {
-    //   return (
-    //     <Update
-    //       firebaseConfig={props.firebaseConfig}
-    //       setSpreadSheetLinkCallBack={props.callBack}
-    //     />
-    //   );
-    // }
+    case 'update': {
+      return (
+        <Update />
+      );
+    }
     // case 'general': {
     //   return <General />;
     // }
