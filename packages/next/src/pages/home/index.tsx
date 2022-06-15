@@ -105,13 +105,13 @@ const TelegramIntegration = () => {
   );
 };
 
-const Home = () => {
+const Home = ({ darkMode }: { darkMode: boolean }) => {
   const [isLoading] = useState(false);
 
   const router = useRouter();
 
   return (
-    <SideBar>
+    <SideBar darkMode={darkMode}>
       <>
         {isLoading && (
           <div className="flex justify-center">
