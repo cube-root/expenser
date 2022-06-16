@@ -61,8 +61,8 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
                 height={100}
               />
             </div>
-            <Link href={'https://sheet.new/'}>
-              <a className="relative inline-flex items-center space-x-2 justify-center bg-green-50 border border-green-600 hover:bg-green-100 rounded-full px-6 py-4">
+            <Link href={'https://sheet.new/'} passHref >
+              <a target="_blank" className="relative inline-flex items-center space-x-2 justify-center bg-green-50 border border-green-600 hover:bg-green-100 rounded-full px-6 py-4">
                 <SparklesIcon className="h-6 w-6 text-green-600 absolute -left-2 -top-1" />
                 <Image
                   src={'/images/gsheet-icon.png'}
