@@ -20,7 +20,7 @@ const AddExpense = () => {
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string>('food');
-  // const currency = useRef<string>('$');
+  const currency = useRef<string>('$');
   const appendData = async ({
     sheetId,
     inputData,
@@ -56,12 +56,14 @@ const AddExpense = () => {
       amount: yup.number().required(),
       remark: yup.string(),
       type: yup.string().required(),
+      currency: yup.string(),
     })
     try {
       const validateData = await schema.validate({
         amount: amount.current,
         remark: remark.current,
         type: type.current,
+        currency: currency.current,
       })
       setLoading(true);
       const sheetId = sheet.sheetId
@@ -102,7 +104,7 @@ const AddExpense = () => {
               Amount
             </label>
             <div className="mt-1 flex">
-              {/* <div className="relative">
+              <div className="relative">
                 <Forms.CurrencyFormField
                   required
                   name="currency"
@@ -115,7 +117,7 @@ const AddExpense = () => {
                 <div className="pointer-events-none absolute inset-y-0 right-0 -top-2 flex items-center px-2 text-gray-700">
                   <ChevronDownIcon className="fill-current h-5 w-5" />
                 </div>
-              </div> */}
+              </div>
               <Forms.AmountFormField
                 required
                 className="flex-auto appearance-none bg-white text-black border border-gray-500 rounded-r-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"

@@ -27,6 +27,20 @@ export default class Bot {
     console.log('bot started....');
     this.bot.onText(/\/start/, (msg: any) => {
       const chatId = msg.chat.id;
+      this.bot.sendMessage(
+        msg.chat.id,
+        'Please login',
+        {
+          reply_markup: {
+            keyboard: [[
+              {
+                text: 'Login',
+                web_app: { url: `https://1589e78abc.to.intercept.rest/telegram-login?chatId=${msg.chat.id}` },
+              },
+            ]],
+          },
+        },
+      );
       this.bot.sendMessage(chatId, message);
     });
     this.bot.onText(/\/help/, (msg: any) => {
