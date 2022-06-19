@@ -53,6 +53,17 @@ const api = {
       },
     });
   },
+  getUser: async (chatId: string | number | undefined) => {
+    const response = await axios.post(`${url}/api/v1/integrations/telegram/user`, {
+      CHAT_ID: chatId,
+    }, {
+      headers: {
+        'x-access-token': generateToken({ chatId }),
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  },
 };
 
 export default api;

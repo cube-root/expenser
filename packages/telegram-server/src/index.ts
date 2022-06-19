@@ -15,9 +15,9 @@ app.use(cors());
 
 export const bot = new Bot(botToken);
 bot.start();
-bot.configure();
-bot.add();
-bot.changeSheet();
+// bot.configure();
+// bot.add();
+// bot.changeSheet();
 
 app.use('/api', routes);
 app.get('/', (req: any, res: any) => res.status(200).json({ message: 'hello' }));

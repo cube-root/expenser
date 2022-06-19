@@ -3,8 +3,8 @@ import { verifyGoogleOathAccessToken } from '../helper/token';
 import { generateToken, generateKey, } from '../../helper'
 import FirebaseService from "../helper/firebase";
 class User {
-    accessToken: string;
-    constructor(accessToken: string) {
+    accessToken: any;
+    constructor(accessToken?: string) {
         this.accessToken = accessToken;
     }
     // async verifyUser(){
@@ -62,7 +62,14 @@ class User {
             API_SECRET,
         }
     }
-
+    async getUserByTelegramChatId(chatId: string) {
+        const firebase = new FirebaseService();
+        return firebase.getTelegramChatId(chatId);
+    }
+    async getUserData(uuid: string) {
+        const firebase = new FirebaseService();
+        return firebase.getUser(uuid);
+    }
 }
 
 export default User;
