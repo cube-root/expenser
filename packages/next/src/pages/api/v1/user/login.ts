@@ -4,14 +4,15 @@ import {
 } from '../../../../lib'
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
     const {
-        accessToken
+        accessToken,
+        telegramToken
     } = req.body;
     if (!accessToken) {
         return res.status(401).send("accessToken is required");
     }
     if (req.method === 'POST') {
         try {
-            const user = new User(accessToken);
+            const user = new User(accessToken, telegramToken);
             const value = await user.registerUser();
             return res.status(200).json(value)
         } catch (error: any) {

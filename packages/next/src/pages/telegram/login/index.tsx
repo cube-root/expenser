@@ -12,6 +12,8 @@ import useUser from "../../../hooks/user";
 import { useRouter } from 'next/router'
 const Login = () => {
     const router = useRouter();
+    const { query = {} } = router;
+    const { token } = query;
     const email = useRef('');
     const password = useRef('');
     const [isLoading, setLoading] = useState(false);
@@ -95,7 +97,8 @@ const Login = () => {
             const response: any = await signInWithEmailAndPassword(auth, data.email, data.password);
             const { accessToken } = (response && response.user) || {};
             const result = await axios.post('/api/v1/user/login', {
-                accessToken
+                accessToken,
+                telegramToken:token
             }, {
                 headers: {
                     'Content-Type': 'application/json'
