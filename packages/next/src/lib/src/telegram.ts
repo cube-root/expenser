@@ -76,7 +76,8 @@ class TelegramService extends FirebaseService {
         const { uuid } = chatData;
         return this.firebase.setSheetData(uuid, {
             spreadSheetId: sheetId,
-            spreadSheetLink: sheetLink
+            spreadSheetLink: sheetLink,
+            name: ""
         });
 
     }

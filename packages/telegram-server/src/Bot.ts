@@ -143,7 +143,7 @@ export default class Bot {
         await api.add({
           amount: amount.text,
           remark: remark.text,
-          type: type.data,
+          type: type.text,
           chatId: msg.chat.id,
           currency: currency.data,
         });
