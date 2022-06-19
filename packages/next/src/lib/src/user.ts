@@ -1,11 +1,16 @@
 import axios from "axios";
-import { verifyGoogleOathAccessToken } from '../helper/token';
-import { generateToken, generateKey, } from '../../helper'
+import { verifyGoogleOathAccessToken, verifyKey } from '../helper/token';
+import { generateToken, generateKey } from '../../helper'
 import FirebaseService from "../helper/firebase";
+import TelegramService from "./telegram";
 class User {
-    accessToken: string;
-    constructor(accessToken: string) {
+    accessToken: any;
+    telegramToken: any
+    constructor(accessToken?: string, telegramToken?: string) {
         this.accessToken = accessToken;
+        if (telegramToken) {
+            this.telegramToken = telegramToken;
+        }
     }
     // async verifyUser(){
     //     let publicKey = await axios.get('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com');
@@ -52,6 +57,18 @@ class User {
             API_SECRET,
             emailVerified
         })
+        // set telegram chat id
+        if (this.telegramToken) {
+            const tokenData = await verifyKey(this.telegramToken, process.env.WEBHOOK_TOKEN);
+            const { chatId } = tokenData;
+            const telegram = new TelegramService({
+                API_SECRET: API_SECRET,
+                CHAT_ID: chatId,
+                uid: userId,
+                email: email,
+            });
+            await telegram.configure();
+        }
         return {
             name: name,
             email: email,
@@ -62,7 +79,14 @@ class User {
             API_SECRET,
         }
     }
-
+    async getUserByTelegramChatId(chatId: string) {
+        const firebase = new FirebaseService();
+        return firebase.getTelegramChatId(chatId);
+    }
+    async getUserData(uuid: string) {
+        const firebase = new FirebaseService();
+        return firebase.getUser(uuid);
+    }
 }
 
 export default User;

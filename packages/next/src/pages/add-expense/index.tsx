@@ -56,14 +56,14 @@ const AddExpense = () => {
       amount: yup.number().required(),
       remark: yup.string(),
       type: yup.string().required(),
-      currency: yup.string()
+      currency: yup.string(),
     })
     try {
       const validateData = await schema.validate({
         amount: amount.current,
         remark: remark.current,
         type: type.current,
-        currency: currency.current
+        currency: currency.current,
       })
       setLoading(true);
       const sheetId = sheet.sheetId

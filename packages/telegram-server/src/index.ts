@@ -15,10 +15,11 @@ app.use(cors());
 
 export const bot = new Bot(botToken);
 bot.start();
-bot.configure();
+// bot.configure();
 bot.add();
 bot.changeSheet();
-
+bot.help();
+bot.login();
 app.use('/api', routes);
 app.get('/', (req: any, res: any) => res.status(200).json({ message: 'hello' }));
 

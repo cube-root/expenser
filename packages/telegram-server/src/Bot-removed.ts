@@ -1,28 +1,23 @@
 /* eslint-disable consistent-return */
 import 'dotenv/config';
 import TelegramBot from 'node-telegram-bot-api';
-import api, { url } from './helper/api';
-import { generateToken } from './helper/token';
+import api from './helper/api';
 import extract from './helper/extract-sheet-id';
 
-const defaultHelp = `
-1. Login \n
-command: /login \n
-\n \n 
+const message = `
+Expense \n\n\n
+1. Configure with dashboard eg: /configure   \n
+command: /configure 
+\n \n \n \n
 2. Add Expense \n
 command: /add \n
-\n\n
+\n\n\n\n
 3. Change sheet\n
 command: /change
-\n\n
-4. Help \n
-command: /help
 `;
 
 export default class Bot {
   bot: TelegramBot;
-
-  chatId: string | number | undefined;
 
   constructor(token: string) {
     this.bot = new TelegramBot(token, { polling: true });
@@ -30,43 +25,41 @@ export default class Bot {
 
   start() {
     console.log('bot started....');
-    this.bot.onText(/\/start/, async (msg: any) => {
+    this.bot.onText(/\/start/, (msg: any) => {
       const chatId = msg.chat.id;
-      this.chatId = chatId;
-      await this.sendMessage(chatId, 'Please wait ...!!!');
+      this.bot.sendMessage(
+        msg.chat.id,
+        'Please login',
+        {
+          reply_markup: {
+            keyboard: [[
+              {
+                text: 'Login',
+                web_app: { url: `https://1589e78abc.to.intercept.rest/telegram?chatId=${msg.chat.id}` },
+              },
+            ]],
+          },
+        },
+      );
+      this.bot.sendMessage(chatId, message);
+    });
+    this.bot.onText(/\/help/, (msg: any) => {
+      const chatId = msg.chat.id;
+      this.bot.sendMessage(chatId, message);
+    });
+  }
 
-      try {
-        await api.getUser(this.chatId);
-        this.bot.sendMessage(
-          chatId,
-          'Please click Home',
-          {
-            reply_markup: {
-              keyboard: [[
-                {
-                  text: 'Home',
-                  web_app: { url: `${url}/telegram/home?token=${generateToken({ chatId: this.chatId })}` },
-                },
-              ]],
-            },
-          },
-        );
-      } catch (error) {
-        this.bot.sendMessage(
-          chatId,
-          'Please login',
-          {
-            reply_markup: {
-              keyboard: [[
-                {
-                  text: 'Login',
-                  web_app: { url: `${url}/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
-                },
-              ]],
-            },
-          },
-        );
-      }
+  configure() {
+    this.bot.onText(/\/configure/, async (msg: any) => {
+      const chatId = msg.chat.id;
+      const customUrl = `${process.env.URL}/telegram-login?chatId=${chatId}`;
+      await this.bot.sendMessage(chatId, 'Click to login', {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+        reply_markup: {
+          inline_keyboard: [[{ text: 'Login', url: customUrl }]],
+        },
+      });
     });
   }
 
@@ -105,19 +98,30 @@ export default class Bot {
     });
   }
 
-  async sendMessage(chatId: number | string | any, text: string | any) {
-    try {
-      await this.bot.sendMessage(chatId, text);
-    } catch (error) {
-      // do nothing
-    }
-  }
-
   add() {
     this.bot.onText(/\/add/, async (msg: any) => {
       const amount: any = await this.replyBot(msg.chat.id, 'Enter Amount');
       const remark: any = await this.replyBot(msg.chat.id, 'Enter Remark');
-      const type: any = await this.replyBot(msg.chat.id, 'Enter Type');
+      const type: any = await this.keyboard(
+        msg.chat.id,
+        'Enter type',
+        [
+          [{
+            text: 'food',
+            callback_data: 'food',
+
+          }],
+          [{
+            text: 'travel',
+            callback_data: 'travel',
+          }],
+          [{
+            text: 'others',
+            callback_data: 'others',
+
+          }],
+        ],
+      );
       const currency: any = await this.keyboard(
         msg.chat.id,
         'Enter currency',
@@ -143,7 +147,7 @@ export default class Bot {
         await api.add({
           amount: amount.text,
           remark: remark.text,
-          type: type.text,
+          type: type.data,
           chatId: msg.chat.id,
           currency: currency.data,
         });
@@ -153,6 +157,14 @@ export default class Bot {
         if (error.response) { await this.bot.sendMessage(msg.chat.id, `${error.message} `); }
       }
     });
+  }
+
+  async sendMessage(chatId: number | string | any, text: string | any) {
+    try {
+      await this.bot.sendMessage(chatId, text);
+    } catch (error) {
+      // do nothing
+    }
   }
 
   async changeSheet() {
@@ -169,32 +181,6 @@ export default class Bot {
         await this.bot.sendMessage(chatId, 'Something went wrong');
         if (error.response) { await this.bot.sendMessage(chatId, `${error.message} `); }
       }
-    });
-  }
-
-  help() {
-    this.bot.onText(/\/help/, async (msg: any) => {
-      this.sendMessage(msg.chat.id, defaultHelp);
-    });
-  }
-
-  login() {
-    this.bot.onText(/\/login/, async (msg: any) => {
-      const chatId = msg.chat.id;
-      this.bot.sendMessage(
-        chatId,
-        'Please login',
-        {
-          reply_markup: {
-            keyboard: [[
-              {
-                text: 'Login',
-                web_app: { url: `${url}/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
-              },
-            ]],
-          },
-        },
-      );
     });
   }
 }

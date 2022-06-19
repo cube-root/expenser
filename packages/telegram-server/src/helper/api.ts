@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { generateToken } from './token';
 
-const url = process.env.URL || 'http://localhost:3000';
+export const url = process.env.URL || 'http://localhost:3000';
 
 const api = {
   configure: async (apiSecret: string, chatId: number | string) => {
@@ -52,6 +52,17 @@ const api = {
         'Content-Type': 'application/json',
       },
     });
+  },
+  getUser: async (chatId: string | number | undefined) => {
+    const response = await axios.post(`${url}/api/v1/integrations/telegram/user`, {
+      CHAT_ID: chatId,
+    }, {
+      headers: {
+        'x-access-token': generateToken({ chatId }),
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
   },
 };
 
