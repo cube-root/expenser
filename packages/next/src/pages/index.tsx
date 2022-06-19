@@ -12,7 +12,7 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   const router = useRouter();
   const [user, setUser] = useUser();
   const [, setSheet] = useSheet()
-  const checkSheetSettings = async ({ API_KEY, API_SECRET }:{
+  const checkSheetSettings = async ({ API_KEY, API_SECRET }: {
     API_KEY: string,
     API_SECRET: string
   }) => {
@@ -43,7 +43,7 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   }
 
   useEffect(() => {
-    if (user && user.API_KEY && user.API_SECRET) {
+    if (user && user.API_KEY && user.API_SECRET && user.API_KEY.length > 0 && user.API_SECRET.length > 0) {
       checkSheetSettings({
         API_KEY: user.API_KEY,
         API_SECRET: user.API_SECRET

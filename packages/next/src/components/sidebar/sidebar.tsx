@@ -88,7 +88,6 @@ export default function SideBar({
     userData && userData.photoUrl
       ? userData.photoUrl
       : 'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png';
-  console.log(darkMode, 'SideBar++++++++++');
   return (
     <div className="h-screen overflow-auto">
       <Transition.Root show={sidebarOpen} as={Fragment}>
