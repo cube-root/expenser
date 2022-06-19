@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { generateToken } from './token';
 
-const url = process.env.URL || 'http://localhost:3000';
+export const url = process.env.URL || 'http://localhost:3000';
 
 const api = {
   configure: async (apiSecret: string, chatId: number | string) => {

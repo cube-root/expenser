@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import 'dotenv/config';
 import TelegramBot from 'node-telegram-bot-api';
-import api from './helper/api';
+import api, { url } from './helper/api';
 import { generateToken } from './helper/token';
 import extract from './helper/extract-sheet-id';
 
@@ -45,7 +45,7 @@ export default class Bot {
               keyboard: [[
                 {
                   text: 'Home',
-                  web_app: { url: `https://1589e78abc.to.intercept.rest/telegram/home?token=${generateToken({ chatId: this.chatId })}` },
+                  web_app: { url: `${url}/telegram/home?token=${generateToken({ chatId: this.chatId })}` },
                 },
               ]],
             },
@@ -60,7 +60,7 @@ export default class Bot {
               keyboard: [[
                 {
                   text: 'Login',
-                  web_app: { url: `https://1589e78abc.to.intercept.rest/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
+                  web_app: { url: `${url}/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
                 },
               ]],
             },
@@ -189,7 +189,7 @@ export default class Bot {
             keyboard: [[
               {
                 text: 'Login',
-                web_app: { url: `https://1589e78abc.to.intercept.rest/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
+                web_app: { url: `${url}/telegram/login?token=${generateToken({ chatId: this.chatId })}` },
               },
             ]],
           },
