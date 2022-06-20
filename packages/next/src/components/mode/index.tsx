@@ -1,44 +1,34 @@
 const Mode = ({
-    setDarkMode,
-    darkMode,
+  setDarkMode,
+  darkMode,
 }: {
-    setDarkMode: (darkMode: boolean) => void,
-    darkMode: boolean,
+  setDarkMode: (darkMode: boolean) => void;
+  darkMode: boolean;
 }) => {
-    return (
-        <button
-            onClick={() => setDarkMode(!darkMode)}
-        >
-            {!darkMode ?
-                (<svg
-                    id="theme-toggle-dark-icon"
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-                    ></path>
-                </svg>) : (
-                    <svg
-                        id="theme-toggle-light-icon"
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                        ></path>
-                    </svg>
-                )}
-        </button>
-    )
-}
-
-
+  return (
+    <button
+      onClick={() => setDarkMode(!darkMode)}
+      title={darkMode ? 'Light Mode' : 'Dark Mode'}
+      className="inline-flex p-2 bg-gray-900/5 rounded-full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        height="20"
+        viewBox="0 0 24 24"
+        width="20">
+        <path
+          d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8V16Z"
+          fill="currentColor"
+        />
+        <path
+          clipRule="evenodd"
+          d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 4V8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16V20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4Z"
+          fill="currentColor"
+          fillRule="evenodd"
+        />
+      </svg>
+    </button>
+  );
+};
 
 export default Mode;

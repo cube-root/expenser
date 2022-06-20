@@ -28,9 +28,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <Component {...pageProps} darkMode={darkMode} />
       <ToastContainer />
-      <div className="absolute top-0 right-0 dark:text-white z-50">
+      {/* <div className="absolute top-0 right-0 dark:text-white z-50">
         <Mode darkMode={darkMode} setDarkMode={setDarkMode} />
-      </div>
+      </div> */}
     </main>
   );
 }

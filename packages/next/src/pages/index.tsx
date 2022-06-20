@@ -6,15 +6,21 @@ import useUser from '../hooks/user';
 import useSheet from '../hooks/sheet';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Mode from '../components/mode';
+import useMode from '../hooks/mode';
 
-const Home = ({ darkMode }: { darkMode: boolean }) => {
+const Home = () => {
   const [isLoading, setLoading] = useState(false);
+  const { darkMode, toggleMode: setDarkMode } = useMode();
   const router = useRouter();
   const [user, setUser] = useUser();
-  const [, setSheet] = useSheet()
-  const checkSheetSettings = async ({ API_KEY, API_SECRET }: {
-    API_KEY: string,
-    API_SECRET: string
+  const [, setSheet] = useSheet();
+  const checkSheetSettings = async ({
+    API_KEY,
+    API_SECRET,
+  }: {
+    API_KEY: string;
+    API_SECRET: string;
   }) => {
     setLoading(true);
     try {
@@ -22,16 +28,16 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
         headers: {
           'Content-Type': 'application/json',
           'x-api_key': API_KEY,
-          'x-api_secret': API_SECRET
-        }
+          'x-api_secret': API_SECRET,
+        },
       });
       const data = response.data;
       if (data && data.currentSheet) {
         setSheet({
           sheetId: data.currentSheet,
           sheetUrl: data.currentSheetLink,
-          name: data.name
-        })
+          name: data.name,
+        });
         router.push(`/home`);
       } else {
         router.push(`/onboarding`);
@@ -40,26 +46,32 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
       router.push(`/onboarding`);
     }
     setLoading(false);
-  }
+  };
 
   useEffect(() => {
-    if (user && user.API_KEY && user.API_SECRET && user.API_KEY.length > 0 && user.API_SECRET.length > 0) {
+    if (
+      user &&
+      user.API_KEY &&
+      user.API_SECRET &&
+      user.API_KEY.length > 0 &&
+      user.API_SECRET.length > 0
+    ) {
       checkSheetSettings({
         API_KEY: user.API_KEY,
-        API_SECRET: user.API_SECRET
+        API_SECRET: user.API_SECRET,
       });
     }
-  }, [])
+  }, []);
   const loginCallBack = (data: any) => {
     setUser({ ...data });
     checkSheetSettings({
       API_KEY: data.API_KEY,
-      API_SECRET: data.API_SECRET
+      API_SECRET: data.API_SECRET,
     });
   };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
-      <div className="flex flex-col items-center px-4 justify-center h-full space-y-4 text-slate-900 dark:text-slate-100">
+      <div className="flex flex-col items-center px-4 justify-start sm:justify-center pt-4 sm:pt-0 h-full space-y-4 text-slate-900 dark:text-slate-100">
         <div className="flex items-center justify-between w-full max-w-4xl sm:justify-center">
           <Image
             src={darkMode ? '/logo/straight-white.svg' : '/logo/straight.svg'}
@@ -67,16 +79,21 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
             width={150}
             height={50}
           />
-          <Link href={'https://github.com/cube-root/expenser'} passHref={true}>
-            <a className="bg-slate-100 p-2 rounded-full inline-flex sm:absolute sm:top-4 sm:right-4">
-              <Image
-                src="/images/github.svg"
-                alt="logo"
-                width={20}
-                height={20}
-              />
-            </a>
-          </Link>
+          <div className="flex items-center space-x-4 sm:absolute sm:right-4 sm:top-4">
+            <Link
+              href={'https://github.com/cube-root/expenser'}
+              passHref={true}>
+              <a className="bg-slate-100 p-2 inline-flex rounded-full">
+                <Image
+                  src="/images/github.svg"
+                  alt="logo"
+                  width={20}
+                  height={20}
+                />
+              </a>
+            </Link>
+            <Mode darkMode={darkMode} setDarkMode={setDarkMode} />
+          </div>
         </div>
         <div className="w-full relative h-1/2 sm:h-1/3 top-8">
           <Image
@@ -105,7 +122,4 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
   );
 };
 
-
 export default Home;
-
-
