@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Link from 'next/link';
 import {
   ChevronRightIcon,
@@ -9,6 +9,59 @@ import {
 } from '@heroicons/react/outline';
 import { getFirebaseConfig } from '../../helper';
 import withUser from '../../wrapper/check-user';
+import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/outline';
+
+function Modal() {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <>
+      <button
+        className="bg-slate-900 p-1 rounded-full dark:bg-slate-400"
+        onClick={() => setOpen(!open)}>
+        <InformationCircleIcon className="h-6 w-6 text-white dark:text-slate-800" />
+      </button>
+      <Transition.Root show={open} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={setOpen}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed z-10 inset-0 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-full text-center sm:p-0 px-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                <Dialog.Panel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-4xl w-full">
+                  <iframe
+                    src="https://www.youtube.com/embed/U6HvujR77Tc"
+                    title="My expense onboarding'"
+                    className="aspect-video w-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen></iframe>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
+    </>
+  );
+}
 
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();
@@ -93,9 +146,7 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
           </div>
         </div>
         <div className="flex items-center justify-center space-x-2 py-12">
-          <button className="bg-slate-900 p-1 rounded-full dark:bg-slate-400 ">
-            <InformationCircleIcon className="h-6 w-6 text-white dark:text-slate-800" />
-          </button>
+          <Modal />
           <Link href={'/onboarding/connect'}>
             <a className="flex items-center justify-center space-x-2 bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-800 px-4 py-2 rounded-full">
               <span>Next Step</span>
