@@ -11,7 +11,7 @@ function classNames(...classes: string[]) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { darkMode, toggleMode: setDarkMode } = useMode();
+  const { darkMode } = useMode();
 
   return (
     <main

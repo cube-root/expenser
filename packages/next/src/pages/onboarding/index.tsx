@@ -10,7 +10,6 @@ import {
 import { getFirebaseConfig } from '../../helper';
 import withUser from '../../wrapper/check-user';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon } from '@heroicons/react/outline';
 
 function Modal() {
   const [open, setOpen] = useState(true);
