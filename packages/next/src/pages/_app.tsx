@@ -3,7 +3,6 @@ import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import Mode from '../components/mode';
 import useMode from '../hooks/mode';
 import Head from 'next/head';
 
@@ -12,13 +11,13 @@ function classNames(...classes: string[]) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { darkMode, toggleMode: setDarkMode } = useMode();
+  const { darkMode } = useMode();
 
   return (
     <main
       className={classNames(darkMode ? 'dark' : '', 'font-dmSans relative')}>
       <Head>
-        <title>Expenser | Manage your expenses securely</title>
+        <title>My Expense | Manage your expenses securely</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
@@ -28,9 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <Component {...pageProps} darkMode={darkMode} />
       <ToastContainer />
-      <div className="absolute top-0 right-0 dark:text-white z-50">
-        <Mode darkMode={darkMode} setDarkMode={setDarkMode} />
-      </div>
     </main>
   );
 }

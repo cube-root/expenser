@@ -15,6 +15,8 @@ import {
 } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import useUser from '../../hooks/user';
+import Mode from '../mode';
+import useMode from '../../hooks/mode';
 
 const navigation: any = [
   {
@@ -54,18 +56,13 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function SideBar({
-  children = null,
-  darkMode,
-}: {
-  children?: any;
-  darkMode?: boolean;
-}) {
+export default function SideBar({ children = null }: { children?: any }) {
   const [data] = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userData, setUserData] = useState<any>({});
   const [current, setCurrent] = useState('/home');
   const router = useRouter();
+  const { darkMode, toggleMode: setDarkMode } = useMode();
   const changeRoute = (link: any) => {
     router.push(link);
   };
@@ -276,26 +273,23 @@ export default function SideBar({
           {/* Search bar */}
           <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
             <div className="flex-1 flex"></div>
-            <div className="ml-4 flex items-center md:ml-6">
+            <div className="flex items-center">
+              <Mode darkMode={darkMode} setDarkMode={setDarkMode} />
+            </div>
+            <div className="ml-2 flex items-center md:ml-6">
               {/* Profile dropdown */}
-              <Menu as="div" className="ml-3 relative">
-                <div>
-                  <Menu.Button className="max-w-xs bg-white dark:bg-slate-900 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50 dark:lg:hover:bg-gray-900">
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src={photoUrl}
-                      alt=""
-                    />
-                    <span className="hidden ml-3 text-gray-700 dark:text-slate-300 text-sm  lg:block">
-                      <span className="sr-only">Open user menu for </span>
-                      {userData.displayName}
-                    </span>
-                    <ChevronDownIcon
-                      className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 dark:text-slate-300 lg:block"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+              <Menu as="div" className="ml-0 relative">
+                <Menu.Button className="flex items-center">
+                  <img
+                    className="h-8 w-8 rounded-full"
+                    src={photoUrl}
+                    alt="profile"
+                  />
+                  <ChevronDownIcon
+                    className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 dark:text-slate-300 lg:block"
+                    aria-hidden="true"
+                  />
+                </Menu.Button>
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-100"
