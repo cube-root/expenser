@@ -144,7 +144,7 @@ const AddExpense = () => {
                 required
                 name="type"
                 onChange={(event: any) => {
-                  type.current = event.target.value;
+                  type.current = event.value;
                 }}
                 className="block appearance-none w-full bg-white border border-gray-500 text-black py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="category"
