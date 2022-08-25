@@ -14,12 +14,13 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 const AddExpense = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
+  const [isExpenseAdded, setIsExpenseAdded] = useState(false);
   const [user] = useUser();
   const [sheet] = useSheet();
 
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
-  const type = useRef<string>('food');
+  const type = useRef<string | undefined>(undefined);
   const currency = useRef<string>('$');
   const appendData = async ({
     sheetId,
@@ -43,6 +44,7 @@ const AddExpense = () => {
           },
         },
       );
+      setIsExpenseAdded(true);
       toast.success('Expense added successfully');
     } catch (error: any) {
       toast.error('Failed to add expense');
@@ -55,7 +57,7 @@ const AddExpense = () => {
     const schema = yup.object().shape({
       amount: yup.number().required(),
       remark: yup.string(),
-      type: yup.string().required(),
+      type: yup.string().required('Please choose a category'),
       currency: yup.string(),
     })
     try {
@@ -187,6 +189,19 @@ const AddExpense = () => {
             Note: Your entry will be stored to your Google sheet.
           </p>
         </div>
+        {isExpenseAdded && (
+          <div className="pt-6">
+            <button
+              disabled={isLoading}
+              type="button"
+              onClick={() => {
+                router.push('/get-expense')
+              }}
+              className="w-full flex justify-center py-4 px-4 border border-transparent shadow-sm text-base  rounded-full text-blue-600 bg-blue-600 bg-opacity-10 hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300">
+              View your newly added expense
+            </button>
+          </div>
+        )}
       </form>
     </SideBar>
   );
