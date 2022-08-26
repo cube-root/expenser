@@ -1,5 +1,5 @@
 import { useState, Fragment } from 'react';
-import { InformationCircleIcon } from '@heroicons/react/outline';
+import { PlayIcon } from '@heroicons/react/outline';
 import { Dialog, Transition } from '@headlessui/react';
 
 export default function VideoModal({ src }: { src?: string }) {
@@ -8,9 +8,11 @@ export default function VideoModal({ src }: { src?: string }) {
   return (
     <>
       <button
-        className="bg-slate-900 p-1 rounded-full dark:bg-slate-400"
+        className="bg-slate-900 p-1 rounded-full dark:bg-slate-100 relative"
         onClick={() => setOpen(!open)}>
-        <InformationCircleIcon className="h-6 w-6 text-white dark:text-slate-800" />
+        {' '}
+        <span className="animate-ping absolute inline-flex h-full w-full inset-0 rounded-full bg-green-400 opacity-50"></span>
+        <PlayIcon className="h-6 w-6 text-white dark:text-slate-700" />
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>

@@ -44,17 +44,25 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
             />
             <div className="absolute top-10 inset-x-0 flex justify-center">
               <button
-                className="flex items-center px-4 py-1 space-x-2 rounded-full bg-green-700 hover:bg-green-600 text-white"
+                className="flex items-center px-6 py-2 space-x-2 rounded-full bg-green-700 hover:bg-green-600 text-white"
                 onClick={() => {
                   navigator.clipboard.writeText(emailAddress);
                   setCopied(true);
                 }}>
                 {!copied ? (
-                  <DuplicateIcon className="h-4 w-4 animate-bounce" />
+                  <DuplicateIcon className="h-4 w-4 animate-bounce mt-1" />
                 ) : (
                   <CheckIcon className="h-4 w-4" />
                 )}
-                <span>{copied ? 'Copied to clipboard' : 'Copy email id'}</span>
+                <span>
+                  {copied ? (
+                    'Copied to clipboard'
+                  ) : (
+                    <span className="animate-bounce block mt-2">
+                      Copy email id
+                    </span>
+                  )}
+                </span>
               </button>
             </div>
           </div>
