@@ -1,5 +1,5 @@
 {
-  "name": "telegram-server",
+  "name": "@myexpense/telegram-server",
   "version": "0.0.1",
   "description": "Telegram bot to add expense",
   "main": "./build/index.js",

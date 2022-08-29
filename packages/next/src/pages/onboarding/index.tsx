@@ -1,66 +1,14 @@
 import Image from 'next/image';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
+  CheckIcon,
   ChevronRightIcon,
   DuplicateIcon,
-  InformationCircleIcon,
-  SparklesIcon,
 } from '@heroicons/react/outline';
 import { getFirebaseConfig } from '../../helper';
 import withUser from '../../wrapper/check-user';
-import { Dialog, Transition } from '@headlessui/react';
-
-function Modal() {
-  const [open, setOpen] = useState(true);
-
-  return (
-    <>
-      <button
-        className="bg-slate-900 p-1 rounded-full dark:bg-slate-400"
-        onClick={() => setOpen(!open)}>
-        <InformationCircleIcon className="h-6 w-6 text-white dark:text-slate-800" />
-      </button>
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpen}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0">
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-
-          <div className="fixed z-10 inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-full text-center sm:p-0 px-4">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                <Dialog.Panel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-4xl w-full">
-                  <iframe
-                    src="https://www.youtube.com/embed/U6HvujR77Tc"
-                    title="My expense onboarding'"
-                    className="aspect-video w-full"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen></iframe>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition.Root>
-    </>
-  );
-}
+import VideoModal from '../../components/VideoModal';
 
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();
@@ -96,57 +44,32 @@ const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
             />
             <div className="absolute top-10 inset-x-0 flex justify-center">
               <button
-                className="flex items-center px-4 py-1 space-x-2 rounded-full bg-slate-800 text-white"
+                className="flex items-center px-6 py-2 space-x-2 rounded-full bg-green-700 hover:bg-green-600 text-white"
                 onClick={() => {
                   navigator.clipboard.writeText(emailAddress);
                   setCopied(true);
                 }}>
-                <DuplicateIcon className="h-4 w-4" />
-                <span>{copied ? 'Copied to clipboard' : 'Copy email id'}</span>
+                {!copied ? (
+                  <DuplicateIcon className="h-4 w-4 animate-bounce mt-1" />
+                ) : (
+                  <CheckIcon className="h-4 w-4" />
+                )}
+                <span>
+                  {copied ? (
+                    'Copied to clipboard'
+                  ) : (
+                    <span className="animate-bounce block mt-2">
+                      Copy email id
+                    </span>
+                  )}
+                </span>
               </button>
             </div>
-            <div className="mt-16">
-              <Image
-                src={darkMode ? '/images/arrow-white.svg' : '/images/arrow.svg'}
-                alt="arrow"
-                width={80}
-                height={80}
-              />
-            </div>
-            <Link href={'https://sheet.new/'} passHref>
-              <a
-                target="_blank"
-                className="relative inline-flex items-center space-x-2 justify-center bg-green-50 border border-green-600 hover:bg-green-100 rounded-full px-6 py-4">
-                <SparklesIcon className="h-6 w-6 text-green-600 absolute -left-2 -top-1" />
-                <Image
-                  src={'/images/gsheet-icon.png'}
-                  alt="arrow"
-                  width={28}
-                  height={28}
-                />
-                <span className="text-xl text-green-600">
-                  Create a new sheet
-                </span>
-              </a>
-            </Link>
-            <small className="text-xs text-slate-700 block mt-2 dark:text-slate-400">
-              <b>NOTE:</b> Login Google drive with same email used to login.
-            </small>
-            <div className="mt-4">
-              <Image
-                src={darkMode ? '/images/arrow-white.svg' : '/images/arrow.svg'}
-                alt="arrow"
-                className="-scale-x-100"
-                width={80}
-                height={80}
-              />
-            </div>
-            <h2 className="text-xl">Copy the sheet link and proceed</h2>
           </div>
         </div>
         <div className="flex items-center justify-center space-x-2 py-12">
-          <Modal />
-          <Link href={'/onboarding/connect'}>
+          <VideoModal src="https://www.youtube.com/embed/U6HvujR77Tc?autoplay=1&controls=0&start=3&modestbranding=1" />
+          <Link href={'/onboarding/create-sheet'}>
             <a className="flex items-center justify-center space-x-2 bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-800 px-4 py-2 rounded-full">
               <span>Next Step</span>
               <ChevronRightIcon className="h-4 w-4" />
