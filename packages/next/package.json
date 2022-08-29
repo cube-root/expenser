@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
     "axios": "^0.24.0",
+    "chart.js": "^3.9.1",
     "firebase": "^9.5.0",
     "googleapis": "^100.0.0",
     "jsonwebtoken": "^8.5.1",
