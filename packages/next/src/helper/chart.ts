@@ -50,7 +50,6 @@ export const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array
     })
     labels = new Set(labels);
     labels = [...labels];
-    console.log({ labels, totalAmount });
     const dataset = labels.map((item: string) => {
         return totalAmount[item];
     })
