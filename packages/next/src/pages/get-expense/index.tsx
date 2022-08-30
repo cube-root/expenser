@@ -8,12 +8,22 @@ import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
 import withUser from '../../wrapper/check-user';
+import DoughnutApp from '../../components/charts/Doughnut';
+import { doughnutChartDataConverter } from '../../helper/chart';
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
   const [user] = useUser();
   const [sheet] = useSheet();
   const [data, setData] = useState([]);
+  const [doughnutData, setDoughnutData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: [],
+      borderColor: []
+    }]
+  })
 
   const fetchData = async () => {
     setLoading(true);
@@ -29,6 +39,12 @@ const GetExpense = () => {
         },
       );
       setData(response.data.reverse());
+      try {
+        console.log(doughnutChartDataConverter(response.data))
+      } catch (error) {
+        console.log(error);
+      }
+      setDoughnutData(doughnutChartDataConverter(response.data))
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
     }
@@ -54,42 +70,47 @@ const GetExpense = () => {
           </div>
         )}
         {!isLoading && data && (
-          <Cards.CardWrapper>
-            {data &&
-              data.map((item: any, index) => {
-                const { data: mapResult, meta } = item;
-                return (
-                  <Cards.CardChild
-                    meta={meta}
-                    key={index}
-                    heading={
-                      mapResult.type && mapResult.type.value
-                        ? mapResult.type.value.toUpperCase()
-                        : ' '
-                    }
-                    currency={
-                      mapResult.symbol && mapResult.symbol.value
-                        ? mapResult.symbol.value
-                        : ' '
-                    }
-                    amount={mapResult.amount ? mapResult.amount.value : ' '}
-                    date={
-                      mapResult.date
-                        ? moment(mapResult.date.value).format('LL')
-                        : ' '
-                    }
-                    startOf={
-                      mapResult.date
-                        ? moment(mapResult.date.value).startOf('days').fromNow()
-                        : ' '
-                    }
-                    description={
-                      mapResult.remark ? mapResult.remark.value : ' '
-                    }
-                  />
-                );
-              })}
-          </Cards.CardWrapper>
+          <>
+            <div className='col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600'>
+              <DoughnutApp data={doughnutData} />
+            </div>
+            <Cards.CardWrapper>
+              {data &&
+                data.map((item: any, index) => {
+                  const { data: mapResult, meta } = item;
+                  return (
+                    <Cards.CardChild
+                      meta={meta}
+                      key={index}
+                      heading={
+                        mapResult.type && mapResult.type.value
+                          ? mapResult.type.value.toUpperCase()
+                          : ' '
+                      }
+                      currency={
+                        mapResult.symbol && mapResult.symbol.value
+                          ? mapResult.symbol.value
+                          : ' '
+                      }
+                      amount={mapResult.amount ? mapResult.amount.value : ' '}
+                      date={
+                        mapResult.date
+                          ? moment(mapResult.date.value).format('LL')
+                          : ' '
+                      }
+                      startOf={
+                        mapResult.date
+                          ? moment(mapResult.date.value).startOf('days').fromNow()
+                          : ' '
+                      }
+                      description={
+                        mapResult.remark ? mapResult.remark.value : ' '
+                      }
+                    />
+                  );
+                })}
+            </Cards.CardWrapper>
+          </>
         )}
       </div>
     </SideBar>
