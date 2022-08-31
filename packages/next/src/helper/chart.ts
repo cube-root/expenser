@@ -23,12 +23,19 @@ type DoughnutReturnData = {
         borderWidth: number
     }>
 }
+type BarChartReturnData = {
+    labels: Array<any>,
+    datasets: Array<{
+        data: Array<number>
+        backgroundColor: string,
+    }>
+}
 
 const randColor = () => {
     return "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
 }
 
-export const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array<Value>) => {
+const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array<Value>) => {
     let labels: any = []
     const totalAmount: any = {
 
@@ -65,4 +72,40 @@ export const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array
             borderWidth: 2
         }]
     };
+}
+
+const barChartDataConverter:BarChartReturnData | any = (data:Array<Value>)=>{
+    
+    let labels: any = []
+    const totalAmount: any = {
+
+    }
+    data.map(item=>{
+        if (item.data.date.value) {
+            const category: any = item.data.date.value.toUpperCase();
+            const amount: any = parseFloat(item.data.amount.value);
+            labels.push(category);
+            totalAmount[category] = totalAmount[category] ? (totalAmount[category] + amount) : amount
+            return {
+                category,
+                amount
+            }
+        }else{
+            return undefined
+        }
+    });
+    labels = Object.keys(totalAmount).filter((item,index)=> index < 10);
+    return {
+        labels,
+        datasets:[{
+            data: labels.map((item:string)=> totalAmount[item] || 0),
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        }]
+    }
+
+}
+
+export {
+    doughnutChartDataConverter,
+    barChartDataConverter
 }

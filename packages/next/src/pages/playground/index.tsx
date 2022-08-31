@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import DoughnutApp from '../../components/charts/Doughnut';
-import { doughnutChartDataConverter } from '../../helper/chart'
+import BarChart from '../../components/charts/Bar';
+import { barChartDataConverter } from '../../helper/chart'
 const data = [{
   "data": {
     "id": {
@@ -59,7 +59,7 @@ const data = [{
       "name": "Symbol"
     },
     "type": {
-      "value": "other",
+      "value": "food",
       "dataType": "string",
       "name": "Type"
     },
@@ -79,7 +79,7 @@ const data = [{
       "name": "Id"
     },
     "date": {
-      "value": "6/19/2022",
+      "value": "6/20/2022",
       "dataType": "datetime",
       "name": "Date"
     },
@@ -94,7 +94,7 @@ const data = [{
       "name": "Symbol"
     },
     "type": {
-      "value": "petrol",
+      "value": "food",
       "dataType": "string",
       "name": "Type"
     },
@@ -114,7 +114,7 @@ const data = [{
       "name": "Id"
     },
     "date": {
-      "value": "6/19/2022",
+      "value": "6/21/2022",
       "dataType": "datetime",
       "name": "Date"
     },
@@ -145,7 +145,7 @@ const data = [{
       "name": "Id"
     },
     "date": {
-      "value": "6/19/2022",
+      "value": "6/22/2022",
       "dataType": "datetime",
       "name": "Date"
     },
@@ -160,7 +160,7 @@ const data = [{
       "name": "Symbol"
     },
     "type": {
-      "value": "petrol",
+      "value": "Food",
       "dataType": "string",
       "name": "Type"
     },
@@ -180,7 +180,7 @@ const data = [{
       "name": "Id"
     },
     "date": {
-      "value": "6/19/2022",
+      "value": "6/22/2022",
       "dataType": "datetime",
       "name": "Date"
     },
@@ -203,14 +203,17 @@ const data = [{
   "meta": {}
 }
 ]
+
 export default function App() {
-  const [doughnutData, setDoughnutData] = useState([])
+  const [barData, setBarData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+
+    }]
+  })
   useEffect(() => {
-    setDoughnutData(doughnutChartDataConverter(data));
+    setBarData(barChartDataConverter(data))
   }, [])
-  return (
-    <div>
-      <DoughnutApp data={doughnutData} />
-    </div>
-  );
+  return <BarChart data={barData}/>;
 }
