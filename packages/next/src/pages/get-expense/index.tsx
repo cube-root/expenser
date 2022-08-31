@@ -9,8 +9,9 @@ import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
 import withUser from '../../wrapper/check-user';
 import DoughnutApp from '../../components/charts/Doughnut';
-import { doughnutChartDataConverter, barChartDataConverter } from '../../helper/chart';
+import { doughnutChartDataConverter, barChartDataConverter, lineChartDataConverter } from '../../helper/chart';
 import BarChart from '../../components/charts/Bar';
+import LineChart from '../../components/charts/Line';
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
@@ -26,6 +27,13 @@ const GetExpense = () => {
     }]
   });
   const [barData, setBarData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+
+    }]
+  })
+  const [lineData, setLineData] = useState({
     labels: [],
     datasets: [{
       data: [],
@@ -49,6 +57,7 @@ const GetExpense = () => {
       setData(response.data.reverse());
       setDoughnutData(doughnutChartDataConverter(response.data))
       setBarData(barChartDataConverter(response.data.reverse()))
+      setLineData(lineChartDataConverter(response.data.reverse()))
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
     }
@@ -77,7 +86,9 @@ const GetExpense = () => {
           <>
             <div className='col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600'>
               <DoughnutApp data={doughnutData} />
+              <LineChart data={lineData} />
               <BarChart data={barData} />
+
             </div>
             <Cards.CardWrapper>
               {data &&

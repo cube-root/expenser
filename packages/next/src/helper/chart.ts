@@ -28,6 +28,7 @@ type BarChartReturnData = {
     datasets: Array<{
         data: Array<number>
         backgroundColor: string,
+        borderColor?: string,
     }>
 }
 
@@ -74,13 +75,15 @@ const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array<Value>
     };
 }
 
-const barChartDataConverter:BarChartReturnData | any = (data:Array<Value>)=>{
-    
+const barChartDataConverter: BarChartReturnData | any = (data: Array<Value>, others?: any = {}) => {
+    const {
+        addBorderColor = false
+    } = others
     let labels: any = []
     const totalAmount: any = {
 
     }
-    data.map(item=>{
+    data.map(item => {
         if (item.data.date.value) {
             const category: any = item.data.date.value.toUpperCase();
             const amount: any = parseFloat(item.data.amount.value);
@@ -90,22 +93,28 @@ const barChartDataConverter:BarChartReturnData | any = (data:Array<Value>)=>{
                 category,
                 amount
             }
-        }else{
+        } else {
             return undefined
         }
     });
-    labels = Object.keys(totalAmount).filter((item,index)=> index < 10);
+    labels = Object.keys(totalAmount).filter((item, index) => index < 10);
     return {
         labels,
-        datasets:[{
-            data: labels.map((item:string)=> totalAmount[item] || 0),
+        datasets: [{
+            data: labels.map((item: string) => totalAmount[item] || 0),
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: addBorderColor ? 'rgba(255, 99, 132, 0.5)' : undefined
         }]
     }
 
 }
 
+const lineChartDataConverter: BarChartReturnData | any = (data: Array<Value>) => barChartDataConverter(data, {
+    addBorderColor: true
+})
+
 export {
     doughnutChartDataConverter,
-    barChartDataConverter
+    barChartDataConverter,
+    lineChartDataConverter
 }

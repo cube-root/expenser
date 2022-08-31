@@ -36,20 +36,22 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [100,200,300,400,200,500],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    }
-  ],
-};
+// {
+//     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+//     datasets: [
+//       {
+//         label: 'Dataset 1',
+//         data: [100,200,300,400,200,500],
+//         borderColor: 'rgb(255, 99, 132)',
+//         backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//       }
+//     ],
+//   }
 
-export default function App() {
-  return <Line options={options} data={data} />;
+const LineChart = ({data}:any)=>{
+    if(!data) return null;
+    return <div className='h-64'><Line options={options} data={data} /></div>
 }
+
+export default LineChart
