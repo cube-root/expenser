@@ -1,20 +1,28 @@
+import CreatableSelect from 'react-select/creatable'
 import typesOfExpense from '../../config/type-expense.json';
 
+
 const TypeFormField = (props: any) => {
+  const onChange = (data: {
+    value: string,
+    label: string
+    __isNew__?: boolean
+  }) => {
+    if (props.onChange && data) {
+      props.onChange({
+        value: data.value.toLowerCase(),
+        label: data.label
+      })
+    }
+  }
+
   return (
-    <select {...props}>
-      {typesOfExpense.map((type: any, index: any) => {
-        return (
-          <option
-            key={index}
-            value={type.value}
-            selected={type.defaultValue ? true : false}
-          >
-            {type.label}
-          </option>
-        );
-      })}
-    </select>
+    <CreatableSelect
+      isClearable
+      {...props}
+      onChange={onChange}
+      options={typesOfExpense}
+    />
   );
 };
 
