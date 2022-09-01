@@ -8,12 +8,38 @@ import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
 import withUser from '../../wrapper/check-user';
+import DoughnutApp from '../../components/charts/Doughnut';
+import { doughnutChartDataConverter, barChartDataConverter, lineChartDataConverter } from '../../helper/chart';
+import BarChart from '../../components/charts/Bar';
+import LineChart from '../../components/charts/Line';
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
   const [user] = useUser();
   const [sheet] = useSheet();
   const [data, setData] = useState([]);
+  const [doughnutData, setDoughnutData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: [],
+      borderColor: []
+    }]
+  });
+  const [barData, setBarData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+
+    }]
+  })
+  const [lineData, setLineData] = useState({
+    labels: [],
+    datasets: [{
+      data: [],
+
+    }]
+  })
 
   const fetchData = async () => {
     setLoading(true);
@@ -29,6 +55,9 @@ const GetExpense = () => {
         },
       );
       setData(response.data.reverse());
+      setDoughnutData(doughnutChartDataConverter(response.data))
+      setBarData(barChartDataConverter(response.data.reverse()))
+      setLineData(lineChartDataConverter(response.data.reverse()))
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
     }
@@ -53,43 +82,51 @@ const GetExpense = () => {
             </p>
           </div>
         )}
-        {!isLoading && data && (
-          <Cards.CardWrapper>
-            {data &&
-              data.map((item: any, index) => {
-                const { data: mapResult, meta } = item;
-                return (
-                  <Cards.CardChild
-                    meta={meta}
-                    key={index}
-                    heading={
-                      mapResult.type && mapResult.type.value
-                        ? mapResult.type.value.toUpperCase()
-                        : ' '
-                    }
-                    currency={
-                      mapResult.symbol && mapResult.symbol.value
-                        ? mapResult.symbol.value
-                        : ' '
-                    }
-                    amount={mapResult.amount ? mapResult.amount.value : ' '}
-                    date={
-                      mapResult.date
-                        ? moment(mapResult.date.value).format('LL')
-                        : ' '
-                    }
-                    startOf={
-                      mapResult.date
-                        ? moment(mapResult.date.value).startOf('days').fromNow()
-                        : ' '
-                    }
-                    description={
-                      mapResult.remark ? mapResult.remark.value : ' '
-                    }
-                  />
-                );
-              })}
-          </Cards.CardWrapper>
+        {!isLoading && data && data.length > 0 && (
+          <>
+            <div className='col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600'>
+              <DoughnutApp data={doughnutData} />
+              <LineChart data={lineData} />
+              <BarChart data={barData} />
+
+            </div>
+            <Cards.CardWrapper>
+              {data &&
+                data.map((item: any, index) => {
+                  const { data: mapResult, meta } = item;
+                  return (
+                    <Cards.CardChild
+                      meta={meta}
+                      key={index}
+                      heading={
+                        mapResult.type && mapResult.type.value
+                          ? mapResult.type.value.toUpperCase()
+                          : ' '
+                      }
+                      currency={
+                        mapResult.symbol && mapResult.symbol.value
+                          ? mapResult.symbol.value
+                          : ' '
+                      }
+                      amount={mapResult.amount ? mapResult.amount.value : ' '}
+                      date={
+                        mapResult.date
+                          ? moment(mapResult.date.value).format('LL')
+                          : ' '
+                      }
+                      startOf={
+                        mapResult.date
+                          ? moment(mapResult.date.value).startOf('days').fromNow()
+                          : ' '
+                      }
+                      description={
+                        mapResult.remark ? mapResult.remark.value : ' '
+                      }
+                    />
+                  );
+                })}
+            </Cards.CardWrapper>
+          </>
         )}
       </div>
     </SideBar>
