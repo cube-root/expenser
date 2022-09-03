@@ -35,14 +35,22 @@ class Template {
         }
      */
     converter = (value: Array<any>) => {
-        return value.map((item:Array<string>)=>{
-            const data:any = {};
-            const meta:any = {};
-            item.forEach((element:string,index:number)=>{
-                const templateColumn:{
-                    id:string,
-                    type:string,
-                    name:string
+        let counter = 1;
+        return value.map((item: Array<string>) => {
+            const data: any = {};
+            const meta: any = {};
+            meta['range'] = `${this.firstIndex}${counter}:${this.lastIndex}${counter}`;
+            meta['rowIndex'] = counter;
+            counter = counter + 1;
+            if (item.length === 0) {
+                return undefined;
+            }
+
+            item.forEach((element: string, index: number) => {
+                const templateColumn: {
+                    id: string,
+                    type: string,
+                    name: string
                     inputMeta: any,
                     options?: Array<any>
                     isNullable?: boolean
@@ -59,18 +67,18 @@ class Template {
                 meta
             }
 
-        })
+        }).filter(item => item !== undefined)
     }
-    sheetDataConverter = (inputValue: sheetData | any)=>{
-        return this.indexList.map((columnName:string)=>{
+    sheetDataConverter = (inputValue: sheetData | any) => {
+        return this.indexList.map((columnName: string) => {
             const id = this.template[columnName].id as string;
             if (id === 'id') {
-              return `${new Date().getTime()}`;
+                return `${new Date().getTime()}`;
             } else if (id === 'date') {
-              // MM/DD/YYYY
-              return `${new Date().toLocaleDateString()}`;
+                // MM/DD/YYYY
+                return `${new Date().toLocaleDateString()}`;
             } else {
-              return inputValue[id] ? inputValue[id] : null;
+                return inputValue[id] ? inputValue[id] : null;
             }
         })
     }
