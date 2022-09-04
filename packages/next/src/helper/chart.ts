@@ -97,7 +97,7 @@ const barChartDataConverter: BarChartReturnData | any = (data: Array<Value>, oth
             return undefined
         }
     });
-    labels = Object.keys(totalAmount).filter((item, index) => index < 6);
+    labels = Object.keys(totalAmount).filter((item, index) => index < 10);
     return {
         labels,
         datasets: [{

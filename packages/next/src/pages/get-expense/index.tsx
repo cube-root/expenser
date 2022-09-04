@@ -11,10 +11,8 @@ import withUser from '../../wrapper/check-user';
 import DoughnutApp from '../../components/charts/Doughnut';
 import {
   doughnutChartDataConverter,
-  barChartDataConverter,
   lineChartDataConverter,
 } from '../../helper/chart';
-import BarChart from '../../components/charts/Bar';
 import LineChart from '../../components/charts/Line';
 import { ButtonGroup } from '../../components';
 import Image from 'next/image';
@@ -32,14 +30,6 @@ const GetExpense = () => {
         data: [],
         backgroundColor: [],
         borderColor: [],
-      },
-    ],
-  });
-  const [barData, setBarData] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
       },
     ],
   });
@@ -67,7 +57,6 @@ const GetExpense = () => {
       );
       setData(response.data.reverse());
       setDoughnutData(doughnutChartDataConverter(response.data));
-      setBarData(barChartDataConverter(response.data.reverse()));
       setLineData(lineChartDataConverter(response.data.reverse()));
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
@@ -76,6 +65,7 @@ const GetExpense = () => {
   };
 
   const onDeleteExpense = async (data: any) => {
+    toast.info("Expense deleting..Please wait !!");
     setLoading(true);
     try {
       await axios.post(
@@ -159,8 +149,8 @@ const GetExpense = () => {
                       startOf={
                         mapResult.date
                           ? moment(mapResult.date.value)
-                              .startOf('days')
-                              .fromNow()
+                            .startOf('days')
+                            .fromNow()
                           : ' '
                       }
                       description={

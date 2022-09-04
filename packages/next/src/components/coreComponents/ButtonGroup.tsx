@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { RadioGroup } from '@headlessui/react';
+// import { RadioGroup } from '@headlessui/react';
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function ButtonGroup() {
-  const [active, setActive] = useState(false);
+  const [active] = useState(false);
   return (
     <span className="isolate inline-flex rounded-md shadow-sm">
       <button

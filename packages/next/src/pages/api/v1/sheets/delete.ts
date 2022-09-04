@@ -8,7 +8,7 @@ export default async function api(
 
     if (req.method === 'POST') {
         const { sheetId } = req.query;
-        const { data, meta = {} } = req.body;
+        const { meta = {} } = req.body;
         const { api_secret: API_SECRET, api_key: API_KEY } = req.headers;
         if (!API_KEY || !API_SECRET) {
             return res.status(401).json({
