@@ -23,6 +23,8 @@ const CardChild = ({
   currency,
   // bgColor = 'bg-cyan-600',
   startOf,
+  onClickDelete,
+  disableDeleteButton = false
 }: {
   key: any;
   heading?: string;
@@ -34,6 +36,8 @@ const CardChild = ({
   bgColor?: string;
   Icon?: any;
   startOf?: string;
+  onClickDelete?: any
+  disableDeleteButton?: any
 }) => {
   return (
     <li
@@ -48,6 +52,18 @@ const CardChild = ({
           {description}
         </p>
         <p className="text-slate-400 dark:text-slate-300 text-sm">{date}</p>
+        <p className='mt-2'>
+          <button
+            key={key}
+            className='border-2 text-slate-400 dark:text-slate-300 text-sm rounded-md p-2'
+            disabled={disableDeleteButton}
+            onClick={() => {
+              if (onClickDelete) onClickDelete();
+            }}
+          >
+            Delete
+          </button>
+        </p>
       </div>
       <div className="flex items-center space-x-1 text-slate-500 dark:text-slate-200">
         <ClockIcon className="h-4 w-4" aria-hidden="true" />

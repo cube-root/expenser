@@ -57,6 +57,18 @@ class SheetService {
             name: sheetName
         });
     }
+    async deleteRow(data: { rowIndex: number }) {
+        const { rowIndex } = data || {};
+        if (!rowIndex) {
+            throw new Error('invalid row-index');
+        }
+        const tokenData: any = await verifyKey(this.apiKey);
+        await verifySecret(this.apiSecret, tokenData.uid);
+        const accessToken = await getAccessToken();
+        return api.sheetsApi.delete(accessToken, this.sheetId, {
+            rowIndex
+        })
+    }
 }
 
 

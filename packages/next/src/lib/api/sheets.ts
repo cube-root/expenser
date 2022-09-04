@@ -54,6 +54,39 @@ const api = {
             },
         });
         return response.data;
+    },
+    delete: async (accessToken: string,
+        spreadSheetId: string | string[] | undefined,
+        data: {
+            sheetId?: string,
+            dimension?: string,
+            rowIndex: number
+        },
+    ) => {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}:batchUpdate`;
+        const requestBody = {
+            "requests": [
+                {
+                    "deleteDimension": {
+                        "range": {
+                            "sheetId": data.sheetId || 0,
+                            "dimension": data.dimension || "ROWS",
+                            "startIndex": data.rowIndex - 1,
+                            "endIndex": data.rowIndex
+                        }
+                    }
+                }
+            ]
+        }
+        const response = await axios.post(url, requestBody, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+                redirect: 'follow',
+            },
+        });
+        return response.data;
     }
 
 }

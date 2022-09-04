@@ -18,6 +18,7 @@ const GetExpense = () => {
   const [user] = useUser();
   const [sheet] = useSheet();
   const [data, setData] = useState([]);
+  const [isDeleting] = useState(false);
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
     datasets: [{
@@ -62,6 +63,28 @@ const GetExpense = () => {
       toast.error(error.message || 'Something went wrong');
     }
     setLoading(false);
+  }
+
+  const onDeleteExpense = async (data: any) => {
+    setLoading(true);
+    try {
+      await axios.post(
+        `/api/v1/sheets/delete?sheetId=${sheet.sheetId}`, data,
+        {
+          headers: {
+            API_KEY: user.API_KEY,
+            API_SECRET: user.API_SECRET,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      toast.success("Deleted successfully !");
+      await fetchData();
+    } catch (error: any) {
+      toast.error(error.message || 'Something went wrong');
+    }
+    setLoading(false);
+
   }
   useEffect(() => {
     fetchData();
@@ -122,6 +145,10 @@ const GetExpense = () => {
                       description={
                         mapResult.remark ? mapResult.remark.value : ' '
                       }
+                      onClickDelete={() => {
+                        onDeleteExpense(item)
+                      }}
+                      disableDeleteButton={isDeleting}
                     />
                   );
                 })}
