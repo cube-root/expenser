@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -19,7 +18,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export const options = {
@@ -27,7 +26,7 @@ export const options = {
   plugins: {
     legend: {
       position: 'top' as const,
-      display:false
+      display: false,
     },
     title: {
       display: true,
@@ -35,7 +34,6 @@ export const options = {
     },
   },
 };
-
 
 // {
 //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -49,9 +47,9 @@ export const options = {
 //     ],
 //   }
 
-const LineChart = ({data}:any)=>{
-    if(!data) return null;
-    return <div className='h-64'><Line options={options} data={data} /></div>
-}
+const LineChart = ({ data }: any) => {
+  if (!data) return null;
+  return <Line options={options} data={data} />;
+};
 
-export default LineChart
+export default LineChart;

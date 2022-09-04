@@ -32,13 +32,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutApp = ({ data }: any) => {
   if (data === undefined) {
-    return null
+    return null;
   }
-  return (
-    <div className='h-64 w-64'>
-      <Doughnut data={data} />
-    </div>
-  );
-}
+  return <Doughnut data={data} />;
+};
 
-export default DoughnutApp
+export default DoughnutApp;

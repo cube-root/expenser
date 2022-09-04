@@ -9,9 +9,15 @@ import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
 import withUser from '../../wrapper/check-user';
 import DoughnutApp from '../../components/charts/Doughnut';
-import { doughnutChartDataConverter, barChartDataConverter, lineChartDataConverter } from '../../helper/chart';
+import {
+  doughnutChartDataConverter,
+  barChartDataConverter,
+  lineChartDataConverter,
+} from '../../helper/chart';
 import BarChart from '../../components/charts/Bar';
 import LineChart from '../../components/charts/Line';
+import { ButtonGroup } from '../../components';
+import Image from 'next/image';
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
@@ -21,26 +27,30 @@ const GetExpense = () => {
   const [isDeleting] = useState(false);
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
-    datasets: [{
-      data: [],
-      backgroundColor: [],
-      borderColor: []
-    }]
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+      },
+    ],
   });
   const [barData, setBarData] = useState({
     labels: [],
-    datasets: [{
-      data: [],
-
-    }]
-  })
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  });
   const [lineData, setLineData] = useState({
     labels: [],
-    datasets: [{
-      data: [],
-
-    }]
-  })
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  });
 
   const fetchData = async () => {
     setLoading(true);
@@ -56,14 +66,14 @@ const GetExpense = () => {
         },
       );
       setData(response.data.reverse());
-      setDoughnutData(doughnutChartDataConverter(response.data))
-      setBarData(barChartDataConverter(response.data.reverse()))
-      setLineData(lineChartDataConverter(response.data.reverse()))
+      setDoughnutData(doughnutChartDataConverter(response.data));
+      setBarData(barChartDataConverter(response.data.reverse()));
+      setLineData(lineChartDataConverter(response.data.reverse()));
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
     }
     setLoading(false);
-  }
+  };
 
   const onDeleteExpense = async (data: any) => {
     setLoading(true);
@@ -88,30 +98,39 @@ const GetExpense = () => {
   }
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   return (
     <SideBar>
       <div className="ml-5 mr-3">
-        {(isLoading) && (
-          <div className="flex flex-col items-center justify-center ">
-            <div className="p-4">
-            </div>
-            <p className="text-black  dark:text-white ">
-              Loading
-              <span className="animate-pulse pl-1 pr-1 dark:text-white">...</span>
-              Please wait
-              <span className="animate-pulse pl-1 dark:text-white">!!!</span>
-            </p>
+        {isLoading && (
+          <div className="flex flex-col h-96 items-center justify-center ">
+            <Image
+              src="/images/file-load.gif"
+              height={200}
+              width={200}
+              alt="Loading"
+            />
           </div>
         )}
         {!isLoading && data && data.length > 0 && (
           <>
-            <div className='col-span-1 flex justify-between items-start shadow-sm rounded-md bg-slate-50 dark:bg-slate-700 p-4 border-l-4 border-red-600'>
-              <DoughnutApp data={doughnutData} />
-              <LineChart data={lineData} />
-              <BarChart data={barData} />
-
+            <div className="flex items-center justify-between  mt-6">
+              <h3 className="text-2xl leading-6 font-medium text-slate-900 dark:text-slate-50">
+                Spending trends
+              </h3>
+              <ButtonGroup />
+            </div>
+            <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 my-4">
+              <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md text-white">
+                <DoughnutApp data={doughnutData} />
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md sm:col-span-2">
+                <LineChart data={lineData} />
+              </div>
+              {/* <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md">
+                <BarChart data={barData} />
+              </div> */}
             </div>
             <Cards.CardWrapper>
               {data &&
@@ -139,7 +158,9 @@ const GetExpense = () => {
                       }
                       startOf={
                         mapResult.date
-                          ? moment(mapResult.date.value).startOf('days').fromNow()
+                          ? moment(mapResult.date.value)
+                              .startOf('days')
+                              .fromNow()
                           : ' '
                       }
                       description={
