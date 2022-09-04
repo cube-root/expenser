@@ -32,7 +32,7 @@ const navigation: any = [
     current: false,
   },
   {
-    name: 'View',
+    name: 'View Expenses',
     href: '/get-expense',
     icon: ClipboardListIcon,
     current: false,

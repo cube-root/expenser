@@ -59,16 +59,16 @@ const AddExpense = () => {
       remark: yup.string(),
       type: yup.string().required('Please choose a category'),
       currency: yup.string(),
-    })
+    });
     try {
       const validateData = await schema.validate({
         amount: amount.current,
         remark: remark.current,
         type: type.current,
         currency: currency.current,
-      })
+      });
       setLoading(true);
-      const sheetId = sheet.sheetId
+      const sheetId = sheet.sheetId;
       if (sheetId === null || !sheetId) {
         router.push('/home');
         return false;
@@ -77,18 +77,18 @@ const AddExpense = () => {
         sheetId,
         inputData: validateData,
       });
-      event.target.reset()
+      event.target.reset();
     } catch (error: any) {
       if (error.errors) {
-        error.errors && error.errors.forEach((err: any) => {
-          toast.error(err);
-        })
+        error.errors &&
+          error.errors.forEach((err: any) => {
+            toast.error(err);
+          });
       } else {
         toast.error(error.message || 'Failed to add expense');
       }
     }
     setLoading(false);
-
   };
 
   return (
@@ -148,12 +148,8 @@ const AddExpense = () => {
                 onChange={(event: any) => {
                   type.current = event.value;
                 }}
-                className="block appearance-none w-full bg-white border border-gray-500 text-black py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="category"
               />
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <ChevronDownIcon className="fill-current h-5 w-5" />
-              </div>
             </div>
           </div>
 
@@ -195,7 +191,7 @@ const AddExpense = () => {
               disabled={isLoading}
               type="button"
               onClick={() => {
-                router.push('/get-expense')
+                router.push('/get-expense');
               }}
               className="w-full flex justify-center py-4 px-4 border border-transparent shadow-sm text-base  rounded-full text-blue-600 bg-blue-600 bg-opacity-10 hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300">
               View your newly added expense
