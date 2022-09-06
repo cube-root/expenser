@@ -64,6 +64,13 @@ const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array<Value>
     const color = labels.map(() => {
         return randColor();
     })
+    // change to normal case
+    labels = labels.map((str: string) => {
+        if (str) {
+            return str.split(" ").map(([firstChar, ...rest]: any) => firstChar.toUpperCase() + rest.join("").toLowerCase()).join(" ")
+        }
+        return undefined;
+    }).filter((item: string) => item !== undefined)
     return {
         labels: labels,
         datasets: [{
@@ -75,10 +82,10 @@ const doughnutChartDataConverter: DoughnutReturnData | any = (data: Array<Value>
     };
 }
 
-const barChartDataConverter: BarChartReturnData | any = (data: Array<Value>, others?: any = {}) => {
+const barChartDataConverter: BarChartReturnData | any = (data: Array<Value>, others?: any) => {
     const {
         addBorderColor = false
-    } = others
+    } = others || {}
     let labels: any = []
     const totalAmount: any = {
 

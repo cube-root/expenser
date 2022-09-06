@@ -76,7 +76,7 @@ class Template {
                 return `${new Date().getTime()}`;
             } else if (id === 'date') {
                 // MM/DD/YYYY
-                return `${new Date().toLocaleDateString()}`;
+                return inputValue[id] ? inputValue[id] : `${new Date().toLocaleDateString()}`;
             } else {
                 return inputValue[id] ? inputValue[id] : null;
             }

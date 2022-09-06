@@ -10,6 +10,7 @@ import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import * as yup from 'yup';
 import { ChevronDownIcon } from '@heroicons/react/solid';
+import moment from 'moment';
 
 const AddExpense = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const AddExpense = () => {
   const remark = useRef<string>('');
   const type = useRef<string | undefined>(undefined);
   const currency = useRef<string>('$');
+  const date = useRef<string | any>(moment(new Date()).format('MM/DD/YYYY'))
   const appendData = async ({
     sheetId,
     inputData,
@@ -47,7 +49,7 @@ const AddExpense = () => {
       setIsExpenseAdded(true);
       toast.success('Expense added successfully');
     } catch (error: any) {
-      toast.error(error?.response?.data?.error ||'Failed to add expense');
+      toast.error(error?.response?.data?.error || 'Failed to add expense');
       if (error.message) toast.info(error.message);
     }
     setLoading(false);
@@ -59,6 +61,7 @@ const AddExpense = () => {
       remark: yup.string(),
       type: yup.string().required('Please choose a category'),
       currency: yup.string(),
+      date: yup.string().required('Please choose a date')
     });
     try {
       const validateData = await schema.validate({
@@ -66,6 +69,7 @@ const AddExpense = () => {
         remark: remark.current,
         type: type.current,
         currency: currency.current,
+        date: date.current
       });
       setLoading(true);
       const sheetId = sheet.sheetId;
@@ -157,11 +161,30 @@ const AddExpense = () => {
             <label
               htmlFor="remark"
               className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              Date
+            </label>
+            <input
+              className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              type="date"
+              id="date"
+              name="date"
+              defaultValue={moment(new Date()).format('YYYY-MM-DD')}
+              onChange={(event) => {
+                // MM/DD/YYYY
+                date.current = moment(event.target.value).format('MM/DD/YYYY') 
+              }}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="remark"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-200">
               Remark
             </label>
             <div className="mt-1">
               <input
-                className="  appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="remark"
                 type="text"
                 name="remark"
@@ -173,6 +196,7 @@ const AddExpense = () => {
               />
             </div>
           </div>
+
         </div>
 
         <div className="pt-6">

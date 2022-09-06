@@ -56,9 +56,10 @@ const GetExpense = () => {
           },
         },
       );
-      setData(response.data.reverse());
+      const reverseArray = response.data.reverse()
+      setData(reverseArray);
       setDoughnutData(doughnutChartDataConverter(response.data));
-      setLineData(lineChartDataConverter(response.data.reverse()));
+      setLineData(lineChartDataConverter(reverseArray));
     } catch (error: any) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
