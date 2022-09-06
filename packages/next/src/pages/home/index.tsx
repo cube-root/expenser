@@ -157,3 +157,4 @@ const Home = ({ darkMode }: { darkMode: boolean }) => {
 };
 
 export default withUser(Home);
+export { InitialCard }

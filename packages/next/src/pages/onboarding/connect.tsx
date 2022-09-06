@@ -10,7 +10,7 @@ import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import { ChevronLeftIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import VideoModal from '../../components/VideoModal';
+import VideoModal from '../../components/video-modal';
 
 const Connect = () => {
   const [isLoading, setIsLoading] = useState(false);

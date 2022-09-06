@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/outline';
 import withUser from '../../wrapper/check-user';
-import VideoModal from '../../components/VideoModal';
+import VideoModal from '../../components/video-modal';
 
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   return (

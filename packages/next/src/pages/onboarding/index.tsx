@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/outline';
 import { getFirebaseConfig } from '../../helper';
 import withUser from '../../wrapper/check-user';
-import VideoModal from '../../components/VideoModal';
+import VideoModal from '../../components/video-modal';
 
 const OnBoarding = ({ darkMode }: { darkMode: boolean }) => {
   const { CLIENT_EMAIL: emailAddress } = getFirebaseConfig();

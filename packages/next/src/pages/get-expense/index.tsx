@@ -16,6 +16,7 @@ import {
 import LineChart from '../../components/charts/Line';
 // import { ButtonGroup } from '../../components';
 import Image from 'next/image';
+import { InitialCard } from '../home/index'
 
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
@@ -101,6 +102,11 @@ const GetExpense = () => {
               width={200}
               alt="Loading"
             />
+          </div>
+        )}
+        {!isLoading && (!data || data.length <= 0) && (
+          <div className='mt-4'>
+            <InitialCard />
           </div>
         )}
         {!isLoading && data && data.length > 0 && (
