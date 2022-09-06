@@ -166,6 +166,7 @@ const AddExpense = () => {
                 type="text"
                 name="remark"
                 placeholder="Remarks (If any)"
+                maxLength={20}
                 onChange={event => {
                   remark.current = event.target.value;
                 }}
