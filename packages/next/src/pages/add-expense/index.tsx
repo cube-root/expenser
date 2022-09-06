@@ -47,7 +47,7 @@ const AddExpense = () => {
       setIsExpenseAdded(true);
       toast.success('Expense added successfully');
     } catch (error: any) {
-      toast.error('Failed to add expense');
+      toast.error(error?.response?.data?.error ||'Failed to add expense');
       if (error.message) toast.info(error.message);
     }
     setLoading(false);
