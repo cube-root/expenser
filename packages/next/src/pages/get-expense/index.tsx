@@ -59,7 +59,7 @@ const GetExpense = () => {
       setDoughnutData(doughnutChartDataConverter(response.data));
       setLineData(lineChartDataConverter(response.data.reverse()));
     } catch (error: any) {
-      toast.error(error.message || 'Something went wrong');
+      toast.error(error?.response?.data?.error || 'Something went wrong');
     }
     setLoading(false);
   };

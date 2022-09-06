@@ -24,10 +24,12 @@ export default async function api(
             const data = await sheet.get();
             return res.status(200).json(data)
         } catch (error: any) {
-            console.log(error);
-            return res.status(500).json({ error: error.message || 'Get api failed' })
+            return res.status(500).json({
+                error: error?.response?.data?.error?.message || 'Get api failed',
+                details: error?.response?.data
+            })
         }
-    } else { 
+    } else {
         return res.status(500).json({
             error: "Method not allowed"
         })
