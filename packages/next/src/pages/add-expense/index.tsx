@@ -47,7 +47,7 @@ const AddExpense = () => {
       setIsExpenseAdded(true);
       toast.success('Expense added successfully');
     } catch (error: any) {
-      toast.error('Failed to add expense');
+      toast.error(error?.response?.data?.error ||'Failed to add expense');
       if (error.message) toast.info(error.message);
     }
     setLoading(false);
@@ -166,6 +166,7 @@ const AddExpense = () => {
                 type="text"
                 name="remark"
                 placeholder="Remarks (If any)"
+                maxLength={20}
                 onChange={event => {
                   remark.current = event.target.value;
                 }}

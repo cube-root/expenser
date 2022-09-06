@@ -43,7 +43,7 @@ class SheetService {
         const accessToken = await getAccessToken();
         const response = await api.sheetsApi.post(accessToken, this.sheetId, {
             ...data,
-            symbol: data.symbol ? data.symbol : symbol,
+            symbol: data.currency ? data.currency : symbol,
         });
         return response;
     }

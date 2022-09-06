@@ -1,4 +1,4 @@
 import Login from './Login';
 
-export * from './coreComponents';
+export * from './core-components';
 export { Login };
