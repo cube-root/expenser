@@ -14,7 +14,7 @@ import {
   lineChartDataConverter,
 } from '../../helper/chart';
 import LineChart from '../../components/charts/Line';
-// import { ButtonGroup } from '../../components';
+import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
 import { orderByDate } from '../../helper/order'
@@ -23,6 +23,7 @@ const GetExpense = () => {
   const [user] = useUser();
   const [sheet] = useSheet();
   const [data, setData] = useState([]);
+  const [filterType, setFilterType] = useState<string>('')
   const [isDeleting] = useState(false);
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
@@ -66,7 +67,7 @@ const GetExpense = () => {
     }
     setLoading(false);
   };
-
+  // EXPENSE DELETE
   const onDeleteExpense = async (data: any) => {
     toast.info("Expense deleting..Please wait !!");
     setLoading(true);
@@ -89,9 +90,17 @@ const GetExpense = () => {
     setLoading(false);
 
   }
+  // FETCH DATA FROM API
   useEffect(() => {
     fetchData();
   }, []);
+  // FILTER
+  useEffect(() => {
+    if (filterType && filterType.length > 0) {
+      console.log('inn', filterType)
+    }
+
+  }, [filterType])
 
   return (
     <SideBar>
@@ -117,8 +126,9 @@ const GetExpense = () => {
               <h3 className="text-2xl leading-6 font-medium text-slate-900 dark:text-slate-50">
                 Spending trends
               </h3>
-              {/* TODO */}
-              {/* <ButtonGroup /> */}
+              <Filter onClickFilter={(filterType) => {
+                setFilterType(filterType)
+              }} />
             </div>
             <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 my-4">
               <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md text-white">
