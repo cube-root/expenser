@@ -168,6 +168,7 @@ const GetExpense = () => {
                         onDeleteExpense(item)
                       }}
                       disableDeleteButton={isDeleting}
+                      paymentMode={mapResult?.paymentMode?.value}
                     />
                   );
                 })}

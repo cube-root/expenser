@@ -22,6 +22,7 @@ const AddExpense = () => {
   const amount = useRef<any>(0);
   const remark = useRef<string>('');
   const type = useRef<string | undefined>(undefined);
+  const paymentMode = useRef<string | undefined>(undefined);
   const currency = useRef<string>('$');
   const date = useRef<string | any>(moment(new Date()).format('MM/DD/YYYY'))
   const appendData = async ({
@@ -61,7 +62,8 @@ const AddExpense = () => {
       remark: yup.string(),
       type: yup.string().required('Please choose a category'),
       currency: yup.string(),
-      date: yup.string().required('Please choose a date')
+      date: yup.string().required('Please choose a date'),
+      paymentMode: yup.string().required('Please choose a mode of payment')
     });
     try {
       const validateData = await schema.validate({
@@ -69,7 +71,8 @@ const AddExpense = () => {
         remark: remark.current,
         type: type.current,
         currency: currency.current,
-        date: date.current
+        date: date.current,
+        paymentMode: paymentMode.current
       });
       setLoading(true);
       const sheetId = sheet.sheetId;
@@ -171,11 +174,28 @@ const AddExpense = () => {
               defaultValue={moment(new Date()).format('YYYY-MM-DD')}
               onChange={(event) => {
                 // MM/DD/YYYY
-                date.current = moment(event.target.value).format('MM/DD/YYYY') 
+                if (event.target.value === '' || event.target.value.length === 0) return date.current = undefined
+                date.current = moment(event.target.value).format('MM/DD/YYYY')
               }}
             />
           </div>
-
+          <div>
+            <label
+              htmlFor="remark"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              Mode of payment
+            </label>
+            <div className="mt-1 relative">
+              <Forms.ModeOfPayment
+                required
+                name="payment"
+                onChange={(event: any) => {
+                  paymentMode.current = event.value;
+                }}
+                id="payment"
+              />
+            </div>
+          </div>
           <div>
             <label
               htmlFor="remark"

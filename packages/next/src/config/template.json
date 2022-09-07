@@ -48,5 +48,15 @@
             "field": "text-area",
             "isNullable": true
         }
+    },
+    "G":{
+        "id": "paymentMode",
+        "name": "Payment Mode",
+        "isNullable": true,
+        "type": "string",
+        "inputMeta": {
+            "field": "select",
+            "isNullable": true
+        }
     }
 }

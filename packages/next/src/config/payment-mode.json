@@ -1,0 +1,11 @@
+[
+    {
+        "value": "cash",
+        "label": "Cash",
+        "defaultValue": true
+    },
+    {
+        "value": "card",
+        "label": "Card"
+    }
+]
