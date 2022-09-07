@@ -17,7 +17,7 @@ import LineChart from '../../components/charts/Line';
 // import { ButtonGroup } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-
+import { orderByDate } from '../../helper/order'
 const GetExpense = () => {
   const [isLoading, setLoading] = useState(false);
   const [user] = useUser();
@@ -56,9 +56,11 @@ const GetExpense = () => {
           },
         },
       );
-      setData(response.data.reverse());
+
+      const reverseArray = orderByDate(response.data);
+      setData(reverseArray);
       setDoughnutData(doughnutChartDataConverter(response.data));
-      setLineData(lineChartDataConverter(response.data.reverse()));
+      setLineData(lineChartDataConverter(reverseArray.reverse()));
     } catch (error: any) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
@@ -82,7 +84,7 @@ const GetExpense = () => {
       toast.success("Deleted successfully !");
       await fetchData();
     } catch (error: any) {
-      toast.error(error.message || 'Something went wrong');
+      toast.error(error?.response?.data?.error || 'Something went wrong');
     }
     setLoading(false);
 
@@ -156,8 +158,7 @@ const GetExpense = () => {
                       startOf={
                         mapResult.date
                           ? moment(mapResult.date.value)
-                            .startOf('days')
-                            .fromNow()
+                            .calendar()?.split('at')[0]
                           : ' '
                       }
                       description={
@@ -167,6 +168,7 @@ const GetExpense = () => {
                         onDeleteExpense(item)
                       }}
                       disableDeleteButton={isDeleting}
+                      paymentMode={mapResult?.paymentMode?.value}
                     />
                   );
                 })}

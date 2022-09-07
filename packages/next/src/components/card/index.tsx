@@ -24,7 +24,8 @@ const CardChild = ({
   // bgColor = 'bg-cyan-600',
   startOf,
   onClickDelete,
-  disableDeleteButton = false
+  disableDeleteButton = false,
+  paymentMode
 }: {
   key: any;
   heading?: string;
@@ -37,7 +38,8 @@ const CardChild = ({
   Icon?: any;
   startOf?: string;
   onClickDelete?: any
-  disableDeleteButton?: any
+  disableDeleteButton?: any,
+  paymentMode?: any
 }) => {
   return (
     <li
@@ -52,6 +54,7 @@ const CardChild = ({
           {description}
         </p>
         <p className="text-slate-400 dark:text-slate-300 text-sm">{date}</p>
+        {paymentMode && <p className="text-slate-400 dark:text-slate-300 text-sm">{paymentMode.toUpperCase()}</p>}
         <p className='mt-2'>
           <button
             key={key}
