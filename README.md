@@ -1,4 +1,4 @@
-<h1 align="center">Expenser</h1>
+<h1 align="center">MyExpense</h1>
 
 Manage your personal bills using google spread sheet.
 
