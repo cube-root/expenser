@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
@@ -17,15 +16,14 @@ import LineChart from '../../components/charts/Line';
 import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-import { orderByDate } from '../../helper/order'
-const GetExpense = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [user] = useUser();
-  const [sheet] = useSheet();
-  const [data, setData] = useState([]);
-  const [filterType, setFilterType] = useState<string>('')
-  const [isDeleting] = useState(false);
-  const [doughnutData, setDoughnutData] = useState({
+import { orderByDate } from '../../helper/order';
+
+const initialState = {
+  isLoading: false,
+  data: [],
+  filterType: '',
+  isDeleting: false,
+  doughnutData: {
     labels: [],
     datasets: [
       {
@@ -34,15 +32,68 @@ const GetExpense = () => {
         borderColor: [],
       },
     ],
-  });
-  const [lineData, setLineData] = useState({
+  },
+  lineData: {
     labels: [],
     datasets: [
       {
         data: [],
       },
     ],
-  });
+  },
+};
+type Action = {
+  type: string,
+  value: any
+}
+const reducer = (state = initialState, action: Action) => {
+  switch (action.type) {
+    case 'set_loading': {
+      return { ...state, isLoading: action.value }
+    }
+    case 'set_data': {
+      return { ...state, data: action.value }
+    }
+    case 'set_doughnut_data': {
+      return { ...state, doughnutData: action.value }
+    }
+    case 'set_line_data': {
+      return { ...state, lineData: action.value }
+    }
+    case 'set_filter_type': {
+      return { ...state, filterType: action.value }
+    }
+    default:
+      return state;
+  }
+}
+
+const GetExpense = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isLoading,
+    data,
+    isDeleting,
+    doughnutData,
+    filterType,
+    lineData
+  } = state;
+  const setLoading = (value: boolean) => {
+    dispatch({ type: 'set_loading', value })
+  }
+  const setData = (value: any) => {
+    dispatch({ type: 'set_data', value });
+  }
+  const setDoughnutData = (value: any) => {
+    dispatch({ type: 'set_doughnut_data', value })
+  }
+  const setLineData = (value: any) => {
+    dispatch({ type: 'set_line_data', value })
+  }
+  const setFilterType = (value: any) => {
+    dispatch({ type: 'set_filter_type', value })
+  }
+  const [user] = useUser();
+  const [sheet] = useSheet();
 
   const fetchData = async () => {
     setLoading(true);
