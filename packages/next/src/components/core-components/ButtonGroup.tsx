@@ -33,6 +33,17 @@ const ButtonGroup = (props: {
         )}>
         Today
       </button>
+      <button
+        type="button"
+        onClick={() => {
+          props.onClickFilter('last-seven')
+        }}
+        className={classNames(
+          'relative -ml-px inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50',
+          active ? 'bg-slate-200' : 'bg-white',
+        )}>
+        Last 7 days
+      </button>
       {/* <button
         type="button"
         className={classNames(

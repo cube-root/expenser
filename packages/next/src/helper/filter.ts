@@ -43,7 +43,17 @@ const getDataOnADate = (data: Array<Value>, date: string) => {
     );
 }
 
+const getDataOnDateBetween = (data: Array<Value>, startingDate: string, endingDate: string) => {
+    return data.filter(item =>
+        moment(item?.data?.date?.value, 'MM/DD/YYYY').isBetween(
+            moment(startingDate, 'MM/DD/YYYY').format('MM/DD/YYYY'),
+            moment(endingDate, 'MM/DD/YYYY').format('MM/DD/YYYY')
+        )
+    )
+}
+
 export {
     orderByDate,
-    getDataOnADate
+    getDataOnADate,
+    getDataOnDateBetween
 }

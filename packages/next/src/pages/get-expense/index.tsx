@@ -16,7 +16,7 @@ import LineChart from '../../components/charts/Line';
 import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-import { orderByDate, getDataOnADate } from '../../helper/filter';
+import { orderByDate, getDataOnADate, getDataOnDateBetween } from '../../helper/filter';
 
 const initialState = {
   isLoading: false,
@@ -91,9 +91,9 @@ const GetExpense = () => {
   const setDoughnutData = (value: any) => {
     dispatch({ type: 'set_doughnut_data', value })
   }
-  const setLineData = (value: any) => {
-    dispatch({ type: 'set_line_data', value })
-  }
+  // const setLineData = (value: any) => {
+  //   dispatch({ type: 'set_line_data', value })
+  // }
   const setFilterType = (value: any) => {
     dispatch({ type: 'set_filter_type', value })
   }
@@ -161,7 +161,7 @@ const GetExpense = () => {
     if (filterType && filterType.length > 0) {
       switch (filterType) {
         case 'today': {
-          const filterData = getDataOnADate(data, moment(new Date()).format('MM/DD/YYYY'))
+          const filterData = getDataOnADate(initialData, moment(new Date()).format('MM/DD/YYYY'))
           setData(filterData);
           setDoughnutData(doughnutChartDataConverter(filterData))
           break;
@@ -169,6 +169,15 @@ const GetExpense = () => {
         case 'all': {
           setDoughnutData(doughnutChartDataConverter(initialData))
           setData(initialData);
+          break;
+        }
+        case 'last-seven': {
+          const filterData = getDataOnDateBetween(initialData,
+            moment(new Date()).subtract(7, 'd').format('MM/DD/YYYY'),
+            moment(new Date()).add(1,'d').format('MM/DD/YYYY'),
+          )
+          setDoughnutData(doughnutChartDataConverter(filterData))
+          setData(filterData);
           break;
         }
         default: {
@@ -203,9 +212,11 @@ const GetExpense = () => {
               <h3 className="text-2xl leading-6 font-medium text-slate-900 dark:text-slate-50">
                 Spending trends
               </h3>
-              <Filter onClickFilter={(filterType) => {
-                setFilterType(filterType)
-              }} />
+              <Filter
+                onClickFilter={(filterType) => {
+                  setFilterType(filterType)
+                }}
+              />
             </div>
             <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 my-4">
               <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md text-white">
@@ -220,7 +231,7 @@ const GetExpense = () => {
             </div>
             <Cards.CardWrapper>
               {data &&
-                data.map((item: any, index) => {
+                data.map((item: any, index: number) => {
                   const { data: mapResult, meta } = item;
                   return (
                     <Cards.CardChild
