@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
@@ -14,17 +13,18 @@ import {
   lineChartDataConverter,
 } from '../../helper/chart';
 import LineChart from '../../components/charts/Line';
-// import { ButtonGroup } from '../../components';
+import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-import { orderByDate } from '../../helper/order'
-const GetExpense = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [user] = useUser();
-  const [sheet] = useSheet();
-  const [data, setData] = useState([]);
-  const [isDeleting] = useState(false);
-  const [doughnutData, setDoughnutData] = useState({
+import { orderByDate, getDataOnADate, getDataOnDateBetween } from '../../helper/filter';
+
+const initialState = {
+  isLoading: false,
+  data: [],
+  initialData: [],
+  filterType: '',
+  isDeleting: false,
+  doughnutData: {
     labels: [],
     datasets: [
       {
@@ -33,15 +33,75 @@ const GetExpense = () => {
         borderColor: [],
       },
     ],
-  });
-  const [lineData, setLineData] = useState({
+  },
+  lineData: {
     labels: [],
     datasets: [
       {
         data: [],
       },
     ],
-  });
+  },
+};
+type Action = {
+  type: string,
+  value: any
+}
+const reducer = (state = initialState, action: Action) => {
+  switch (action.type) {
+    case 'set_loading': {
+      return { ...state, isLoading: action.value }
+    }
+    case 'set_data': {
+      return { ...state, data: action.value }
+    }
+    case 'set_doughnut_data': {
+      return { ...state, doughnutData: action.value }
+    }
+    case 'set_line_data': {
+      return { ...state, lineData: action.value }
+    }
+    case 'set_filter_type': {
+      return { ...state, filterType: action.value }
+    }
+    case 'set_initial_value': {
+      return { ...state, ...action.value };
+    }
+    default:
+      return state;
+  }
+}
+
+const GetExpense = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isLoading,
+    data,
+    isDeleting,
+    doughnutData,
+    filterType,
+    lineData,
+    initialData
+  } = state;
+  const setLoading = (value: boolean) => {
+    dispatch({ type: 'set_loading', value })
+  }
+  const setData = (value: any) => {
+    dispatch({ type: 'set_data', value });
+  }
+  const setDoughnutData = (value: any) => {
+    dispatch({ type: 'set_doughnut_data', value })
+  }
+  // const setLineData = (value: any) => {
+  //   dispatch({ type: 'set_line_data', value })
+  // }
+  const setFilterType = (value: any) => {
+    dispatch({ type: 'set_filter_type', value })
+  }
+  const setInitialData = (value: any) => {
+    dispatch({ type: 'set_initial_value', value });
+  }
+  const [user] = useUser();
+  const [sheet] = useSheet();
 
   const fetchData = async () => {
     setLoading(true);
@@ -58,15 +118,18 @@ const GetExpense = () => {
       );
 
       const reverseArray = orderByDate(response.data);
-      setData(reverseArray);
-      setDoughnutData(doughnutChartDataConverter(response.data));
-      setLineData(lineChartDataConverter(reverseArray.reverse()));
+      setInitialData({
+        data: reverseArray,
+        doughnutData: doughnutChartDataConverter(response.data),
+        lineData: lineChartDataConverter(reverseArray.reverse()),
+        initialData: reverseArray
+      });
     } catch (error: any) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
     setLoading(false);
   };
-
+  // EXPENSE DELETE
   const onDeleteExpense = async (data: any) => {
     toast.info("Expense deleting..Please wait !!");
     setLoading(true);
@@ -89,9 +152,41 @@ const GetExpense = () => {
     setLoading(false);
 
   }
+  // FETCH DATA FROM API
   useEffect(() => {
     fetchData();
   }, []);
+  // FILTER
+  useEffect(() => {
+    if (filterType && filterType.length > 0) {
+      switch (filterType) {
+        case 'today': {
+          const filterData = getDataOnADate(initialData, moment(new Date()).format('MM/DD/YYYY'))
+          setData(filterData);
+          setDoughnutData(doughnutChartDataConverter(filterData))
+          break;
+        }
+        case 'all': {
+          setDoughnutData(doughnutChartDataConverter(initialData))
+          setData(initialData);
+          break;
+        }
+        case 'last-seven': {
+          const filterData = getDataOnDateBetween(initialData,
+            moment(new Date()).subtract(7, 'd').format('MM/DD/YYYY'),
+            moment(new Date()).add(1,'d').format('MM/DD/YYYY'),
+          )
+          setDoughnutData(doughnutChartDataConverter(filterData))
+          setData(filterData);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+
+  }, [filterType])
 
   return (
     <SideBar>
@@ -117,8 +212,11 @@ const GetExpense = () => {
               <h3 className="text-2xl leading-6 font-medium text-slate-900 dark:text-slate-50">
                 Spending trends
               </h3>
-              {/* TODO */}
-              {/* <ButtonGroup /> */}
+              <Filter
+                onClickFilter={(filterType) => {
+                  setFilterType(filterType)
+                }}
+              />
             </div>
             <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 my-4">
               <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md text-white">
@@ -133,7 +231,7 @@ const GetExpense = () => {
             </div>
             <Cards.CardWrapper>
               {data &&
-                data.map((item: any, index) => {
+                data.map((item: any, index: number) => {
                   const { data: mapResult, meta } = item;
                   return (
                     <Cards.CardChild
