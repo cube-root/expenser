@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import Cards from '../../components/card';
 import moment from 'moment';
 import SideBar from '../../components/sidebar';
@@ -16,11 +16,12 @@ import LineChart from '../../components/charts/Line';
 import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-import { orderByDate } from '../../helper/order';
+import { orderByDate, getDataOnADate } from '../../helper/filter';
 
 const initialState = {
   isLoading: false,
   data: [],
+  initialData: [],
   filterType: '',
   isDeleting: false,
   doughnutData: {
@@ -63,6 +64,9 @@ const reducer = (state = initialState, action: Action) => {
     case 'set_filter_type': {
       return { ...state, filterType: action.value }
     }
+    case 'set_initial_value': {
+      return { ...state, ...action.value };
+    }
     default:
       return state;
   }
@@ -75,7 +79,8 @@ const GetExpense = () => {
     isDeleting,
     doughnutData,
     filterType,
-    lineData
+    lineData,
+    initialData
   } = state;
   const setLoading = (value: boolean) => {
     dispatch({ type: 'set_loading', value })
@@ -91,6 +96,9 @@ const GetExpense = () => {
   }
   const setFilterType = (value: any) => {
     dispatch({ type: 'set_filter_type', value })
+  }
+  const setInitialData = (value: any) => {
+    dispatch({ type: 'set_initial_value', value });
   }
   const [user] = useUser();
   const [sheet] = useSheet();
@@ -110,9 +118,12 @@ const GetExpense = () => {
       );
 
       const reverseArray = orderByDate(response.data);
-      setData(reverseArray);
-      setDoughnutData(doughnutChartDataConverter(response.data));
-      setLineData(lineChartDataConverter(reverseArray.reverse()));
+      setInitialData({
+        data: reverseArray,
+        doughnutData: doughnutChartDataConverter(response.data),
+        lineData: lineChartDataConverter(reverseArray.reverse()),
+        initialData: reverseArray
+      });
     } catch (error: any) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
@@ -148,7 +159,22 @@ const GetExpense = () => {
   // FILTER
   useEffect(() => {
     if (filterType && filterType.length > 0) {
-      console.log('inn', filterType)
+      switch (filterType) {
+        case 'today': {
+          const filterData = getDataOnADate(data, moment(new Date()).format('MM/DD/YYYY'))
+          setData(filterData);
+          setDoughnutData(doughnutChartDataConverter(filterData))
+          break;
+        }
+        case 'all': {
+          setDoughnutData(doughnutChartDataConverter(initialData))
+          setData(initialData);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     }
 
   }, [filterType])
