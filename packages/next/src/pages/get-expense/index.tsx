@@ -16,7 +16,7 @@ import LineChart from '../../components/charts/Line';
 import { ButtonGroup as Filter } from '../../components';
 import Image from 'next/image';
 import { InitialCard } from '../home/index'
-import { orderByDate, getDataOnADate, getDataOnDateBetween } from '../../helper/filter';
+import { orderByDate, getDataOnADate, getDataOnDateBetween, getTotalAmount } from '../../helper/filter';
 
 const initialState = {
   isLoading: false,
@@ -42,6 +42,7 @@ const initialState = {
       },
     ],
   },
+  totalAmount: 0
 };
 type Action = {
   type: string,
@@ -67,6 +68,9 @@ const reducer = (state = initialState, action: Action) => {
     case 'set_initial_value': {
       return { ...state, ...action.value };
     }
+    case 'set_total_amount': {
+      return { ...state, totalAmount: action.value }
+    }
     default:
       return state;
   }
@@ -80,7 +84,8 @@ const GetExpense = () => {
     doughnutData,
     filterType,
     lineData,
-    initialData
+    initialData,
+    totalAmount
   } = state;
   const setLoading = (value: boolean) => {
     dispatch({ type: 'set_loading', value })
@@ -99,6 +104,9 @@ const GetExpense = () => {
   }
   const setInitialData = (value: any) => {
     dispatch({ type: 'set_initial_value', value });
+  }
+  const setTotalAmount = (value: any) => {
+    dispatch({ type: 'set_total_amount', value });
   }
   const [user] = useUser();
   const [sheet] = useSheet();
@@ -122,7 +130,8 @@ const GetExpense = () => {
         data: reverseArray,
         doughnutData: doughnutChartDataConverter(response.data),
         lineData: lineChartDataConverter(reverseArray.reverse()),
-        initialData: reverseArray
+        initialData: reverseArray,
+        // totalAmount: getTotalAmount(response.data)
       });
     } catch (error: any) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
@@ -174,7 +183,7 @@ const GetExpense = () => {
         case 'last-seven': {
           const filterData = getDataOnDateBetween(initialData,
             moment(new Date()).subtract(7, 'd').format('MM/DD/YYYY'),
-            moment(new Date()).add(1,'d').format('MM/DD/YYYY'),
+            moment(new Date()).add(1, 'd').format('MM/DD/YYYY'),
           )
           setDoughnutData(doughnutChartDataConverter(filterData))
           setData(filterData);
@@ -187,7 +196,11 @@ const GetExpense = () => {
     }
 
   }, [filterType])
-
+  // CALCULATE TOTAL AMOUNT
+  useEffect(() => {
+    const totalAmount = getTotalAmount(data);
+    setTotalAmount(totalAmount)
+  }, [data])
   return (
     <SideBar>
       <div className="ml-5 mr-3">
@@ -221,6 +234,9 @@ const GetExpense = () => {
             <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 my-4">
               <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md text-white">
                 <DoughnutApp data={doughnutData} />
+                <div className='mt-4'>
+                  TOTAL AMOUNT: {totalAmount}
+                </div>
               </div>
               <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-md sm:col-span-2">
                 <LineChart data={lineData} />

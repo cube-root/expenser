@@ -42,7 +42,14 @@ const getDataOnADate = (data: Array<Value>, date: string) => {
             )
     );
 }
-
+/**
+ * 
+ * @param data Array<Value>
+ * @param startingDate date
+ * @param endingDate date
+ * @returns Filtered array on dates between starting and ending date
+ *  order of the two arguments matter: the "smaller" date should be in the first argument
+ */
 const getDataOnDateBetween = (data: Array<Value>, startingDate: string, endingDate: string) => {
     return data.filter(item =>
         moment(item?.data?.date?.value, 'MM/DD/YYYY').isBetween(
@@ -51,9 +58,20 @@ const getDataOnDateBetween = (data: Array<Value>, startingDate: string, endingDa
         )
     )
 }
+/**
+ * 
+ * @param data Array<Value>
+ * @returns total amount
+ */
+const getTotalAmount = (data: Array<Value>) => {
+    return data.reduce((previousValue: any, next: any) => {
+        return previousValue + parseFloat(next?.data?.amount?.value);
+    }, 0)
+}
 
 export {
     orderByDate,
     getDataOnADate,
-    getDataOnDateBetween
+    getDataOnDateBetween,
+    getTotalAmount
 }
