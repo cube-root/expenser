@@ -40,7 +40,7 @@ const navigation: any = [
 ];
 const secondaryNavigation: Array<any> = [
   {
-    name: 'Sheets',
+    name: 'Settings',
     href: '/sheet-settings',
     icon: CogIcon,
     current: true,
