@@ -58,9 +58,20 @@ const getDataOnDateBetween = (data: Array<Value>, startingDate: string, endingDa
         )
     )
 }
+/**
+ * 
+ * @param data Array<Value>
+ * @returns total amount
+ */
+const getTotalAmount = (data: Array<Value>) => {
+    return data.reduce((previousValue: any, next: any) => {
+        return previousValue + parseFloat(next?.data?.amount?.value);
+    }, 0)
+}
 
 export {
     orderByDate,
     getDataOnADate,
-    getDataOnDateBetween
+    getDataOnDateBetween,
+    getTotalAmount
 }
