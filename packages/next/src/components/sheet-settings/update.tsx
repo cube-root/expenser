@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { extractSheet } from '../../helper';
+import { useRef, useState, useEffect } from 'react';
+import helper, { extractSheet } from '../../helper';
 import useUser from '../../hooks/user';
 import useSheet from '../../hooks/sheet';
 import { toast } from 'react-toastify';
@@ -7,13 +7,15 @@ import * as yup from 'yup';
 import axios from 'axios';
 import {
   SaveIcon,
+  ClipboardCopyIcon
 } from '@heroicons/react/outline';
+
 
 const Update = () => {
   const [isCreating, setCreating] = useState(false);
   const [user] = useUser();
   const [, setSheet] = useSheet();
-
+  const [copied, setCopied] = useState(false);
   const spreadSheetLink = useRef('');
   const name = useRef('');
 
@@ -63,9 +65,42 @@ const Update = () => {
     }
     setCreating(false);
   };
+
+  useEffect(() => {
+    if (copied) {
+      setTimeout(() => {
+        setCopied(false);
+      }, 3000)
+    }
+  }, [copied])
   return (
     <div className="mt-10 divide-y divide-gray-200">
       <div className="flex flex-col">
+        <div className="mt-2  text-slate-900 dark:text-slate-100">
+          <label htmlFor="email" className="font-bold text-sm">
+            Copy email and share with sheet
+          </label>
+          <div className="mt-1 relative">
+            <input
+              className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white dark:text-black"
+              id="email"
+              type="email"
+              name="email"
+              disabled
+              value={helper.getFirebaseConfig().CLIENT_EMAIL}
+              placeholder="Remarks (If any)"
+            />
+            <button
+              onClick={() => {
+                setCopied(true);
+                navigator.clipboard.writeText(helper.getFirebaseConfig().CLIENT_EMAIL);
+              }}
+              className="px-4 bg-slate-800 dark:bg-slate-700 hover:bg-opacity-90 dark:hover:bg-opacity-90 text-white absolute inset-y-0 right-0 rounded-r-md inline-flex items-center justify-center space-x-2">
+              <ClipboardCopyIcon className="h-5 w-5" />
+              <span>{copied ? 'Copied to clipboard' : 'Copy mail address'}</span>
+            </button>
+          </div>
+        </div>
         <div className="mt-2">
           <label
             htmlFor="first-name"
