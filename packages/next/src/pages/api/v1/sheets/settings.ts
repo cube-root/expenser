@@ -16,7 +16,11 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
                 API_KEY: API_KEY,
                 API_SECRET: API_SECRET
             })
-            return res.status(200).json(value)
+            const general = await settings.getGeneralSettings({
+                API_KEY: API_KEY,
+                API_SECRET: API_SECRET
+            })
+            return res.status(200).json({ ...value, general })
         } catch (error: any) {
             return res.status(500).json({
                 message: error.message || 'Get api failed'

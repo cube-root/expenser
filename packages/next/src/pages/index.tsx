@@ -37,6 +37,7 @@ const Home = () => {
           sheetId: data.currentSheet,
           sheetUrl: data.currentSheetLink,
           name: data.name,
+          general: data.general
         });
         router.push(`/home`);
       } else {

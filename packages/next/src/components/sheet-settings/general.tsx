@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useUser from '../../hooks/user';
+import useSheet from '../../hooks/sheet';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import {
@@ -12,6 +13,8 @@ const General = () => {
   const [isSaving, setSaving] = useState(false);
   const [currency, setCurrency] = useState<string>('$');
   const [user] = useUser();
+  const [sheet] = useSheet();
+  const { setCurrency: syncCurrency } = sheet || {};
   const changeCurrency = async () => {
     try {
       const schema = yup.object().shape({
@@ -33,6 +36,7 @@ const General = () => {
         },
       );
       toast.info('Currency updated');
+      if (syncCurrency) syncCurrency(currency)
       setSaving(false);
     } catch (error: any) {
       if (error.errors) {

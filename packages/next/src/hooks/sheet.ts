@@ -4,20 +4,32 @@ import { persist } from "zustand/middleware"
 type State = {
     sheetId: string,
     name: string,
-    sheetUrl: string
+    sheetUrl: string,
+    general: {
+        defaultCurrency: string,
+
+    }
 }
 const sheet = create(persist(
     (set: any) => ({
         sheetId: undefined,
         sheetUrl: undefined,
         name: undefined,
+        general: {},
         setSheet: (
             {
                 sheetId,
                 name,
-                sheetUrl
+                sheetUrl,
+                general
             }: State
-        ) => set((state: any) => ({ ...state, sheetId, name, sheetUrl })) 
+        ) => set((state: any) => ({ ...state, sheetId, name, sheetUrl, general })),
+        setCurrency: (currency: string) => set((state: State) => ({
+            ...state, general: {
+                ...state.general,
+                defaultCurrency: currency
+            }
+        }))
     }),
     {
         name: "sheet"
@@ -25,13 +37,16 @@ const sheet = create(persist(
 ))
 
 
-const useSheet:any = () => {
-    const { setSheet, name, sheetId, sheetUrl } = sheet();
+const useSheet: any = () => {
+    const { setSheet, setCurrency, name, sheetId, sheetUrl, general } = sheet();
+
     return [
         {
             name,
             sheetId,
-            sheetUrl
+            sheetUrl,
+            general,
+            setCurrency
         },
         setSheet
     ]
