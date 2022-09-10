@@ -5,7 +5,7 @@ import Update from './update';
 import General from './general';
 
 const tabs = [
-  { id: 'create', name: 'Create new sheet', href: '#' },
+  // { id: 'create', name: 'Create new sheet', href: '#' },
   { id: 'current', name: 'Current sheet', href: '#' },
   { id: 'update', name: 'Update sheets', href: '#' },
   { id: 'general', name: 'General', href: '' },

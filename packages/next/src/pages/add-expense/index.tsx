@@ -97,7 +97,6 @@ const AddExpense = () => {
     }
     setLoading(false);
   };
-
   return (
     <SideBar>
       <form className="px-4 mt-8 max-w-xl mx-auto" onSubmit={formSubmit}>
@@ -116,6 +115,7 @@ const AddExpense = () => {
               <div className="relative">
                 <Forms.CurrencyFormField
                   required
+                  default={sheet?.general?.defaultCurrency}
                   name="currency"
                   onChange={(event: any) => {
                     currency.current = event.target.value;
