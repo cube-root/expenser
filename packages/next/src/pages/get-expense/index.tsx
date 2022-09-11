@@ -214,12 +214,12 @@ const GetExpense = () => {
             />
           </div>
         )}
-        {!isLoading && (!data || data.length <= 0) && (
+        {!isLoading && (!initialData || initialData.length <= 0) && (
           <div className='mt-4'>
             <InitialCard />
           </div>
         )}
-        {!isLoading && data && data.length > 0 && (
+        {!isLoading && initialData && initialData.length > 0 && (
           <>
             <div className="flex items-center justify-between  mt-6">
               <h3 className="text-2xl leading-6 font-medium text-slate-900 dark:text-slate-50">
