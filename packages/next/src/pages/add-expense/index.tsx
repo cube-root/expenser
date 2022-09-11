@@ -150,8 +150,10 @@ const AddExpense = () => {
             </label>
             <div className="mt-1 relative">
               <Forms.TypeFormField
+                className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                 required
                 name="type"
+                placeholder="Choose a category or create new category by typing..."
                 onChange={(event: any) => {
                   type.current = event.value;
                 }}
@@ -187,6 +189,7 @@ const AddExpense = () => {
             </label>
             <div className="mt-1 relative">
               <Forms.ModeOfPayment
+              className="appearance-none block w-full bg-white text-black border border-gray-500 rounded-md py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                 required
                 name="payment"
                 onChange={(event: any) => {
