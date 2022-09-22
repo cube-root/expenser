@@ -13,12 +13,17 @@
     "export": "next export"
   },
   "dependencies": {
+    "@graphql-yoga/node": "^2.13.13",
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
+    "apollo-server": "^3.10.2",
+    "apollo-server-core": "^3.10.2",
+    "apollo-server-micro": "^3.10.2",
     "axios": "^0.24.0",
     "chart.js": "^3.9.1",
     "firebase": "^9.5.0",
     "googleapis": "^100.0.0",
+    "graphql": "^16.6.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "nanoid": "^3.3.3",
