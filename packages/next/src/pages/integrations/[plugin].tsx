@@ -1,18 +1,22 @@
 import { useRouter } from "next/router";
 import SideBar from '../../components/sidebar';
+import usePlugin from "../../hooks/plugins";
 
 const PluginList = () => {
     const router = useRouter();
-    console.log(router, 'xx')
-    const { plugin } = router.query
-    if(!plugin){
+    const { plugin: pluginId } = router.query;
+    const { plugins = [] } = usePlugin()
+    const currentPlugin = plugins.find(item => item.id === pluginId);
+    if (!pluginId || !currentPlugin) {
         return null
     }
-    return <div>Test</div>
+    return <>
+        <currentPlugin.Component />
+    </>
 }
 
 
-const Plugin = ()=>{
+const Plugin = () => {
     return (
         <>
             <SideBar>

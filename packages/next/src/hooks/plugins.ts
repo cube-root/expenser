@@ -1,11 +1,14 @@
+import { Telegram } from '../components/plugins';
 const plugins = [
     {
+        id: 'telegram',
         title: 'Telegram',
         href: '/integrations/telegram',
         category: { name: 'Apps', href: 'https://docs.google.com/spreadsheets' },
         description:
             'Add and track your expenses using telegram bot',
-        imageSrc:'/images/telegram_logo.png'
+        imageSrc: '/images/telegram_logo.png',
+        Component: Telegram
     }
 ]
 
