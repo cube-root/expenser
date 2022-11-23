@@ -7,7 +7,7 @@ const PluginList = () => {
     const { plugin: pluginId } = router.query;
     const { plugins = [] } = usePlugin()
     const currentPlugin = plugins.find(item => item.id === pluginId);
-    if (!pluginId || !currentPlugin) {
+    if (!pluginId || !currentPlugin || !currentPlugin.Component) {
         return null
     }
     return <>
