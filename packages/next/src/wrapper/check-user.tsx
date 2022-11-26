@@ -12,7 +12,7 @@ const withUser = (Component: any) => {
             }
         }, [])
 
-        return <Component {...props} />
+        return (<Component {...props} />)
     }
     return Wrapper
 }

@@ -16,8 +16,19 @@ const Home = () => {
   const [user, setUser] = useUser();
   const [, setSheet] = useSheet();
 
+  useEffect(()=>{
+    if (
+      user &&
+      user.API_KEY &&
+      user.API_SECRET &&
+      user.API_KEY.length > 0 &&
+      user.API_SECRET.length > 0
+    ) {
+      router.push(`/home`);
+    }
+  },[])
   const loginCallBack = (data: any) => {
-    console.log('loginCallBack', data);
+    setUser({ ...data });
   };
 
   return (
