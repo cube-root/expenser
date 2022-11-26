@@ -39,12 +39,12 @@ const navigation: any = [
   },
 ];
 const secondaryNavigation: Array<any> = [
-  {
-    name: 'Settings',
-    href: '/sheet-settings',
-    icon: CogIcon,
-    current: true,
-  },
+  // {
+  //   name: 'Settings',
+  //   href: '/sheet-settings',
+  //   icon: CogIcon,
+  //   current: true,
+  // },
   {
     name: 'Integrations',
     href: '/integrations',

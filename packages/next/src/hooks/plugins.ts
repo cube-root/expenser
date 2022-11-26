@@ -9,7 +9,8 @@ const plugins = [
         description:
             'Add and track your expenses using google sheet',
         imageSrc: '/images/gsheet-icon.png',
-        Component: GoogleSheet
+        Component: GoogleSheet,
+        routeLink: '/onboarding',
     },
     {
         id: 'telegram',
@@ -19,7 +20,8 @@ const plugins = [
         description:
             'Add and track your expenses using telegram bot',
         imageSrc: '/images/telegram_logo.png',
-        Component: Telegram
+        Component: Telegram,
+        
     },
 ]
 

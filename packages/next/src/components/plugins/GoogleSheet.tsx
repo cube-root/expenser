@@ -1,7 +1,9 @@
+import Link from 'next/link';
+
 const GoogleSheet = ()=>{
     return <div>
-       Google sheet
-    </div>
+    
+</div>
 }
 
 export default GoogleSheet;
