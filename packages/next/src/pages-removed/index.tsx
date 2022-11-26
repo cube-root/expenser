@@ -15,11 +15,61 @@ const Home = () => {
   const router = useRouter();
   const [user, setUser] = useUser();
   const [, setSheet] = useSheet();
-
-  const loginCallBack = (data: any) => {
-    console.log('loginCallBack', data);
+  const checkSheetSettings = async ({
+    API_KEY,
+    API_SECRET,
+  }: {
+    API_KEY: string;
+    API_SECRET: string;
+  }) => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/api/v1/sheets/settings', {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api_key': API_KEY,
+          'x-api_secret': API_SECRET,
+        },
+      });
+      const data = response.data;
+      if (data && data.currentSheet) {
+        setSheet({
+          sheetId: data.currentSheet,
+          sheetUrl: data.currentSheetLink,
+          name: data.name,
+          general: data.general
+        });
+        router.push(`/home`);
+      } else {
+        router.push(`/onboarding`);
+      }
+    } catch (error) {
+      router.push(`/onboarding`);
+    }
+    setLoading(false);
   };
 
+  useEffect(() => {
+    if (
+      user &&
+      user.API_KEY &&
+      user.API_SECRET &&
+      user.API_KEY.length > 0 &&
+      user.API_SECRET.length > 0
+    ) {
+      checkSheetSettings({
+        API_KEY: user.API_KEY,
+        API_SECRET: user.API_SECRET,
+      });
+    }
+  }, []);
+  const loginCallBack = (data: any) => {
+    setUser({ ...data });
+    checkSheetSettings({
+      API_KEY: data.API_KEY,
+      API_SECRET: data.API_SECRET,
+    });
+  };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-start sm:justify-center pt-4 sm:pt-0 h-full space-y-4 text-slate-900 dark:text-slate-100">
