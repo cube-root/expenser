@@ -16,7 +16,7 @@ const Home = () => {
   const [user, setUser] = useUser();
   const [, setSheet] = useSheet();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (
       user &&
       user.API_KEY &&
@@ -26,7 +26,7 @@ const Home = () => {
     ) {
       router.push(`/home`);
     }
-  },[])
+  }, [user]);
   const loginCallBack = (data: any) => {
     setUser({ ...data });
   };
