@@ -4,11 +4,25 @@ import { getFirebaseConfig } from '../utils';
 import { getApp, initializeApp } from 'firebase/app';
 import { firebaseTags as tag } from '../config';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import axios from 'axios';
 
 const GoogleLogin = () => {
   const [isLoading, setLoading] = useState(false);
   const config = getFirebaseConfig();
-
+  const onSuccess = async(accessToken:string)=>{
+      try {
+        const response = await axios.post('/api/v1/oauth/google',{
+          accessToken
+        },{
+          headers:{
+            'Content-Type':'application/json'
+          }
+        })
+        
+      } catch (error) {
+        console.log(error);
+      }
+  }
   const onLogin = async () => {
     setLoading(true);
     const firebaseConfigureJson = {
@@ -32,6 +46,7 @@ const GoogleLogin = () => {
       const data: any = await signInWithPopup(auth, provider);
       const { accessToken } = (data && data.user) || {};
       console.log(accessToken);
+      await onSuccess(accessToken);
       setLoading(false);
     } catch (error) {
       console.log(error);
