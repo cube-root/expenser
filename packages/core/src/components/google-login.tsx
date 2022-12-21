@@ -6,23 +6,23 @@ import { firebaseTags as tag } from '../config';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
 
-const GoogleLogin = () => {
+const GoogleLogin = ({ onLogin: onSuccessLogin }: { onLogin: any }) => {
   const [isLoading, setLoading] = useState(false);
   const config = getFirebaseConfig();
-  const onSuccess = async(accessToken:string)=>{
-      try {
-        const response = await axios.post('/api/v1/oauth/google',{
-          accessToken
-        },{
-          headers:{
-            'Content-Type':'application/json'
-          }
-        })
-        
-      } catch (error) {
-        console.log(error);
-      }
-  }
+  const onSuccess = async (accessToken: string, expires_in: any) => {
+    const response = await axios.post(
+      '/api/v1/oauth/google',
+      {
+        accessToken,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    onSuccessLogin({ ...response?.data?.user, expires_in });
+  };
   const onLogin = async () => {
     setLoading(true);
     const firebaseConfigureJson = {
@@ -45,8 +45,10 @@ const GoogleLogin = () => {
       const auth = getAuth(app);
       const data: any = await signInWithPopup(auth, provider);
       const { accessToken } = (data && data.user) || {};
-      console.log(accessToken);
-      await onSuccess(accessToken);
+      const { expiresIn = '3500' } = (data && data._tokenResponse) || {};
+      const login_expires = new Date();
+      login_expires.setSeconds(expiresIn);
+      await onSuccess(accessToken, login_expires);
       setLoading(false);
     } catch (error) {
       console.log(error);

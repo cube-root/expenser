@@ -3,13 +3,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useMode from '../hooks/mode';
+import useUser from '../hooks/user';
 import Mode from '../components/mode';
-import GoogleLogin from '../components/google-login'
+import GoogleLogin from '../components/google-login';
 const Home = () => {
-  const [isLoading, setLoading] = useState(false);
+  const [, setUser] = useUser();
   const { darkMode, toggleMode: setDarkMode } = useMode();
   const router = useRouter();
-  
+  const onLogin = (user: any) => {
+    if(user){
+      setUser(user);
+      router.push('/home');
+    }
+    
+  };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
       <div className="flex flex-col items-center px-4 justify-start sm:justify-center pt-4 sm:pt-0 h-full space-y-4 text-slate-900 dark:text-slate-100">
@@ -56,7 +63,7 @@ const Home = () => {
               <span className="text-green-600">Google Sheets</span>
             </p>
           </div>
-          <GoogleLogin  />
+          <GoogleLogin onLogin={onLogin} />
         </div>
       </div>
     </div>
