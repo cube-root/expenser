@@ -2,6 +2,7 @@ import * as firebase from 'firebase/app';
 import * as firestore from 'firebase/firestore/lite';
 import { getFirebaseConfig } from '../../utils';
 import { firebaseTags as tags } from '../../config';
+import { generateKey, generateToken } from '../../utils';
 
 class Firebase {
   app: firebase.FirebaseApp;
@@ -40,15 +41,29 @@ class Firebase {
   async setUser(userId: string, data: GooglePayload) {
     const updateRef = firestore.doc(this.db, tags.userCollectionTag, userId);
     const userRef = await firestore.getDoc(updateRef);
-    let userData = {};
+    let userData: any = {};
     if (userRef.exists()) {
       userData = userRef.data();
     }
+    if (!userData.API_SECRET) {
+      userData.API_SECRET = generateToken({
+        ...userData,
+        ...data,
+      });
+    }
+    if (!userData.API_KEY) {
+      userData.API_KEY = generateKey();
+    }
+
     await firestore.setDoc(updateRef, {
       ...userData,
       ...data,
       login_time: new Date(),
     });
+    return {
+      ...userData,
+      ...data,
+    };
   }
 }
 

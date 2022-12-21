@@ -11,8 +11,8 @@ class User extends Google {
   async login() {
     const user: any = await this.verifyUser();
     // add login response to db
-    await this.db.login(user);
-    return user;
+    const userResponse = await this.db.login(user);
+    return userResponse;
   }
 }
 
