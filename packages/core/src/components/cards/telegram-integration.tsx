@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { PlusCircleIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 
 const TelegramIntegrationCard = () => {

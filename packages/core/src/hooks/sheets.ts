@@ -23,6 +23,7 @@ const useSheets = () => {
   return [
     {
       ...rest,
+      isSheetConnected: rest && Object.keys(rest).length > 0,
     },
     setSheets,
   ];
