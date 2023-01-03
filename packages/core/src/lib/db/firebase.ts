@@ -65,6 +65,14 @@ class Firebase {
       ...data,
     };
   }
+  async getSheetSettings(userId: string) {
+    const sheetDocRef = firestore.doc(this.db, tags.sheetCollectionTag,userId);
+    const userDocSnapShot = await firestore.getDoc(sheetDocRef);
+    if (!userDocSnapShot.exists()) {
+      return {};
+    }
+    return userDocSnapShot.data();
+  }
 }
 
 export default Firebase;

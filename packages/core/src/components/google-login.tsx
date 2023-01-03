@@ -21,7 +21,10 @@ const GoogleLogin = ({ onLogin: onSuccessLogin }: { onLogin: any }) => {
         },
       },
     );
-    onSuccessLogin({ ...response?.data?.user, expires_in });
+    onSuccessLogin({
+      user: { ...response?.data?.user, expires_in },
+      sheets: response?.data?.sheets,
+    });
   };
   const onLogin = async () => {
     setLoading(true);

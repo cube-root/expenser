@@ -1,4 +1,4 @@
-import { HomeIcon } from '@heroicons/react/outline';
+import { HomeIcon,DocumentAddIcon } from '@heroicons/react/outline';
 
 const navigation: Navigation = [
   {
@@ -6,6 +6,12 @@ const navigation: Navigation = [
     name: 'Home',
     href: '/home',
     icon: HomeIcon,
+  },
+  {
+    id: 'add-expense',
+    name: 'Add Expense',
+    href: '/add-expense',
+    icon: DocumentAddIcon,
   },
 ];
 

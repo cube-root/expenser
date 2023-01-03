@@ -16,6 +16,10 @@ class DbConnector {
         const user = await this.db.setUser(data.user_id,data)
         return user;
     }
+    async getSheetSettings(userId:string){
+        const settings = await this.db.getSheetSettings(userId)
+        return settings
+    }
 }
 
 export default DbConnector;

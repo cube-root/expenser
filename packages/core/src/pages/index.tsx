@@ -6,16 +6,20 @@ import useMode from '../hooks/mode';
 import useUser from '../hooks/user';
 import Mode from '../components/mode';
 import GoogleLogin from '../components/google-login';
+import useSheets from '../hooks/sheets';
 const Home = () => {
   const [, setUser] = useUser();
+  const [, setSheets] = useSheets();
   const { darkMode, toggleMode: setDarkMode } = useMode();
   const router = useRouter();
-  const onLogin = (user: any) => {
-    if(user){
+  const onLogin = ({ user, sheets }: { user: any; sheets: any }) => {
+    if (user) {
       setUser(user);
       router.push('/home');
     }
-    
+    if (setSheets) {
+      setSheets(sheets);
+    }
   };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
