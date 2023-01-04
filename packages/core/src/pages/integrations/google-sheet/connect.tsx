@@ -8,13 +8,52 @@ import { ChevronLeftIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import VideoModal from '../../../components/video-modal';
 import withUser from '../../../wrapper/user';
-
+import axios from 'axios';
+import useUser from '../../../hooks/user';
 const Connect = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [url, setUrl] = useState<any>('');
   const [name, setName] = useState<any>('');
-  const saveSettings = () => {
-    return true;
+  const [user] = useUser();
+
+  const saveSettings = async () => {
+    setIsLoading(true);
+    const schema = yup.object().shape({
+      url: yup.string().url().required('Please enter a valid url'),
+      name: yup.string().default('YourSheet'),
+    });
+    try {
+      const validData = await schema.validate(
+        { url, name },
+        {
+          abortEarly: false,
+        },
+      );
+      const { data } = await axios.post(
+        '/api/v1/google-sheets/connect',
+        {
+          url: validData.url,
+          name: validData.name,
+        },
+        {
+          headers: {
+            'x-user-id': user.user_id,
+            'x-api-key': user.API_KEY,
+            'x-api-secret': user.API_SECRET,
+          },
+        },
+      );
+    } catch (error: any) {
+      console.log(error);
+      if (error?.errors) {
+        error?.errors?.forEach((err: any) => {
+          toast.error(err);
+        });
+      } else {
+        toast.error(error.message);
+      }
+    }
+    setIsLoading(false);
   };
   return (
     <div className="bg-white h-screen w-full dark:bg-slate-900 relative">
