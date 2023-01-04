@@ -6,6 +6,7 @@ declare global {
         name: string;
         href: string;
         icon: any;
+        connectionRequired?: boolean;
     }
   type Navigation = Array<NavigationItem>
 }

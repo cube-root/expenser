@@ -7,7 +7,8 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import useUser from '../hooks/user';
 import Mode from './mode';
 import useMode from '../hooks/mode';
-import navigation from '../config/navigation';
+import useSheets from '../hooks/sheets';
+import navigationConfig from '../config/navigation';
 
 const secondaryNavigation: Array<any> = [];
 
@@ -17,8 +18,10 @@ function classNames(...classes: any) {
 
 export default function SideBar({ children = null }: { children?: any }) {
   const [data] = useUser();
+  const [sheets] = useSheets();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [current, setCurrent] = useState('/home');
+  const [navigation, setNavigation] = useState<any>([]);
   const router = useRouter();
   const { darkMode, toggleMode: setDarkMode } = useMode();
   const changeRoute = (link: any) => {
@@ -34,7 +37,11 @@ export default function SideBar({ children = null }: { children?: any }) {
       setCurrent(router.pathname);
     }
   }, [router.pathname]);
-
+  useEffect(() => {
+    if (navigationConfig) {
+      setNavigation(navigationConfig.filter((item:NavigationItem) => sheets.isSheetConnected ? item : !item.connectionRequired));
+    }
+  }, [navigationConfig]);
   const photoUrl =
     data?.picture ??
     'https://img.icons8.com/external-soft-fill-juicy-fish/60/000000/external-five-cute-monsters-soft-fill-soft-fill-juicy-fish.png';

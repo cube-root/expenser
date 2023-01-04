@@ -1,4 +1,8 @@
-import { HomeIcon,DocumentAddIcon } from '@heroicons/react/outline';
+import {
+  HomeIcon,
+  DocumentAddIcon,
+  PuzzleIcon,
+} from '@heroicons/react/outline';
 
 const navigation: Navigation = [
   {
@@ -12,6 +16,14 @@ const navigation: Navigation = [
     name: 'Add Expense',
     href: '/add-expense',
     icon: DocumentAddIcon,
+    // only show the navigation if the sheet is connected
+    connectionRequired: true,
+  },
+  {
+    id: 'integrations',
+    name: 'Integration',
+    href: '/integrations',
+    icon: PuzzleIcon,
   },
 ];
 
