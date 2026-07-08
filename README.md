@@ -1,37 +1,46 @@
 <h1 align="center">MyExpense</h1>
 
-Manage your personal bills using google spread sheet.
+<p align="center">Track your spending in your own Google Sheet — the sheet <em>is</em> the database.</p>
 
-<br/>
+## How it works
 
+1. **Login with Google** — the app asks for the Google Sheets scope and acts as *you*.
+2. **Connect a sheet** — one click creates a ready-made spreadsheet in your Drive, or paste a link to an existing one.
+3. **Add expenses** — entries are appended straight to the sheet. Dashboard, filters and budgets read from it live.
 
-<a href="https://www.buymeacoffee.com/abhisawzm" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+There is **no database and no server-side storage**: user settings live in a hidden `Config` tab of the spreadsheet, the OAuth tokens live in an encrypted session cookie, and the connected sheet id lives in an httpOnly cookie.
 
+## Stack
 
-Live Demo: [https://www.myexpense.app/](https://www.myexpense.app)
+- [Next.js](https://nextjs.org) (App Router) + TypeScript
+- [Auth.js](https://authjs.dev) with Google OAuth (`spreadsheets` + `drive.file` scopes)
+- Google Sheets & Drive REST APIs (no service account)
+- Tailwind CSS + [shadcn/ui](https://ui.shadcn.com), Recharts, SWR
+- PWA (installable on mobile)
 
+## Sheet schema
 
-Docs: [https://docs.myexpense.app](https://docs.myexpense.app)
+`Expenses` tab, columns A–N:
 
-Download PWA: [PWA](https://appmaker.xyz/pwa-to-apk/download/1bplEfDZ6Zl4d1xPEMcg)
+| Id | CreatedAt | Date | Month | Amount | Currency | Category | Type | PaymentMode | Note | Tags | Source | SplitTotal | SplitWith |
+|----|-----------|------|-------|--------|----------|----------|------|-------------|------|------|--------|-----------|-----------|
 
-## Built with
+When an expense is split with friends, `Amount` is **your share** (what analytics count), `SplitTotal` is the full bill, and `SplitWith` lists friends' shares as `Rahul: 300, Anna: 200`.
 
-1. Next.js
-2. Typescript
-3. HTML
-4. CSS, Tailwindcss
-5. Javascript
+`Config` tab (hidden): `categories`, `paymentModes`, `defaultCurrency`, `monthlyBudget` as key/value rows.
 
-<br/>
-<br/>
+## Development
 
-## Table of Contents
+```bash
+cp .env.example .env.local   # fill in the values below
+npm install
+npm run dev
+```
 
-1. [Configuring with Google](https://github.com/cube-root/expenser/blob/main/docs/CONFIGURE.md)
+### Google OAuth setup
 
-2. [Hosting](https://github.com/cube-root/expenser/blob/main/docs/HOSTING.md)
+Follow the step-by-step guide: **[docs/GOOGLE_CLOUD_SETUP.md](docs/GOOGLE_CLOUD_SETUP.md)**. In short: enable the Sheets + Drive APIs, configure the OAuth consent screen, create a Web application OAuth client, and put the client id/secret + `AUTH_SECRET` in `.env.local`.
 
-3. [Running on local](https://github.com/cube-root/expenser/blob/main/docs/DEV.md)
+## Deploy
 
-4. [Overview of project](https://github.com/cube-root/expenser/blob/main/docs/OVERVIEW.md)
+Deploys as a standard Next.js app on [Vercel](https://vercel.com) — set the same environment variables and add the production redirect URI to the OAuth client.
