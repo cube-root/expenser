@@ -4,17 +4,17 @@
 
 ## How it works
 
-1. **Login with Google** — the app asks for the Google Sheets scope and acts as *you*.
-2. **Connect a sheet** — one click creates a ready-made spreadsheet in your Drive, or paste a link to an existing one.
-3. **Add expenses** — entries are appended straight to the sheet. Dashboard, filters and budgets read from it live.
+1. **Login with Google or Airtable** — your login choice picks the backend.
+2. **Connect a store** — Google: one click creates a ready-made spreadsheet, or pick an existing one in Google's file dialog. Airtable: grant a base during login and pick it.
+3. **Add expenses** — entries are appended straight to your sheet/base. Dashboard, filters and budgets read from it live.
 
-There is **no database and no server-side storage**: user settings live in a hidden `Config` tab of the spreadsheet, the OAuth tokens live in an encrypted session cookie, and the connected sheet id lives in an httpOnly cookie.
+**Minimal permissions by design**: with Google the app uses only the `drive.file` scope (it can touch only spreadsheets *it created* or ones *you explicitly picked*); with Airtable it can access only the bases *you grant* on the consent screen. Neither can see anything else in your account. There is also **no database and no server-side storage**: user settings live in a hidden `Config` tab/table, the OAuth tokens live in an encrypted session cookie, and the connected store id lives in an httpOnly cookie.
 
 ## Stack
 
 - [Next.js](https://nextjs.org) (App Router) + TypeScript
-- [Auth.js](https://authjs.dev) with Google OAuth (`spreadsheets` + `drive.file` scopes)
-- Google Sheets & Drive REST APIs (no service account)
+- [Auth.js](https://authjs.dev) with Google OAuth (`drive.file` only — non-sensitive, per-file) or Airtable OAuth (per-base grants)
+- Storage adapters over the Google Sheets/Drive/Picker APIs and the Airtable Web API (no service account)
 - Tailwind CSS + [shadcn/ui](https://ui.shadcn.com), Recharts, SWR
 - PWA (installable on mobile)
 
@@ -39,7 +39,11 @@ npm run dev
 
 ### Google OAuth setup
 
-Follow the step-by-step guide: **[docs/GOOGLE_CLOUD_SETUP.md](docs/GOOGLE_CLOUD_SETUP.md)**. In short: enable the Sheets + Drive APIs, configure the OAuth consent screen, create a Web application OAuth client, and put the client id/secret + `AUTH_SECRET` in `.env.local`.
+Follow the step-by-step guide: **[docs/GOOGLE_CLOUD_SETUP.md](docs/GOOGLE_CLOUD_SETUP.md)**. In short: enable the Sheets + Drive + Picker APIs, configure the OAuth consent screen, create a Web application OAuth client and an API key, and put them in `.env.local` with `AUTH_SECRET`.
+
+### Airtable setup (optional second backend)
+
+Follow **[docs/AIRTABLE_SETUP.md](docs/AIRTABLE_SETUP.md)**: register an OAuth integration at airtable.com/create/oauth and set `AUTH_AIRTABLE_ID`/`AUTH_AIRTABLE_SECRET`. Omit them to offer Google Sheets only.
 
 ## Deploy
 

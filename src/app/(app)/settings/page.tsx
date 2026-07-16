@@ -239,7 +239,7 @@ export default function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Connected sheet</CardTitle>
+          <CardTitle className="text-base">Connected store</CardTitle>
           <CardDescription>
             {sheet ? sheet.title : 'Loading…'}
           </CardDescription>
@@ -252,7 +252,7 @@ export default function SettingsPage() {
                 className="flex-1"
                 render={<a href={sheet.url} target="_blank" rel="noreferrer" />}
               >
-                <ExternalLink className="size-4" /> Open in Google Sheets
+                <ExternalLink className="size-4" /> Open the data
               </Button>
             )}
             <Button
@@ -283,16 +283,15 @@ export default function SettingsPage() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Resync rewrites the Expenses header row to the app’s current schema and recreates
-            missing tabs — run it after app updates add new columns (your data rows are never
-            touched).
+            Resync brings the structure (headers, tabs/tables, fields) up to the app’s current
+            schema — run it after app updates add new columns. Your data rows are never touched.
           </p>
         </CardContent>
       </Card>
 
       <p className="text-xs text-muted-foreground text-center pb-4">
-        Disconnecting only unlinks the app — your spreadsheet and data stay untouched in Google
-        Drive.
+        Disconnecting only unlinks the app — your data stays untouched in your Google Drive or
+        Airtable workspace.
       </p>
     </div>
   );

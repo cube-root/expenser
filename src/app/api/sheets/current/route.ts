@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
 import { clearSheetCookie, getAuthedContext, handleApiError } from '@/lib/api-helpers';
-import { getSheetInfo } from '@/lib/sheets/service';
 
-/** Info about the currently connected sheet. */
+/** Info about the currently connected store (sheet or base). */
 export async function GET() {
   try {
-    const { accessToken, sheetId } = await getAuthedContext({ requireSheet: true });
-    const info = await getSheetInfo(accessToken, sheetId as string);
+    const { accessToken, adapter, sheetId } = await getAuthedContext({ requireSheet: true });
+    const info = await adapter.getInfo(accessToken, sheetId as string);
     return NextResponse.json(info);
   } catch (error) {
     return handleApiError(error);
   }
 }
 
-/** Disconnect the current sheet (does not touch the spreadsheet itself). */
+/** Disconnect the current store (does not touch the data itself). */
 export async function DELETE() {
   try {
     await getAuthedContext();

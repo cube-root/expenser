@@ -7,8 +7,8 @@ import {
   Settings,
   SheetInfo,
   expenseSchema,
-  settingsSchema,
 } from '../types';
+import { rowsToSettings, settingsToRows } from '../storage/settings-codec';
 
 export const EXPENSES_TAB = 'Expenses';
 export const CONFIG_TAB = 'Config';
@@ -83,34 +83,6 @@ function rowToExpense(row: string[]): Expense | null {
     splitWith: row[13] ?? '',
   });
   return parsed.success ? parsed.data : null;
-}
-
-function settingsToRows(settings: Settings): (string | number)[][] {
-  return [
-    ['categories', JSON.stringify(settings.categories)],
-    ['paymentModes', JSON.stringify(settings.paymentModes)],
-    ['defaultCurrency', settings.defaultCurrency],
-    ['monthlyBudget', settings.monthlyBudget],
-  ];
-}
-
-function rowsToSettings(rows: string[][]): Settings {
-  const map = new Map(rows.map((row) => [row[0], row[1] ?? '']));
-  const tryJson = (value: string | undefined) => {
-    if (!value) return undefined;
-    try {
-      return JSON.parse(value);
-    } catch {
-      return undefined;
-    }
-  };
-  const parsed = settingsSchema.safeParse({
-    categories: tryJson(map.get('categories')) ?? DEFAULT_SETTINGS.categories,
-    paymentModes: tryJson(map.get('paymentModes')) ?? DEFAULT_SETTINGS.paymentModes,
-    defaultCurrency: map.get('defaultCurrency') || DEFAULT_SETTINGS.defaultCurrency,
-    monthlyBudget: map.get('monthlyBudget') || 0,
-  });
-  return parsed.success ? parsed.data : DEFAULT_SETTINGS;
 }
 
 /** Create a fresh, fully structured expense spreadsheet in the user's Drive. */

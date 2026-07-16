@@ -41,21 +41,22 @@ export default async function LandingPage() {
           Your data belongs to <span className="text-green-600">you</span>
         </h1>
         <p className="mt-4 text-muted-foreground max-w-md text-balance">
-          Track every spend in seconds — stored straight into your own Google Sheet. No database,
-          no lock-in.
+          Track every spend in seconds — stored straight into your own Google Sheet or Airtable
+          base. No database, no lock-in.
         </p>
-        <div className="mt-8">
-          <LoginButton />
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <LoginButton provider="google" />
+          <LoginButton provider="airtable" variant="outline" />
         </div>
 
         <ul className="mt-14 grid gap-6 sm:grid-cols-3 max-w-2xl text-sm text-muted-foreground">
           <li className="flex flex-col items-center gap-2">
             <Sheet className="size-6 text-green-600" />
-            Google Sheet is the database — open it anytime, anywhere
+            Your sheet or base is the database — open it anytime, anywhere
           </li>
           <li className="flex flex-col items-center gap-2">
             <ShieldCheck className="size-6 text-green-600" />
-            The app writes as you, with your permission — nothing stored on our servers
+            The app can only touch the one file/base you grant it — nothing stored on our servers
           </li>
           <li className="flex flex-col items-center gap-2">
             <Zap className="size-6 text-green-600" />

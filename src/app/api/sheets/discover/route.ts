@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import { getAuthedContext, handleApiError } from '@/lib/api-helpers';
-import { discoverSheets } from '@/lib/sheets/service';
 
 /**
- * Spreadsheets this app created before (drive.file scope) — lets a returning
- * user on a new device reconnect without re-pasting the link.
+ * Stores the user has granted to this app (app-created/picked spreadsheets
+ * for Google, granted bases for Airtable) — lets a returning user reconnect
+ * without re-pasting anything.
  */
 export async function GET() {
   try {
-    const { accessToken } = await getAuthedContext();
-    const sheets = await discoverSheets(accessToken);
+    const { accessToken, adapter } = await getAuthedContext();
+    const sheets = await adapter.listAvailable(accessToken);
     return NextResponse.json({ sheets });
   } catch (error) {
     return handleApiError(error);
