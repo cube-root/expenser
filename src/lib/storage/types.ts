@@ -1,9 +1,6 @@
 import type { Expense, NewExpense, Settings } from '../types';
 
-/** Which OAuth provider the user signed in with — determines the backend. */
-export type StoreProvider = 'google' | 'airtable';
-
-/** A connectable data store: a Google spreadsheet or an Airtable base. */
+/** A connectable Google spreadsheet. */
 export type StoreResource = {
   id: string;
   title: string;
@@ -17,16 +14,14 @@ export type StoreResource = {
  * architecture (the store itself holds all data and settings).
  */
 export interface StorageAdapter {
-  /** Human name for UI copy ("Google Sheet", "Airtable base"). */
+  /** Human name for UI copy. */
   storeNoun: string;
-  /** Resources the user has granted to the app (for discovery/reconnect). */
-  listAvailable(token: string): Promise<StoreResource[]>;
   /**
    * Verify access to a resource (raw user input: id or URL) and ensure the
    * expected structure exists. `forceStructure` re-applies headers/tables.
    */
   connect(token: string, input: string, options?: { forceStructure?: boolean }): Promise<StoreResource>;
-  /** Create a fresh, fully structured store. Absent when unsupported (Airtable v1). */
+  /** Create a fresh, fully structured store. */
   create?(token: string): Promise<StoreResource>;
   getInfo(token: string, resourceId: string): Promise<StoreResource>;
   listExpenses(token: string, resourceId: string): Promise<Expense[]>;

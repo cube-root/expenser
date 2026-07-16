@@ -20,6 +20,7 @@ export const expenseSchema = z.object({
   // Split with friends: amount above is always YOUR share; these record the rest.
   splitTotal: z.coerce.number().default(0), // full bill; 0 = not split
   splitWith: z.string().default(''), // "Rahul: 300, Anna: 200"
+  splitPaidBy: z.string().default('You'),
 });
 
 export type Expense = z.infer<typeof expenseSchema>;
@@ -36,6 +37,7 @@ export const newExpenseSchema = z.object({
   tags: z.string().max(200).default(''),
   splitTotal: z.coerce.number().min(0).default(0),
   splitWith: z.string().max(500).default(''),
+  splitPaidBy: z.string().max(100).default('You'),
 }).refine(
   (value) => value.splitTotal === 0 || value.splitTotal >= value.amount,
   { message: 'Split total must be at least your share' },

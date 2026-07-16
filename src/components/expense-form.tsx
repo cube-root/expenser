@@ -86,6 +86,7 @@ export function ExpenseForm({
       ? parsed.map((entry) => ({ name: entry.name, share: String(entry.share) }))
       : [{ name: '', share: '' }];
   });
+  const [splitPaidBy, setSplitPaidBy] = useState(initial?.splitPaidBy || 'You');
   const [currency, setCurrency] = useState(initial?.currency || settings.defaultCurrency);
   const [category, setCategory] = useState(initial?.category ?? '');
   const [paymentMode, setPaymentMode] = useState(initial?.paymentMode ?? '');
@@ -148,6 +149,11 @@ export function ExpenseForm({
       splitWith = formatSplitWith(
         filled.map((friend) => ({ name: friend.name.trim(), share: Number(friend.share) })),
       );
+      const participantNames = ['You', ...filled.map((friend) => friend.name.trim())];
+      if (!participantNames.includes(splitPaidBy)) {
+        toast.error('Choose who paid the bill');
+        return;
+      }
     }
 
     setSubmitting(true);
@@ -163,6 +169,7 @@ export function ExpenseForm({
         type,
         splitTotal,
         splitWith,
+        splitPaidBy: splitActive ? splitPaidBy : 'You',
       });
       // Reset only the per-entry fields; keep the sticky choices.
       setAmount('');
@@ -170,6 +177,7 @@ export function ExpenseForm({
       setTags('');
       setSplit(false);
       setFriends([{ name: '', share: '' }]);
+      setSplitPaidBy('You');
     } catch {
       // onSubmit already surfaced the error (toast); keep the form filled.
     } finally {
@@ -290,6 +298,24 @@ export function ExpenseForm({
                 <Button type="button" variant="outline" size="sm" onClick={splitEqually}>
                   <Divide className="size-4" /> Split equally
                 </Button>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label>Paid by</Label>
+                <Select value={splitPaidBy} onValueChange={(value) => setSplitPaidBy(value ?? 'You')}>
+                  <SelectTrigger aria-label="Who paid the bill">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="You">You</SelectItem>
+                    {friends
+                      .map((friend) => friend.name.trim())
+                      .filter((name, index, names) => name && names.indexOf(name) === index)
+                      .map((name) => (
+                        <SelectItem key={name} value={name}>{name}</SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <p

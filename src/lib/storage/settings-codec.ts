@@ -1,9 +1,7 @@
 import { DEFAULT_SETTINGS, Settings, settingsSchema } from '../types';
 
 /**
- * Settings are stored as key/value string pairs in whatever backend holds
- * them (Config tab rows in Google Sheets, Config table records in Airtable).
- * This codec is shared by every storage adapter.
+ * Settings are stored as key/value string pairs in the Google Sheet's Config tab.
  */
 
 export function settingsToRows(settings: Settings): [string, string][] {

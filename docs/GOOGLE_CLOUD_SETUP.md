@@ -1,106 +1,86 @@
 # Google Cloud setup
 
-MyExpense acts as the signed-in user via OAuth — there is **no service account and no sheet sharing**. It uses only the **`drive.file` scope** (non-sensitive): the app can access *only* spreadsheets it creates or ones the user explicitly picks in Google's file dialog — never the rest of their Drive or other sheets. You need a Google Cloud project with three APIs enabled, an OAuth client, and one API key. Takes about 10 minutes.
+MyExpense first requests only basic Google identity scopes. If a user chooses Google-account sheet
+access during setup, the app then requests the Google Sheets scope incrementally so it can create,
+read, and edit spreadsheets as that user. Users who choose the service-account method never need to
+grant the Sheets scope. The scope is sensitive and can access every spreadsheet the signed-in user
+can access, so a public deployment may require Google OAuth verification.
 
-## 1. Create a project
+## 1. Create a project and enable Sheets
 
-1. Go to the [Google Cloud Console](https://console.cloud.google.com).
-2. Click the project picker in the top bar → **New Project**.
-3. Name it anything (e.g. `myexpense`) and click **Create**, then switch to it.
+1. Create or select a project in the [Google Cloud Console](https://console.cloud.google.com).
+2. Go to **APIs & Services → Library**.
+3. Enable **Google Sheets API**.
 
-## 2. Enable the APIs
+The Drive API, Google Picker API, browser API key, and project number are not required.
 
-The app calls the Sheets API (read/write expense rows), the Drive API (create the sheet, re-discover it later), and the Picker API (the "pick an existing sheet" dialog).
+## 2. Configure the consent screen
 
-1. Go to **APIs & Services → Library**.
-2. Search for **Google Sheets API** → **Enable**.
-3. Search for **Google Drive API** → **Enable**.
-4. Search for **Google Picker API** → **Enable**.
+1. Go to **Google Auth Platform → Get started**.
+2. Enter the app information and choose **External**, unless everyone belongs to one Workspace
+   organization.
+3. Under **Data access**, add:
+   - `https://www.googleapis.com/auth/spreadsheets`
+   - `openid`
+   - `https://www.googleapis.com/auth/userinfo.email`
+   - `https://www.googleapis.com/auth/userinfo.profile`
+4. While the app is in Testing mode, add every account that will use it under **Test users**.
 
-## 3. Configure the consent screen (required before clients can be created)
+## 3. Create the OAuth client
 
-New projects use the **Google Auth Platform** pages. Until this wizard is done, the Clients page shows *"You haven't configured any OAuth clients for this project yet"* and won't let you create one.
+Create a **Web application** OAuth client with:
 
-1. Go to **Google Auth Platform → Get started** (search "Google Auth Platform" in the console, or follow the banner on the Clients page).
-2. **App information**: app name (e.g. `MyExpense`) and user support email.
-3. **Audience**: choose **External** (unless everyone is in one Workspace org, then Internal is simpler).
-4. **Contact information**: your email → agree to the user data policy → **Create**.
-5. Go to **Google Auth Platform → Data access → Add or remove scopes** and add:
-   - `https://www.googleapis.com/auth/drive.file` — the only data scope; it's **non-sensitive** (per-file access granted by the user's own picks)
-   - `openid`, `.../auth/userinfo.email`, `.../auth/userinfo.profile` (usually pre-selected)
+| Field | Local value |
+|---|---|
+| Authorized JavaScript origin | `http://localhost:3000` |
+| Authorized redirect URI | `http://localhost:3000/api/auth/callback/google` |
 
-   > Do **not** add `.../auth/spreadsheets` — the app doesn't use it, and adding it would make the consent screen sensitive and trigger Google's verification requirements.
-6. Go to **Google Auth Platform → Audience** and add the Google account(s) you'll log in with under **Test users**.
+Add the equivalent HTTPS origin and callback URI for production.
 
-> While the app is in **Testing** mode only the test users you list can log in, and refresh tokens expire after 7 days — fine for development. For real use, publish the app (see step 6).
-
-*(On older projects the same settings live under **APIs & Services → OAuth consent screen**.)*
-
-## 4. Create the OAuth client ID
-
-1. Go to **Google Auth Platform → Clients → + Create client** (or **APIs & Services → Credentials → + Create credentials → OAuth client ID** — both open the same *Create OAuth client ID* form).
-2. Fill in the form:
-
-   | Field | Value |
-   |---|---|
-   | **Application type** | Web application |
-   | **Name** | `myexpense-web` (only shown in the console) |
-   | **Authorized JavaScript origins** | `http://localhost:3000` — and `https://<your-domain>` for production |
-   | **Authorized redirect URIs** | `http://localhost:3000/api/auth/callback/google` — and `https://<your-domain>/api/auth/callback/google` for production |
-
-3. Click **Create**. A dialog shows the **Client ID** (`…apps.googleusercontent.com`) and **Client secret** — copy both now (you can also download the JSON, or reopen the client later to view them).
-4. These become `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in the next step.
-
-> You can add the production origin/redirect URI later — edits to an existing client take effect within a few minutes, no new client needed.
-
-## 5. Create the API key (for the file picker)
-
-The "Use an existing sheet" flow opens Google's file picker, which needs a browser API key alongside the OAuth token.
-
-1. Go to **APIs & Services → Credentials → + Create credentials → API key** and copy it.
-2. Click the key to restrict it (recommended since it ships to the browser):
-   - **API restrictions**: restrict to **Google Picker API**.
-   - **Website restrictions**: add `http://localhost:3000` and your production domain.
-3. Also note your **project number** (a numeric id, distinct from the project *ID*): it's on the **Cloud Console dashboard** for the project (or **IAM & Admin → Settings**). The picker needs it so files the user picks get granted to this app.
-
-## 6. Set the environment variables
-
-Locally:
-
-```bash
-cp .env.example .env.local
-npx auth secret   # fills AUTH_SECRET, or paste its output manually
-```
+## 4. Set environment variables
 
 ```dotenv
-AUTH_SECRET=<output of `npx auth secret`>
+AUTH_SECRET=<a strong random secret>
 AUTH_GOOGLE_ID=<client id>.apps.googleusercontent.com
 AUTH_GOOGLE_SECRET=<client secret>
-NEXT_PUBLIC_GOOGLE_API_KEY=<API key from step 5>
-NEXT_PUBLIC_GOOGLE_PROJECT_NUMBER=<project number from step 5>
 ```
 
-On **Vercel**: add the same five variables under Project → Settings → Environment Variables, and make sure the production redirect URI from step 4 matches your deployed domain.
+Remove `NEXT_PUBLIC_GOOGLE_API_KEY` and `NEXT_PUBLIC_GOOGLE_PROJECT_NUMBER` if they were configured
+for the old Picker flow.
 
-Then run `npm run dev`, open http://localhost:3000, and log in — the consent screen only asks to *"see, edit, create and delete the specific Google Drive files you use with this app"*.
+The first login shows only basic profile consent. The Sheets consent screen appears later, after the
+user chooses **Google account** on the setup page. After changing configured scopes, users may need
+to sign out and authorize Sheets again.
 
-## 7. Going to production (publishing)
+## Optional: selected-sheet access with a service account
 
-`drive.file` is a **non-sensitive** scope, so publishing is light:
+For the complete walkthrough, see **[Service account setup](SERVICE_ACCOUNT_SETUP.md)**.
 
-1. On the **Google Auth Platform → Audience** page (or OAuth consent screen on older consoles), click **Publish app**.
-2. Because the app requests no sensitive or restricted scopes, **no security verification, demo video, or review is required** — publishing mainly lifts the test-user list and the 7-day refresh-token expiry.
-3. Keep it that way: if you ever add a sensitive scope (like `.../auth/spreadsheets`), Google verification kicks in.
+To show the service-account option on `/setup`, configure both variables:
+
+```dotenv
+GOOGLE_SERVICE_ACCOUNT_EMAIL=<service-account-name>@<project-id>.iam.gserviceaccount.com
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
+
+Create the service account under **IAM & Admin → Service Accounts**, create a JSON key, and copy its
+`client_email` and `private_key` values into the variables above. The setup option remains hidden
+unless both variables are present. Users must share their selected Google Sheet with the displayed
+email as an Editor before connecting it. Never expose the private key through a public environment
+variable or commit it to source control.
+
+## Production
+
+`https://www.googleapis.com/auth/spreadsheets` is a sensitive scope. A public External app must
+complete Google's OAuth verification process. Testing-mode users can use the app without publishing,
+but their refresh tokens may expire after seven days.
 
 ## Troubleshooting
 
 | Symptom | Cause / fix |
 |---|---|
-| `redirect_uri_mismatch` on login | The redirect URI in step 4 must match the origin exactly (scheme, host, port, and the `/api/auth/callback/google` path). |
-| `access_denied` for a teammate | They're not in the **Test users** list while the app is in Testing mode. |
-| Login works but Sheets calls fail with 403 | Sheets/Drive API not enabled (step 2), or the scopes weren't added to the consent screen (step 3). |
-| 403/404 on a sheet that used to work | The sheet was connected before the app switched to the `drive.file` scope (or was picked with a different Cloud project). Re-pick it via Setup → "Pick from Google Drive". |
-| Picker doesn't open / "not configured" | `NEXT_PUBLIC_GOOGLE_API_KEY` / `NEXT_PUBLIC_GOOGLE_PROJECT_NUMBER` missing, Picker API not enabled, or the API key's website restriction doesn't include your origin. |
-| Picked file still not accessible | `NEXT_PUBLIC_GOOGLE_PROJECT_NUMBER` must be the project **number** of the SAME project as the OAuth client, otherwise the pick doesn't grant access to this app. |
-| Logged out / re-consent after 7 days | Normal in Testing mode — refresh tokens expire. Publish the app to lift it. |
-| `UntrustedHost` error in server logs | Set `AUTH_URL` to your origin (only needed off-Vercel). |
+| `redirect_uri_mismatch` | The configured redirect URI must exactly match the app origin and `/api/auth/callback/google`. |
+| `access_denied` | Add the account under Test users while the app is in Testing mode. |
+| Sheets authorization is required | Return to setup, choose **Google account**, and complete the separate Sheets consent. |
+| Sheets calls return 403 | Enable the Sheets API, add the Sheets scope to Data access, then authorize Sheets again. |
+| Existing sheet cannot connect | Confirm the signed-in Google account can edit it and paste its full Google Sheets URL. |

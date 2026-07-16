@@ -16,45 +16,24 @@ function GoogleMark() {
   );
 }
 
-function AirtableMark() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M11.15 2.6 2.5 6.18c-.48.2-.47.88.01 1.07l8.69 3.45c.51.2 1.08.2 1.6 0l8.69-3.45c.48-.19.49-.87.01-1.07L12.85 2.6a2.2 2.2 0 0 0-1.7 0ZM12.9 12.3v8.62c0 .41.41.69.79.54l9.68-3.76c.22-.09.37-.31.37-.55V8.53c0-.41-.41-.69-.79-.54l-9.68 3.76c-.22.09-.37.31-.37.55Zm-1.8 0c0-.24-.15-.46-.37-.55L1.05 7.99c-.38-.15-.79.13-.79.54v8.62c0 .24.15.46.37.55l9.68 3.76c.38.15.79-.13.79-.54V12.3Z"
-      />
-    </svg>
-  );
-}
-
-export function LoginButton({
-  provider = 'google',
-  variant = 'default',
-}: {
-  provider?: 'google' | 'airtable';
-  variant?: 'default' | 'outline';
-}) {
+export function LoginButton() {
   const [loading, setLoading] = useState(false);
-  const label = provider === 'airtable' ? 'Continue with Airtable' : 'Continue with Google';
   return (
     <Button
       size="lg"
-      variant={variant}
       className="rounded-full px-8 text-base w-64"
       disabled={loading}
       onClick={() => {
         setLoading(true);
-        signIn(provider, { callbackUrl: '/' });
+        signIn('google', { callbackUrl: '/' });
       }}
     >
       {loading ? (
         <Loader2 className="size-5 animate-spin" />
-      ) : provider === 'airtable' ? (
-        <AirtableMark />
       ) : (
         <GoogleMark />
       )}
-      {label}
+      Continue with Google
     </Button>
   );
 }

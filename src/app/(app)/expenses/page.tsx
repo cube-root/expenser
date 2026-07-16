@@ -29,7 +29,7 @@ import { apiSend } from '@/lib/client/fetcher';
 import { useExpenses, useSettings, useSheetInfo } from '@/lib/client/hooks';
 import { inPeriod, PERIODS, totalSpend, type Period } from '@/lib/analytics';
 import { formatAmount, formatDate } from '@/lib/format';
-import { parseSplitWith } from '@/lib/split';
+import { parseSplitWith, splitDebtLabel, splitDebts } from '@/lib/split';
 import type { Expense, NewExpense } from '@/lib/types';
 
 const ALL = '__all__';
@@ -200,6 +200,18 @@ export default function ExpensesPage() {
                   {expense.note && ` · ${expense.note}`}
                   {expense.tags && ` · #${expense.tags}`}
                 </p>
+                {expense.splitTotal > 0 && (
+                  <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-amber-700 dark:text-amber-400">
+                    {splitDebts(expense.amount, expense.splitWith, expense.splitPaidBy).map(
+                      (debt) => (
+                        <span key={`${debt.from}-${debt.to}`}>
+                          {splitDebtLabel(debt)}{' '}
+                          {formatAmount(debt.amount, expense.currency || currency)}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                )}
               </div>
               <span
                 className={

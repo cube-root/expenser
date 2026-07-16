@@ -3,7 +3,6 @@ import {
   connectSheet,
   createExpenseSheet,
   deleteExpense,
-  discoverSheets,
   extractSpreadsheetId,
   getSheetInfo,
   listExpenses,
@@ -22,16 +21,6 @@ function toResource(info: SheetInfo): StoreResource {
 /** Google Sheets backend — thin wrapper over the existing sheet service. */
 export const sheetsAdapter: StorageAdapter = {
   storeNoun: 'Google Sheet',
-
-  listAvailable: async (token) => {
-    const sheets = await discoverSheets(token);
-    return sheets.map((sheet) => ({
-      id: sheet.spreadsheetId,
-      title: sheet.title,
-      url: sheet.url,
-      modifiedTime: sheet.modifiedTime,
-    }));
-  },
 
   connect: async (token, input, options) => {
     const spreadsheetId = extractSpreadsheetId(input);

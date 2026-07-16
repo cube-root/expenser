@@ -7,7 +7,7 @@ export async function POST() {
     if (!adapter.create) {
       return NextResponse.json(
         {
-          error: `Creating a new ${adapter.storeNoun} from the app isn't supported — create one there and grant it during login, then pick it here.`,
+          error: `Creating a new ${adapter.storeNoun} from the app isn't supported.`,
         },
         { status: 400 },
       );

@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { sheetsApi, driveApi, GoogleApiError } from './client';
+import { sheetsApi, GoogleApiError } from './client';
 import {
   DEFAULT_SETTINGS,
   Expense,
@@ -28,9 +28,10 @@ export const HEADERS = [
   'Source',
   'SplitTotal',
   'SplitWith',
+  'SplitPaidBy',
 ] as const;
 
-const LAST_COLUMN = 'N'; // must match HEADERS length
+const LAST_COLUMN = 'O'; // must match HEADERS length
 const DATA_RANGE = `${EXPENSES_TAB}!A2:${LAST_COLUMN}`;
 
 export function extractSpreadsheetId(input: string): string | null {
@@ -61,6 +62,7 @@ function expenseToRow(expense: Expense): (string | number)[] {
     expense.source,
     expense.splitTotal > 0 ? expense.splitTotal : '',
     expense.splitWith,
+    expense.splitPaidBy,
   ];
 }
 
@@ -81,6 +83,7 @@ function rowToExpense(row: string[]): Expense | null {
     source: row[11] || 'web',
     splitTotal: row[12] || '0',
     splitWith: row[13] ?? '',
+    splitPaidBy: row[14] || 'You',
   });
   return parsed.success ? parsed.data : null;
 }
@@ -178,16 +181,6 @@ export function resyncSheet(token: string, spreadsheetId: string): Promise<Sheet
 export async function getSheetInfo(token: string, spreadsheetId: string): Promise<SheetInfo> {
   const meta = await sheetsApi.getMeta(token, spreadsheetId);
   return { spreadsheetId, title: meta.properties.title, url: sheetUrl(spreadsheetId) };
-}
-
-export async function discoverSheets(token: string) {
-  const { files } = await driveApi.listAppSpreadsheets(token);
-  return files.map((file) => ({
-    spreadsheetId: file.id,
-    title: file.name,
-    url: sheetUrl(file.id),
-    modifiedTime: file.modifiedTime,
-  }));
 }
 
 export async function readSettings(token: string, spreadsheetId: string): Promise<Settings> {

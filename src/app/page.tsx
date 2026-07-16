@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { Sheet, ShieldCheck, Zap } from 'lucide-react';
+import { GitFork, Sheet, ShieldCheck, Zap } from 'lucide-react';
 import { auth } from '@/auth';
 import { SHEET_COOKIE } from '@/lib/api-helpers';
 import { LoginButton } from '@/components/login-button';
@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 export default async function LandingPage() {
   const session = await auth();
-  if (session?.accessToken && !session.error) {
+  if (session?.user) {
     const hasSheet = (await cookies()).get(SHEET_COOKIE)?.value;
     redirect(hasSheet ? '/dashboard' : '/setup');
   }
@@ -33,7 +33,17 @@ export default async function LandingPage() {
           className="hidden dark:block"
           priority
         />
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/cube-root/expenser"
+            className="inline-flex h-9 items-center gap-2 rounded-full border px-3 text-xs font-medium transition-colors hover:bg-muted"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GitFork className="size-4" /> Open source
+          </a>
+          <ThemeToggle />
+        </div>
       </header>
 
       <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
@@ -41,22 +51,21 @@ export default async function LandingPage() {
           Your data belongs to <span className="text-green-600">you</span>
         </h1>
         <p className="mt-4 text-muted-foreground max-w-md text-balance">
-          Track every spend in seconds — stored straight into your own Google Sheet or Airtable
-          base. No database, no lock-in.
+          Track every spend in seconds — stored straight into your own Google Sheet. No database,
+          no lock-in.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
-          <LoginButton provider="google" />
-          <LoginButton provider="airtable" variant="outline" />
+          <LoginButton />
         </div>
 
         <ul className="mt-14 grid gap-6 sm:grid-cols-3 max-w-2xl text-sm text-muted-foreground">
           <li className="flex flex-col items-center gap-2">
             <Sheet className="size-6 text-green-600" />
-            Your sheet or base is the database — open it anytime, anywhere
+            Your sheet is the database — open it anytime, anywhere
           </li>
           <li className="flex flex-col items-center gap-2">
             <ShieldCheck className="size-6 text-green-600" />
-            The app can only touch the one file/base you grant it — nothing stored on our servers
+            Uses Google Sheets only — no access to your other Drive file types or server database
           </li>
           <li className="flex flex-col items-center gap-2">
             <Zap className="size-6 text-green-600" />

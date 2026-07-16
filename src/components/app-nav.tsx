@@ -88,7 +88,7 @@ export function AppNav({ user }: { user: { name: string; image: string } }) {
                   className="w-full justify-start text-muted-foreground"
                   onClick={() => signOut({ callbackUrl: '/' })}
                 >
-                  <LogOut className="size-4" /> Sign out
+                  <LogOut className="size-4" /> Sign out of Google
                 </Button>
               </PopoverContent>
             </Popover>

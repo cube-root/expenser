@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -28,6 +28,7 @@ import { currentMonth, formatAmount } from '@/lib/format';
 import { CategoryDonut } from '@/components/charts/category-donut';
 import { SpendOverTime } from '@/components/charts/spend-over-time';
 import { BudgetCard } from '@/components/budget-card';
+import { splitDebtLabel, summarizeSplitDebts } from '@/lib/split';
 
 export default function DashboardPage() {
   const { expenses, isLoading: expensesLoading } = useExpenses();
@@ -48,6 +49,20 @@ export default function DashboardPage() {
     () =>
       period === 'this-year' || period === 'all' ? byMonth(inRange) : byDay(inRange, period),
     [inRange, period],
+  );
+  const splitBalances = useMemo(
+    () =>
+      summarizeSplitDebts(
+        inRange
+          .filter((expense) => expense.splitTotal > 0)
+          .map((expense) => ({
+            amount: expense.amount,
+            splitWith: expense.splitWith,
+            splitPaidBy: expense.splitPaidBy,
+            currency: expense.currency || currency,
+          })),
+      ),
+    [inRange, currency],
   );
 
   const thisMonth = currentMonth();
@@ -142,6 +157,33 @@ export default function DashboardPage() {
               />
             </CardContent>
           </Card>
+
+          {splitBalances.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Users className="size-4 text-green-600" /> Split balances
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="divide-y">
+                  {splitBalances.map((debt) => (
+                    <li
+                      key={`${debt.currency}-${debt.from}-${debt.to}`}
+                      className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0"
+                    >
+                      <span className="text-sm">
+                        {splitDebtLabel(debt)}
+                      </span>
+                      <span className="font-semibold tabular-nums text-amber-700 dark:text-amber-400">
+                        {formatAmount(debt.amount, debt.currency)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

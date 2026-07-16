@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExternalLink, Loader2, Plus, RefreshCw, Unlink, X } from 'lucide-react';
+import { ExternalLink, Loader2, LogOut, Plus, RefreshCw, Unlink, X } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
@@ -107,6 +108,7 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
   const [resyncing, setResyncing] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
 
   // Server settings until the user edits something — no effect needed.
   const draft = edits ?? settings ?? null;
@@ -283,15 +285,39 @@ export default function SettingsPage() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Resync brings the structure (headers, tabs/tables, fields) up to the app’s current
+            Resync brings the structure (headers and tabs) up to the app’s current
             schema — run it after app updates add new columns. Your data rows are never touched.
           </p>
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Google account</CardTitle>
+          <CardDescription>End your MyExpense session on this device.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button
+            variant="outline"
+            className="w-full text-red-600 hover:text-red-700"
+            disabled={signingOut}
+            onClick={() => {
+              setSigningOut(true);
+              signOut({ callbackUrl: '/' });
+            }}
+          >
+            {signingOut ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <LogOut className="size-4" />
+            )}
+            Sign out of Google
+          </Button>
+        </CardContent>
+      </Card>
+
       <p className="text-xs text-muted-foreground text-center pb-4">
-        Disconnecting only unlinks the app — your data stays untouched in your Google Drive or
-        Airtable workspace.
+        Disconnecting only unlinks the app — your data stays untouched in your Google Drive.
       </p>
     </div>
   );

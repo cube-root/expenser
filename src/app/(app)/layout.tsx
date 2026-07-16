@@ -6,7 +6,7 @@ import { AppNav } from '@/components/app-nav';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session?.accessToken || session.error) redirect('/');
+  if (!session?.user) redirect('/');
   if (!(await cookies()).get(SHEET_COOKIE)?.value) redirect('/setup');
 
   return (

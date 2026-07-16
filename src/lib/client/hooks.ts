@@ -10,8 +10,7 @@ import { ApiError, fetcher } from './fetcher';
 
 /**
  * Redirect on auth/setup errors: 401 → landing (login), 428 → /setup,
- * 403/404 → /setup too (the connected sheet is gone or no longer granted
- * under the drive.file scope — re-picking it in the Picker restores access).
+ * 403/404 → /setup too (the connected sheet is gone or no longer accessible).
  * Shared by every data hook so any page recovers gracefully.
  */
 function useApiErrorRedirect(error: unknown) {
@@ -21,7 +20,7 @@ function useApiErrorRedirect(error: unknown) {
       if (error.status === 401) router.replace('/');
       if (error.status === 428) router.replace('/setup');
       if (error.status === 403 || error.status === 404) {
-        toast.error('Can’t access your sheet anymore — pick it again to reconnect');
+        toast.error('Can’t access your sheet anymore — paste its URL to reconnect');
         router.replace('/setup');
       }
     }
