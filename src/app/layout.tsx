@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://expense.appmaker.xyz'),
+  metadataBase: new URL('https://expense.abhijith.me'),
   title: {
     default: 'MyExpense',
     template: '%s · MyExpense',
