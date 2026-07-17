@@ -48,12 +48,14 @@ export default async function LandingPage() {
       </header>
 
       <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+        <p className="mb-3 text-sm font-medium text-green-700 dark:text-green-400">MyExpense</p>
         <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight max-w-xl">
-          Your data belongs to <span className="text-green-600">you</span>
+          Expense tracking in your own <span className="text-green-600">Google Sheet</span>
         </h1>
         <p className="mt-4 text-muted-foreground max-w-md text-balance">
-          Track every spend in seconds — stored straight into your own Google Sheet. No database,
-          no lock-in.
+          MyExpense helps you record expenses, organize categories, set budgets, and view spending
+          insights. Your records are created and updated directly in a Google Sheet you control—no
+          separate expense database and no lock-in.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <LoginButton />
