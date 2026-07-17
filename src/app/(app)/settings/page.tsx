@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { apiSend } from '@/lib/client/fetcher';
+import { clearPersistentApiCache } from '@/lib/client/persistent-api';
 import { useSettings, useSheetInfo } from '@/lib/client/hooks';
 import { CURRENCIES, type Settings } from '@/lib/types';
 
@@ -153,6 +154,7 @@ export default function SettingsPage() {
     setDisconnecting(true);
     try {
       await apiSend('/api/sheets/current', 'DELETE');
+      clearPersistentApiCache();
       toast.success('Sheet disconnected');
       router.replace('/setup');
     } catch (error) {
@@ -303,6 +305,7 @@ export default function SettingsPage() {
             disabled={signingOut}
             onClick={() => {
               setSigningOut(true);
+              clearPersistentApiCache();
               signOut({ callbackUrl: '/' });
             }}
           >

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "deploy:production": "vercel deploy --prod --yes",
+    "release": "release-it"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -34,7 +37,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "release-it": "^20.2.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^56.2.1"
   }
 }

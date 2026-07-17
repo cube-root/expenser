@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import type { Expense, Settings } from '@/lib/types';
 import type { StoreResource } from '@/lib/storage/types';
 import { ApiError, fetcher } from './fetcher';
+import { usePersistentApi } from './persistent-api';
 
 /**
  * Redirect on auth/setup errors: 401 → landing (login), 428 → /setup,
@@ -41,27 +42,24 @@ export function useExpenses() {
 }
 
 export function useSettings() {
-  const swr = useSWR<{ settings: Settings }>('/api/settings', fetcher, {
-    revalidateOnFocus: false,
-  });
-  useApiErrorRedirect(swr.error);
+  const cached = usePersistentApi<{ settings: Settings }>('/api/settings');
+  useApiErrorRedirect(cached.error);
   return {
-    settings: swr.data?.settings,
-    isLoading: swr.isLoading,
-    error: swr.error as ApiError | undefined,
-    mutate: swr.mutate,
+    settings: cached.data?.settings,
+    isLoading: cached.isLoading,
+    error: cached.error as ApiError | undefined,
+    mutate: cached.mutate,
   };
 }
 
 export function useSheetInfo() {
-  const swr = useSWR<StoreResource>('/api/sheets/current', fetcher, {
-    revalidateOnFocus: false,
-  });
-  useApiErrorRedirect(swr.error);
+  const cached = usePersistentApi<StoreResource>('/api/sheets/current');
+  useApiErrorRedirect(cached.error);
   return {
-    sheet: swr.data,
-    isLoading: swr.isLoading,
-    error: swr.error as ApiError | undefined,
+    sheet: cached.data,
+    isLoading: cached.isLoading,
+    error: cached.error as ApiError | undefined,
+    mutate: cached.mutate,
   };
 }
 
