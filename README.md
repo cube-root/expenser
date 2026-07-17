@@ -165,3 +165,45 @@ or `major`, and run it from `main`. The workflow validates the project, uses rel
 `package.json` and `package-lock.json`, creates and pushes the release commit and `vX.Y.Z` tag, and
 then deploys that exact release to Vercel production. npm publishing remains disabled. Deployment
 does not run if the Git push fails.
+
+### Build the PWA as an Android app
+
+The included `Dockerfile.bubblewrap` uses Bubblewrap's official container image, so a local JDK and
+Android SDK are not required. Docker must be installed and the production PWA must be reachable.
+
+Build the local tooling image and create a directory for the generated Android project:
+
+```bash
+./scripts/build-android-pwa.sh
+```
+
+The script builds the Docker image, initializes the Android project from the deployed manifest when
+needed, and builds the APK and App Bundle. To run those stages manually instead, use:
+
+```bash
+docker build -f Dockerfile.bubblewrap -t myexpense-bubblewrap .
+mkdir -p .bubblewrap/android
+```
+
+Initialize the project:
+
+```bash
+docker run --rm -it \
+  -v "$PWD/.bubblewrap/android:/app" \
+  myexpense-bubblewrap init \
+  --manifest="https://expense.abhijith.me/manifest.webmanifest"
+```
+
+Answer Bubblewrap's application ID and signing-key prompts, then build the APK and Android App
+Bundle from the same generated project:
+
+```bash
+docker run --rm -it \
+  -v "$PWD/.bubblewrap/android:/app" \
+  myexpense-bubblewrap build
+```
+
+The generated packages remain under `.bubblewrap/android`. Keep the signing keystore and its
+passwords private and backed up; the same key is required for future Play Store updates. Before
+publishing, also deploy the Digital Asset Links file produced for the signing key at
+`https://expense.abhijith.me/.well-known/assetlinks.json`.

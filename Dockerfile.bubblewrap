@@ -1,0 +1,5 @@
+# Bubblewrap's official image includes Node.js, a JDK, and the Android SDK.
+FROM ghcr.io/googlechromelabs/bubblewrap:latest
+
+# Mount the generated Android project here when running the container.
+WORKDIR /app

@@ -20,6 +20,9 @@
 # production
 /build
 
+# Local Bubblewrap Android project and signing files
+/.bubblewrap/
+
 # misc
 .DS_Store
 *.pem
