@@ -16,24 +16,31 @@ export default async function LandingPage() {
   }
 
   return (
-    <main className="flex flex-1 flex-col">
-      <header className="flex items-center justify-between px-6 py-4 max-w-4xl w-full mx-auto">
-        <Image
-          src="/logo/straight.svg"
-          alt="MyExpense"
-          width={130}
-          height={40}
-          className="dark:hidden"
-          priority
-        />
-        <Image
-          src="/logo/straight-white.svg"
-          alt="MyExpense"
-          width={130}
-          height={40}
-          className="hidden dark:block"
-          priority
-        />
+    <main className="relative flex flex-1 flex-col overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.12),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.08),transparent_65%)]"
+        aria-hidden
+      />
+
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4 sm:px-6 sm:py-5">
+        <Link href="/" aria-label="MyExpense home">
+          <Image
+            src="/logo/straight.svg"
+            alt="MyExpense"
+            width={130}
+            height={40}
+            className="dark:hidden"
+            priority
+          />
+          <Image
+            src="/logo/straight-white.svg"
+            alt="MyExpense"
+            width={130}
+            height={40}
+            className="hidden dark:block"
+            priority
+          />
+        </Link>
         <div className="flex items-center gap-2">
           <a
             href="https://github.com/cube-root/expenser"
@@ -41,43 +48,87 @@ export default async function LandingPage() {
             target="_blank"
             rel="noreferrer"
           >
-            <GitFork className="size-4" /> Open source
+            <GitFork className="size-4" />
+            <span className="hidden sm:inline">Open source</span>
           </a>
           <ThemeToggle />
         </div>
       </header>
 
-      <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-        <p className="mb-3 text-sm font-medium text-green-700 dark:text-green-400">MyExpense</p>
-        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight max-w-xl">
-          Expense tracking in your own <span className="text-green-600">Google Sheet</span>
-        </h1>
-        <p className="mt-4 text-muted-foreground max-w-md text-balance">
-          MyExpense helps you record expenses, organize categories, set budgets, and view spending
-          insights. Your records are created and updated directly in a Google Sheet you control—no
-          separate expense database and no lock-in.
-        </p>
-        <div className="mt-8 flex flex-col items-center gap-3">
-          <LoginButton />
-        </div>
+      <section className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-5 pb-16 pt-12 sm:px-6 sm:pt-20">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div className="text-center lg:text-left">
+            <p className="mb-5 text-sm font-medium text-green-700 dark:text-green-400">
+              Expense tracking that puts you first
+            </p>
+            <h1 className="text-balance text-5xl font-semibold tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+              Your data belongs to <span className="text-green-600">you.</span>
+            </h1>
+            <div className="mt-8 flex flex-col items-center gap-3 lg:items-start">
+              <LoginButton />
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <ShieldCheck className="size-3.5 text-green-600" />
+                No separate expense database. Revoke access anytime.
+              </p>
+            </div>
+          </div>
 
-        <ul className="mt-14 grid gap-6 sm:grid-cols-3 max-w-2xl text-sm text-muted-foreground">
-          <li className="flex flex-col items-center gap-2">
-            <Sheet className="size-6 text-green-600" />
-            Your sheet is the database — open it anytime, anywhere
-          </li>
-          <li className="flex flex-col items-center gap-2">
-            <ShieldCheck className="size-6 text-green-600" />
-            Uses Google Sheets only — no access to your other Drive file types or server database
-          </li>
-          <li className="flex flex-col items-center gap-2">
-            <Zap className="size-6 text-green-600" />
-            One-tap entry with smart defaults, dashboard and budgets built in
-          </li>
-        </ul>
+          <div className="relative mx-auto w-full max-w-md">
+            <div
+              className="absolute -inset-4 -z-10 rounded-[2rem] bg-green-500/10 blur-2xl"
+              aria-hidden
+            />
+            <div className="overflow-hidden rounded-3xl border bg-background shadow-xl shadow-green-950/5">
+              <div className="flex items-center justify-between border-b px-5 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-green-600 text-white shadow-sm">
+                    <Sheet className="size-5" />
+                  </span>
+                  <div>
+                    <h2 className="font-semibold">Your sheet, your records</h2>
+                    <p className="text-xs text-muted-foreground">A database you can open</p>
+                  </div>
+                </div>
+                <span className="rounded-full bg-green-600/10 px-2.5 py-1 text-[11px] font-medium text-green-700 dark:text-green-400">
+                  You own it
+                </span>
+              </div>
+
+              <div className="p-5">
+                <p className="text-sm leading-6 text-muted-foreground">
+                  MyExpense records spending, categories, and budgets directly in a Google Sheet you
+                  control. See useful insights without handing your financial records to another
+                  database.
+                </p>
+
+                <ul className="mt-5 divide-y overflow-hidden rounded-xl border bg-muted/20">
+                  <li className="flex gap-3 p-3.5">
+                    <Sheet className="mt-0.5 size-4 shrink-0 text-green-600" />
+                    <p className="text-sm leading-5">
+                      Your sheet is the database—open it anytime, anywhere.
+                    </p>
+                  </li>
+                  <li className="flex gap-3 p-3.5">
+                    <ShieldCheck className="mt-0.5 size-4 shrink-0 text-green-600" />
+                    <p className="text-sm leading-5">
+                      Uses Google Sheets only—no access to your other Drive file types or a separate
+                      server database.
+                    </p>
+                  </li>
+                  <li className="flex gap-3 p-3.5">
+                    <Zap className="mt-0.5 size-4 shrink-0 text-green-600" />
+                    <p className="text-sm leading-5">
+                      One-tap entry with smart defaults, dashboards, and budgets built in.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <footer className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-6 text-center text-xs text-muted-foreground">
+      <footer className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t px-6 py-6 text-center text-xs text-muted-foreground">
         <Link href="/privacy" className="underline underline-offset-4">
           Privacy Policy
         </Link>
