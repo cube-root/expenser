@@ -141,3 +141,24 @@ private URLs before posting.
 ## Deploy
 
 Deploys as a standard Next.js app on [Vercel](https://vercel.com) — set the same environment variables and add the production redirect URI to the OAuth client.
+
+### Release and deploy
+
+Production releases use the **Release and deploy** GitHub Actions workflow. Local production
+releases are intentionally blocked.
+
+Configure these GitHub Actions secrets, preferably on a protected `production` environment:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+In **Settings → Actions → General → Workflow permissions**, allow **Read and write permissions** so
+the workflow's `GITHUB_TOKEN` can push the version commit and tag. If `main` has a ruleset that
+blocks automation pushes, allow this workflow to bypass that rule or use an approved release token.
+
+To release, open **GitHub → Actions → Release and deploy → Run workflow**, choose `patch`, `minor`,
+or `major`, and run it from `main`. The workflow validates the project, uses release-it to bump
+`package.json` and `package-lock.json`, creates and pushes the release commit and `vX.Y.Z` tag, and
+then deploys that exact release to Vercel production. npm publishing remains disabled. Deployment
+does not run if the Git push fails.

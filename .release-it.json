@@ -1,0 +1,27 @@
+{
+  "$schema": "https://unpkg.com/release-it@20/schema/release-it.json",
+  "hooks": {
+    "before:init": [
+      "node scripts/require-release-ci.mjs",
+      "npm run lint",
+      "npm run typecheck"
+    ],
+    "after:git:release": "npm run deploy:production"
+  },
+  "git": {
+    "requireBranch": "main",
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true,
+    "requireCommits": true,
+    "commitMessage": "chore: release v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
+    "push": true
+  },
+  "github": {
+    "release": false
+  },
+  "npm": {
+    "publish": false
+  }
+}

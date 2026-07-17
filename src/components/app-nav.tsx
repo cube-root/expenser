@@ -4,10 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { ChartPie, List, LogOut, PlusCircle, Settings } from 'lucide-react';
+import { ChartPie, List, LogOut, PlusCircle, Settings, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { clearPersistentApiCache } from '@/lib/client/persistent-api';
 import {
   Popover,
   PopoverContent,
@@ -18,6 +19,7 @@ const TABS = [
   { href: '/dashboard', label: 'Dashboard', icon: ChartPie },
   { href: '/expenses', label: 'Expenses', icon: List },
   { href: '/add', label: 'Add', icon: PlusCircle },
+  { href: '/shared', label: 'Sharing', icon: Users },
   { href: '/settings', label: 'Settings', icon: Settings },
 ] as const;
 
@@ -86,7 +88,7 @@ export function AppNav({ user }: { user: { name: string; image: string } }) {
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-muted-foreground"
-                  onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={() => { clearPersistentApiCache(); signOut({ callbackUrl: '/' }); }}
                 >
                   <LogOut className="size-4" /> Sign out of Google
                 </Button>
@@ -98,7 +100,7 @@ export function AppNav({ user }: { user: { name: string; image: string } }) {
 
       {/* Mobile bottom tabs */}
       <nav className="sm:hidden fixed bottom-0 inset-x-0 z-40 border-t bg-background/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-5">
           {TABS.map((tab) => (
             <Link
               key={tab.href}

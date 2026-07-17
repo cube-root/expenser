@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { apiSend } from '@/lib/client/fetcher';
+import { clearPersistentApiCache, setPersistentApiCache } from '@/lib/client/persistent-api';
 import type { StoreResource } from '@/lib/storage/types';
 
 const GOOGLE_IDENTITY_SCOPES = 'openid email profile';
@@ -46,6 +47,8 @@ export function SetupFlow({
   };
 
   const finish = (info: StoreResource) => {
+    clearPersistentApiCache();
+    setPersistentApiCache('/api/sheets/current', info);
     toast.success(`Connected to “${info.title}”`);
     router.replace('/dashboard');
   };
@@ -95,7 +98,7 @@ export function SetupFlow({
             className="hidden dark:block"
           />
         </div>
-        <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: '/' })}>
+        <Button variant="outline" size="sm" onClick={() => { clearPersistentApiCache(); signOut({ callbackUrl: '/' }); }}>
           Sign out of Google
         </Button>
       </header>
