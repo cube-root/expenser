@@ -153,6 +153,9 @@ Configure these GitHub Actions secrets, preferably on a protected `production` e
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
 
+Follow the complete **[Vercel GitHub Actions setup guide](docs/VERCEL_GITHUB_ACTIONS_SETUP.md)** to
+create a scoped token, find the project IDs, protect the production environment, and run a release.
+
 In **Settings → Actions → General → Workflow permissions**, allow **Read and write permissions** so
 the workflow's `GITHUB_TOKEN` can push the version commit and tag. If `main` has a ruleset that
 blocks automation pushes, allow this workflow to bypass that rule or use an approved release token.
