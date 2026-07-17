@@ -17,6 +17,21 @@ export default async function LandingPage() {
 
   return (
     <main className="relative flex flex-1 flex-col overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'MyExpense',
+            url: 'https://expense.abhijith.me',
+            applicationCategory: 'FinanceApplication',
+            operatingSystem: 'Web',
+            description:
+              'MyExpense is a personal expense tracker that records expenses, categories, and budgets in a Google Sheet controlled by the user.',
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.12),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.08),transparent_65%)]"
         aria-hidden
@@ -95,6 +110,9 @@ export default async function LandingPage() {
               </div>
 
               <div className="p-5">
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-green-700 dark:text-green-400">
+                  What MyExpense does
+                </p>
                 <p className="text-sm leading-6 text-muted-foreground">
                   MyExpense is a personal expense-tracking app for recording spending, organizing
                   categories, setting budgets, and viewing spending insights. It stores these

@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://expense.abhijith.me'),
   title: {
     default: 'MyExpense',
     template: '%s · MyExpense',
@@ -22,6 +23,17 @@ export const metadata: Metadata = {
   description:
     'MyExpense is a personal expense tracker that stores expenses, categories, and budgets in a Google Sheet you control.',
   applicationName: 'MyExpense',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/',
+    siteName: 'MyExpense',
+    title: 'MyExpense',
+    description:
+      'A personal expense tracker that stores expenses, categories, and budgets in a Google Sheet you control.',
+  },
   appleWebApp: {
     capable: true,
     title: 'MyExpense',
