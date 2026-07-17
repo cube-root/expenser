@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/sonner';
+import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
 import './globals.css';
 
 const geistSans = Geist({
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://expense.abhijith.me'),
+  metadataBase: new URL('https://expense.appmaker.xyz'),
   title: {
     default: 'MyExpense',
     template: '%s · MyExpense',
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
   description:
     'MyExpense is a personal expense tracker that stores expenses, categories, and budgets in a Google Sheet you control.',
   applicationName: 'MyExpense',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    apple: '/icon-192.png',
+  },
   alternates: {
     canonical: '/',
   },
@@ -65,6 +70,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Toaster position="top-center" richColors />
+          <ServiceWorkerRegistration />
         </ThemeProvider>
       </body>
     </html>
