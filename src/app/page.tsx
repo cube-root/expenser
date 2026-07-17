@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { GitFork, Sheet, ShieldCheck, Zap } from 'lucide-react';
@@ -74,8 +75,15 @@ export default async function LandingPage() {
         </ul>
       </section>
 
-      <footer className="py-6 text-center text-xs text-muted-foreground">
-        Open source ·{' '}
+      <footer className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-6 text-center text-xs text-muted-foreground">
+        <Link href="/privacy" className="underline underline-offset-4">
+          Privacy Policy
+        </Link>
+        <span aria-hidden>·</span>
+        <Link href="/terms" className="underline underline-offset-4">
+          Terms of Service
+        </Link>
+        <span aria-hidden>·</span>
         <a
           href="https://github.com/cube-root/expenser"
           className="underline underline-offset-4"
