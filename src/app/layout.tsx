@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     default: 'MyExpense',
     template: '%s · MyExpense',
   },
-  description: 'Track your spending in your own Google Sheet. Your data belongs to you.',
+  description:
+    'MyExpense is a personal expense tracker that stores expenses, categories, and budgets in a Google Sheet you control.',
   applicationName: 'MyExpense',
   appleWebApp: {
     capable: true,

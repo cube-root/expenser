@@ -59,7 +59,7 @@ export default async function LandingPage() {
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="text-center lg:text-left">
             <p className="mb-5 text-sm font-medium text-green-700 dark:text-green-400">
-              Expense tracking that puts you first
+              MyExpense <span aria-hidden>·</span> Google Sheets expense tracker
             </p>
             <h1 className="text-balance text-5xl font-semibold tracking-[-0.045em] sm:text-6xl lg:text-7xl">
               Your data belongs to <span className="text-green-600">you.</span>
@@ -96,9 +96,9 @@ export default async function LandingPage() {
 
               <div className="p-5">
                 <p className="text-sm leading-6 text-muted-foreground">
-                  MyExpense records spending, categories, and budgets directly in a Google Sheet you
-                  control. See useful insights without handing your financial records to another
-                  database.
+                  MyExpense is a personal expense-tracking app for recording spending, organizing
+                  categories, setting budgets, and viewing spending insights. It stores these
+                  records directly in a Google Sheet you own and control.
                 </p>
 
                 <ul className="mt-5 divide-y overflow-hidden rounded-xl border bg-muted/20">
